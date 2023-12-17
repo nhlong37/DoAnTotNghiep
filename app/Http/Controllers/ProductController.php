@@ -541,9 +541,29 @@ class ProductController extends Controller
     public function GetProductPage(Request $req)
     {
         $limit = 12;
+
         $dsProduct = TableProduct::whereRaw('FIND_IN_SET("hienthi", status)')->latest()->paginate($limit);
-        return view('.user.product.product', compact('dsProduct'));
+        $dsBrand = TableBrand::select('id', 'name')->get();
+        $min_price = TableProduct::min('price_regular');
+        $max_price = TableProduct::max('price_regular');
+        $min_price_range = $min_price - 500000;
+        $max_price_range = $max_price + 1000000;
+
+        if (isset($_GET['brand'])) {
+            $brand_id = $_GET['brand'];
+            $brand_arr = explode(",", $brand_id);
+            $dsProduct = TableProduct::whereIn('id_brand', $brand_arr)->latest()->paginate($limit);
+        } elseif (isset($_GET['start_price']) && $_GET['end_price']) {
+            $min_price = $_GET['start_price'];
+            $max_price = $_GET['end_price'];
+
+            $dsProduct = TableProduct::whereBetween('price_regular', [$min_price, $max_price])->latest()->paginate($limit);
+        } else {
+            $dsProduct = TableProduct::whereRaw('FIND_IN_SET("hienthi", status)')->latest()->paginate($limit);
+        }
+        return view('.user.product.product', compact('dsProduct', 'dsBrand', 'min_price', 'max_price', 'max_price_range', 'min_price_range'));
     }
+
 
     public function SearchProduct(Request $req)
     {
