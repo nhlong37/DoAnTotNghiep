@@ -1,0 +1,60 @@
+.bg-gra-03 {
+  background: -webkit-linear-gradient(top, #fff16a, #fdaf13);
+  padding: 45px 0 50px;
+}
+
+  
+.wrapper {
+  margin: 0 auto;
+  max-width: 80%;
+}
+
+.card {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background: #fff;
+}
+
+.card-5 {
+  background: #fff;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+}
+
+.card-5 .card-heading {
+  padding: 20px 0;
+  background: #1a1a1a;
+  -webkit-border-top-left-radius: 10px;
+  -moz-border-radius-topleft: 10px;
+  border-top-left-radius: 10px;
+  -webkit-border-top-right-radius: 10px;
+  -moz-border-radius-topright: 10px;
+  border-top-right-radius: 10px;
+}
+
+.card-5 .card-body {
+  padding: 52px 72px;
+}
+
+@media (max-width: 767px) {
+  .card-5 .card-body {
+    padding: 40px 30px;
+    padding-bottom: 50px;
+  }
+}
+
+.page-wrapper {
+  min-height: 100vh;
+}
+
+.card-heading .title{text-align: center; font-size: 50px; color: #fff;}
+#photoUpload-preview img{width: 100%;}
+#photoUpload-preview{width: 304px;height: 304px;}
+.left-register .card-body{padding: 52px 67px;}
+
+.photoUpload-file{width: 100%;}
