@@ -22,7 +22,7 @@
                 }
                 $brand_arr=explode(",",$brand_id)
                 @endphp
-                <lable for="amount" style="font-weight:bold">Lọc thương hiệu: </lable><br>
+                <label for="amount" style="font-weight:bold">Lọc thương hiệu: </label><br>
                 @foreach($dsBrand as $k => $item)
                 <input type="checkbox" {{in_array($item->id,$brand_arr)? 'checked' : '' }}
                 class="form-control-checkbox brand-filter" data-filters="brand" name="brand-filter"

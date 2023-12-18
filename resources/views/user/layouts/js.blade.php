@@ -14,7 +14,7 @@
 
 
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         $('.chay-sp').slick({
             lazyLoad: 'progressive',
             infinite: true,
@@ -132,56 +132,33 @@
                 }
             }]
         });
-
     });
-
 </script>
 
 <script>
-    $(document).ready(function () {
-        $(".show-dropdown").on("click", function () {
+    $(document).ready(function() {
+        $(".show-dropdown").on("click", function() {
             $(this).parents(".dropdown").find(".dropdown-menu").slideToggle(500);
         });
     });
 </script>
+
 <script>
-    $('.brand-filter').click(function () {
-        var brand = [], tempArray = [];
-        if ($('[data-filters="brand"]:checked').prop('checked')) {
-            
-            //alert('da check');
-            $.each($("[data-filters='brand']:checked"), function () {
-                tempArray.push($(this).val());
-            });
-            tempArray.reverse();
-            if (tempArray.length !== 0) {
-                brand += '?brand=' + tempArray.toString();
-            }
-            window.location.href = brand
-        }
-        else {
-            $('[data-filters="brand"]:checked').prop('checked', false);
-            //alert('chua check');
-            window.location.href =location.href;
-        }
-    });
-</script>
-<script>
-    $(function () {
+    $(function() {
         $("#slider-range").slider({
             orientation: "horizontal",
             range: true,
             min: {{ $min_price_range }},
-        max: {{ $max_price_range }},
-        values: [{{ $min_price }}, {{ $max_price }}],
-        step: 500000,
-        slide: function (event, ui) {
-            $("#amount").val(ui.values[0] + "đ" + " - " + ui.values[1] + "đ");
-            $("#start_price").val(ui.values[0]);
-            $("#end_price").val(ui.values[1]);
-        }
+            max: {{ $max_price_range }},
+            values: [{{ $min_price }}, {{ $max_price }}],
+            step: 500000,
+            slide: function(event, ui) {
+                $("#amount").val(ui.values[0] + "đ" + " - " + ui.values[1] + "đ");
+                $("#start_price").val(ui.values[0]);
+                $("#end_price").val(ui.values[1]);
+            }
+        });
+        $("#amount").val($("#slider-range").slider("values", 0) + " đ" + " - " +
+            $("#slider-range").slider("values", 1) + " đ");
     });
-    $("#amount").val($("#slider-range").slider("values", 0) + " đ" + " - " +
-        $("#slider-range").slider("values", 1) + " đ");
-  } );
 </script>

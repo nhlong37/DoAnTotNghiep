@@ -516,6 +516,7 @@ NN_FRAMEWORK.Cart = function () {
         });
     }
 };
+
 NN_FRAMEWORK.Search = function () {
     /* Search */
     $("body").on("click", ".btn-search", function () {
@@ -678,7 +679,7 @@ NN_FRAMEWORK.ShowPassword = function () {
         }
     });
 };
-
+// Kiểm tra còn hàng không
 NN_FRAMEWORK.Disable = function () {
     var available = $(".quantity-available").text();
     var value = $(".price-new-pro-detail").text();
@@ -688,6 +689,33 @@ NN_FRAMEWORK.Disable = function () {
         $(".cart-pro-detail .add-cart").remove("disable");
     }
 };
+
+NN_FRAMEWORK.Filter = function (){
+    $('.brand-filter').click(function () {
+        var brand = [], tempArray = [];
+        if ($('[data-filters="brand"]:checked').prop('checked')) {
+            $.each($("[data-filters='brand']:checked"), function () {
+                tempArray.push($(this).val());
+            });
+            tempArray.reverse();
+            if (tempArray.length !== 0) {
+                brand += '?brand=' + tempArray.toString();
+            }
+            window.location.href = brand;
+        }
+        else {
+            $('[data-filters="brand"]:checked').prop('checked', false);
+            tempArray.pop($(this).val());
+            tempArray.reverse();
+            brand += '?brand=' + tempArray.toString();
+            if (tempArray.length === 0) {
+                brand = 'product';
+            }
+            window.location.href = brand;
+        }
+    });
+};
+
 
 /* Ready */
 $(document).ready(function () {
@@ -701,4 +729,5 @@ $(document).ready(function () {
     NN_FRAMEWORK.CheckSubmit();
     NN_FRAMEWORK.ShowPassword();
     NN_FRAMEWORK.Disable();
+    NN_FRAMEWORK.Filter();
 });
