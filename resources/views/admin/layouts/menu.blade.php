@@ -230,27 +230,25 @@
                                     ? 'active'
                                     : '' }}">
                                 <i class="nav-icon-small fas fa-circle fa-2xs"></i>
-                                <p>Danh sách bài viết</p>
+                                <p>Danh sách tin tức</p>
                             </a>
                         </li>
-
                     </ul>
-
-                    <ul class="nav nav-treeview">
+                    {{-- <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('loai-bai-viet-admin') }}"
-                                class="nav-link {{ $name == 'loai-bai-viet-admin' ||
-                                $name == 'them-moi-loai-bai-viet-admin' ||
-                                $name == 'sua-doi-loai-bai-viet-admin' ||
-                                $name == 'tim-kiem-type-article'
+                            <a href="{{ route('bai-viet-admin') }}"
+                                class="nav-link {{ $name == 'bai-viet-admin' ||
+                                $name == 'them-moi-bai-viet-admin' ||
+                                $name == 'sua-doi-bai-viet-admin' ||
+                                $name == 'tim-kiem-article'
                                     ? 'active'
                                     : '' }}">
                                 <i class="nav-icon-small fas fa-circle fa-2xs"></i>
-                                <p>Danh sách loại bài viết</p>
+                                <p>Danh sách chính sách</p>
                             </a>
                         </li>
-
-                    </ul>
+                    </ul> --}}
+                    
                 </li>
 
 

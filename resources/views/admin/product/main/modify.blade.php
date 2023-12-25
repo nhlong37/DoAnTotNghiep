@@ -130,15 +130,6 @@
                                                 readonly>
                                         </div>
                                         <div class="form-group col-md-3">
-                                            <label class="d-block" for="code-product">Số lượng tồn kho:</label>
-                                            <input type="text" class="form-control check-valid text-sm" name="soluong"
-                                                id="code" placeholder="Số lượng tồn kho"
-                                                @error('soluong') is-invalid @enderror value="{{ $detailSP->quantity }}">
-                                            @error('soluong')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group col-md-3">
                                             <label class="d-block" for="regular_price">Giá gốc:</label>
                                             <div class="input-group">
                                                 <input type="text"
@@ -194,6 +185,40 @@
                             </div>
                         </div>
                     </div>
+                    @if ($list_advanted != null)
+                        <div class="card">
+                            <div class="card-header">Kích thước - Màu sắc</div>
+                            <div class="card-body">
+                                <div class="box_table_advanted">
+                                    <table class="table table-striped align-middle">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">STT</th>
+                                                <th scope="col">Kích thước</th>
+                                                <th scope="col">Màu sắc</th>
+                                                <th scope="col">Tồn kho</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="">
+                                            @foreach ($list_advanted as $k4 => $v4)
+                                                <tr>
+                                                    <td>{{ $k4 + 1 }}</td>
+                                                    <td>{{ $v4['name_size'] }}</td>
+                                                    <td>{{ $v4['name_color'] }}</td>
+                                                    <td>
+                                                        <input type="number" class="form-control" name="quantity[]"
+                                                            id="quantity"
+                                                            value="{{ $v4['quantity'] != null ? $v4['quantity'] : '' }}">
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                    @endif
                     <div class="card card-primary card-outline text-sm">
                         <div class="card-header">
                             <h3 class="card-title">Album sản phẩm</h3>
@@ -216,8 +241,14 @@
                                 @foreach ($dsGallery as $item)
                                     <div class="col-img">
                                         <div class="card mb-4 shadow-sm">
-                                            <a class="delete_1hinh" data-id="{{$item->id}}" title="Xóa ảnh này ?">
-                                                <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"></path></svg>
+                                            <a class="delete_1hinh" data-id="{{ $item->id }}" title="Xóa ảnh này ?">
+                                                <svg fill="none" stroke="currentColor" stroke-width="1.5"
+                                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                                                    aria-hidden="true">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0">
+                                                    </path>
+                                                </svg>
                                             </a>
                                             <img class="rounded"
                                                 onerror="src='{{ asset('assets/admin/images/noimage.png') }}'"
@@ -229,6 +260,7 @@
                             </div>
                         </div>
                     </div>
+
                 </form>
             </div>
         </section>

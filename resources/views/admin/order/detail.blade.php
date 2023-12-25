@@ -127,8 +127,7 @@
                                                                 data-table="product" readonly>
                                                         </td>
                                                         <td class="align-middle">
-                                                            <a href="{{ route('sua-doi-san-pham-admin', ['id' => $item->id]) }}"
-                                                                title="{{ $item->name }}">
+                                                            <a title="{{ $item->name }}">
                                                                 <img class="rounded img-preview"
                                                                     src="{{ asset('upload/product/' . $item->photo_product) }}"
                                                                     onerror="src='{{ asset('assets/admin/images/noimage.png') }}'"
@@ -153,7 +152,7 @@
 
                                                         <td class="align-middle">
                                                             <a class="text-dark text-break"
-                                                                title="{{ $item->name_product }}">{{ $item->price }}</a>
+                                                                title="{{ $item->name_product }}">{{ formatMoney($item->price) }}</a>
                                                         </td>
 
                                                         <td class="align-middle">

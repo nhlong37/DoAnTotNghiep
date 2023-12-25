@@ -15,8 +15,7 @@ use App\Models\TableProductType;
 use App\Models\TableColor;
 use App\Models\TableSize;
 use App\Models\TableAlbum;
-use App\Models\TableVariantsColorProduct;
-use App\Models\TableVariantsSizeProduct;
+use App\Models\TableVariantsPCS;
 use App\Models\TableOrderDetail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -42,6 +41,7 @@ class ProductController extends Controller
 
     public function index_addpro()
     {
+
         $level1 = TableBrand::all();
         $level2 = TableProductType::all();
 
@@ -53,7 +53,6 @@ class ProductController extends Controller
 
     public function addproducts(xlAddRequestProduct $req)
     {
-
         $random = Str::random(5);
 
         // tạo 1 item mới
@@ -67,7 +66,6 @@ class ProductController extends Controller
         $itemproduct->sale_price = (isset($req->giamoi) && !empty($req->giamoi)) ? str_replace(",", "", $req->giamoi) : 0;
         ($req->brand > 0) ? $itemproduct->id_brand = $req->brand : 0;
         ($req->type > 0) ? $itemproduct->id_type = $req->type : 0;
-        $itemproduct->quantity = $req->soluong;
         if ($req->file != null) {
             // kiểm tra kích thước
             $size = $req->file->getSize();
@@ -88,20 +86,21 @@ class ProductController extends Controller
             }
         }
         $itemproduct->save();
-        if (!empty($req->color)) {
-            foreach ($req->color as $key => $value) {
-                $variantsColPro = new TableVariantsColorProduct();
-                $variantsColPro->id_product = $itemproduct->id;
-                $variantsColPro->id_color = $value;
-                $variantsColPro->save();
-            }
-        }
-        if (!empty($req->color)) {
-            foreach ($req->size as $key => $value) {
-                $variantsSizPro = new TableVariantsSizeProduct();
-                $variantsSizPro->id_product = $itemproduct->id;
-                $variantsSizPro->id_size = $value;
-                $variantsSizPro->save();
+
+        if (!empty($req->size)) {
+            $arr_size = $req->size;
+            $count_size = count($req->size);
+            for ($i = 0; $i < $count_size; $i++) {
+                $arr_color = $req->color;
+                $count_color = count($req->color);
+                for ($j = 0; $j < $count_color; $j++) {
+                    $pro_color = new TableVariantsPCS();
+                    $pro_color->id_product = $itemproduct->id;
+                    $pro_color->id_size = $arr_size[$i];
+                    $pro_color->id_color = $arr_color[$j];
+                    $pro_color->quantity = 0;
+                    $pro_color->save();
+                }
             }
         }
         //kiểm tra xem có file ko
@@ -119,7 +118,7 @@ class ProductController extends Controller
                 $picture->save();
             }
         }
-        return redirect()->route('san-pham-admin');
+        return redirect()->route('san-pham-admin')->with('noti', 'Thêm sản phẩm thành công !!!');
     }
 
     public function index_modifypro(Request $req, $id)
@@ -132,8 +131,8 @@ class ProductController extends Controller
         $dsSize = TableSize::all();
 
         // Lấy danh sách color theo sản phẩm và size theo sản phẩm
-        $listSelectedColor = TableVariantsColorProduct::where('id_product', $id)->get();
-        $listSelectedSize = TableVariantsSizeProduct::where('id_product', $id)->get();
+        $listSelectedColor = TableVariantsPCS::where('id_product', $id)->get();
+        $listSelectedSize = TableVariantsPCS::where('id_product', $id)->get();
         // Lấy mảng id từ danh sách color theo sản phẩm
         $arrIdColor = [];
         foreach ($listSelectedColor as $k => $v) {
@@ -145,8 +144,14 @@ class ProductController extends Controller
         foreach ($listSelectedSize as $k => $v) {
             array_push($arrIdSize, $v->id_size);
         }
+        $list_advanted = TableVariantsPCS::where('id_product', $id)
+            ->join('table_size', 'table_variants_pcs.id_size', '=', 'table_size.id')
+            ->join('table_color', 'table_variants_pcs.id_color', '=', 'table_color.id')
+            ->select('table_variants_pcs.*', 'table_size.name as name_size', 'table_color.name as name_color')
+            ->get()
+            ->toArray();
 
-        return view('.admin.product.main.modify', ['detailSP'  => $product], compact('level1', 'level2', 'dsColor', 'dsSize', 'arrIdColor', 'arrIdSize', 'dsGallery'));
+        return view('.admin.product.main.modify', ['detailSP'  => $product], compact('level1', 'level2', 'dsColor', 'dsSize', 'arrIdColor', 'arrIdSize', 'dsGallery', 'list_advanted'));
     }
 
     public function modifyproducts(xlAddRequestProduct $req, $id)
@@ -167,7 +172,6 @@ class ProductController extends Controller
         $itemproduct->sale_price = (isset($req->giamoi) && !empty($req->giamoi)) ? str_replace(",", "", $req->giamoi) : 0;
         ($req->brand > 0) ? $itemproduct->id_brand = $req->brand : 0;
         ($req->type > 0) ? $itemproduct->id_type = $req->type : 0;
-        $itemproduct->quantity = $req->soluong;
         if ($req->file != null) {
             // kiểm tra kích thước
             $size = $req->file->getSize();
@@ -192,34 +196,33 @@ class ProductController extends Controller
 
         $itemproduct->save();
 
-        // Xoá đi để thêm lại cái mới
-        TableVariantsColorProduct::where('id_product', $id)->delete();
-        if (!empty($req->color)) {
-            // Tìm trong bảng có sản phẩm nào không
-            $variantsColPro = TableVariantsColorProduct::where('id_product', $id)->get();
-
-            // Update lại
-            foreach ($req->color as $key => $value) {
-                $variantsColPro = new TableVariantsColorProduct();
-                $variantsColPro->id_product = $id;
-                $variantsColPro->id_color = $value;
-                $variantsColPro->save();
-            }
-        }
-        // Xoá đi để thêm lại cái mới
-        TableVariantsSizeProduct::where('id_product', $id)->delete();
         if (!empty($req->size)) {
-            $variantsSizPro = TableVariantsSizeProduct::where('id_product', $id)->get();
-
-            // Update lại
-            foreach ($req->size as $key => $value) {
-                $variantsSizPro = new TableVariantsSizeProduct();
-                $variantsSizPro->id_product = $id;
-                $variantsSizPro->id_size = $value;
-                $variantsSizPro->save();
+            $arr_size = $req->size;
+            $count_size = count($req->size);
+            for ($i = 0; $i < $count_size; $i++) {
+                $arr_color = $req->color;
+                if (!empty($arr_color)) {
+                    $count_color = count($req->color);
+                    if ($count_color > 0) {
+                        for ($j = 0; $j < $count_color; $j++) {
+                            $pro_color = new TableVariantsPCS();
+                            $pro_color->id_product = $itemproduct->id;
+                            $pro_color->id_size = $arr_size[$i];
+                            $pro_color->id_color = $arr_color[$j];
+                            $pro_color->quantity = 0;
+                            $pro_color->save();
+                        }
+                    } else {
+                        $pro_size = new TableVariantsPCS();
+                        $pro_size->id_product = $itemproduct->id;
+                        $pro_size->id_size = $arr_size[$i];
+                        $pro_size->id_color = 0;
+                        $pro_size->quantity = 0;
+                        $pro_size->save();
+                    }
+                }
             }
         }
-
 
         //kiểm tra xem có nhập file hay không
         if ($req->hasFile('filenames')) {
@@ -276,9 +279,6 @@ class ProductController extends Controller
             $v->delete();
         }
     }
-
-   
-
     // Sản phẩm //
 
     // Danh mục thương hiệu //
@@ -403,31 +403,32 @@ class ProductController extends Controller
 
     // Danh mục loại //
 
-    public function setStatus(Request $req)
-    {
-        if ($req->id) {
-            // lấy giá trị cột được chọn tạo ra 1 mảng riêng
-            $status_detail = TableProduct::where('id', $req->id)->pluck('status');
-            // cắt mảng thành từng phần tử nhỏ và lấy phần tử đầu tiên
-            $status_array = (!empty($status_detail[0])) ? explode(',', $status_detail[0]) : array();
-            // check xem $req truyền vào có trong mảng ko
-            if (array_search($req->status, $status_array) !== false) {
-                $key = array_search($req->status, $status_array);
-                unset($status_array[$key]);
-            } else {
-                array_push($status_array, $req->status);
-            }
-            // tạo 1 mảng mới
-            $data = array();
-            // truyền dữ liệu vào mảng
-            $data['status'] = (!empty($status_array)) ? implode(',', $status_array) : null;
-            // lấy dữ liệu item hiện tại
-            $status_save = TableProduct::find($req->id);
-            // đổi giá trị cột status thành giá trị mới truyền
-            $status_save->status = $data['status'];
-            $status_save->save();
-        }
-    }
+    // public function setStatus(Request $req)
+    // {
+    //     if ($req->id) {
+    //         // lấy giá trị cột được chọn tạo ra 1 mảng riêng
+    //         $status_detail = TableProduct::where('id', $req->id)->pluck('status');
+    //         // cắt mảng thành từng phần tử nhỏ và lấy phần tử đầu tiên
+    //         $status_array = (!empty($status_detail[0])) ? explode(',', $status_detail[0]) : array();
+    //         // check xem $req truyền vào có trong mảng ko
+    //         if (array_search($req->status, $status_array) !== false) {
+    //             $key = array_search($req->status, $status_array);
+    //             unset($status_array[$key]);
+    //         } else {
+    //             array_push($status_array, $req->status);
+    //         }
+    //         // tạo 1 mảng mới
+    //         $data = array();
+    //         // truyền dữ liệu vào mảng
+    //         $data['status'] = (!empty($status_array)) ? implode(',', $status_array) : null;
+    //         // lấy dữ liệu item hiện tại
+    //         $status_save = TableProduct::find($req->id);
+    //         // đổi giá trị cột status thành giá trị mới truyền
+    //         $status_save->status = $data['status'];
+    //         $status_save->save();
+    //     }
+    // }
+
     public function searchProductAdmin(Request $req)
     {
         //kiểm tra xem nhập keyword chưa
@@ -473,7 +474,8 @@ class ProductController extends Controller
         return view('.admin.product.type.list', compact('dslevel2', 'serial'));
     }
 
-    public function loadOrder(){
+    public function loadOrder()
+    {
         $limit =  10;
         $dsOrder = TableOrder::latest()->paginate($limit);
         // lấy trang hiện tại
@@ -481,22 +483,24 @@ class ProductController extends Controller
         // lấy số thứ tự đầu tiên nhưng theo dạng mảng (là số 0)
         $perSerial = $limit * ($current - 1);
         $serial = $perSerial + 1;
-        return view('.admin.order.order', compact('dsOrder','serial'));
+        return view('.admin.order.order', compact('dsOrder', 'serial'));
     }
 
-    public function loadOrderDetail($id){
+    public function loadOrderDetail($id)
+    {
         $limit =  10;
-        $infoOrder = TableOrder::find($id); 
-        $dsOrderDetail = TableOrderDetail::where('id_order',$infoOrder->id)->latest()->paginate($limit);
+        $infoOrder = TableOrder::find($id);
+        $dsOrderDetail = TableOrderDetail::where('id_order', $infoOrder->id)->latest()->paginate($limit);
+
         // $color = TableColor::where('id',$dsOrderDetail->id_color)->first();
         // $size = TableColor::where('id',$dsOrderDetail->id_size)->first();
-        
+
         // lấy trang hiện tại
         $current = $dsOrderDetail->currentPage();
         // lấy số thứ tự đầu tiên nhưng theo dạng mảng (là số 0)
         $perSerial = $limit * ($current - 1);
         $serial = $perSerial + 1;
-        return view('.admin.order.detail', ['orderDetail'=>$infoOrder], compact('dsOrderDetail','serial'));
+        return view('.admin.order.detail', ['orderDetail' => $infoOrder], compact('dsOrderDetail', 'serial'));
     }
 
 
@@ -513,16 +517,16 @@ class ProductController extends Controller
         $itemorder->address = $req->address;
         $itemorder->phone = $req->phone;
         $itemorder->content = $req->content;
-        $itemorder->status = ($req->status!=NULL)?$req->status:'moidat';
-        
+        $itemorder->status = ($req->status != NULL) ? $req->status : 'moidat';
+
         $itemorder->save();
 
         // Xoá đi để thêm lại cái mới
         return redirect()->route('don-hang');
     }
 
-    public function filterOrder(Request $req){
-        
+    public function filterOrder(Request $req)
+    {
     }
 
     // ---------------- ADMIN ---------------- //
@@ -579,8 +583,8 @@ class ProductController extends Controller
     {
         $detailProduct = TableProduct::whereRaw('FIND_IN_SET("hienthi", status)')->where('id', $id)->first();
         $dsGallery = TableAlbum::where('id_product', $id)->get();
-        $listSelectedColor = TableVariantsColorProduct::where('id_product', $id)->get();
-        $listSelectedSize = TableVariantsSizeProduct::where('id_product', $id)->get();
+        $listSelectedColor = TableVariantsPCS::where('id_product', $id)->get();
+        $listSelectedSize = TableVariantsPCS::where('id_product', $id)->get();
         // Lấy mảng id từ danh sách color theo sản phẩm
         $arrIdColor = [];
         foreach ($listSelectedColor as $k => $v) {
@@ -716,45 +720,45 @@ class ProductController extends Controller
 
     public function Payment(Request $req)
     {
-        // if (!empty(Auth::guard('user')->user()->id)) {
+        if (!empty(Auth::guard('user')->user()->id)) {
 
-        $mahd = 'HD' . Str::random(3);
-        $infoOrder = new TableOrder();
-        $infoOrder->code = $mahd;
-        $infoOrder->fullname = $req->fullname;
-        $infoOrder->phone = $req->phone;
-        $infoOrder->address = $req->address;
-        $infoOrder->email = $req->email;
-        $infoOrder->payment = $req->payments;
-        $infoOrder->status = 'moidat';
-        $infoOrder->total_price     = getOrderTotal();
-        $infoOrder->save();
-        $cart = session()->get('cart');
-        foreach ($cart as $key => $value) {
-            $detailOrder = new TableOrderDetail();
-            $detailOrder->id_order = $infoOrder->id;
-            $detailOrder->id_product = $value['id_product'];
-            $detailOrder->id_color    = $value['id_color'];
-            $detailOrder->id_size = $value['id_size'];
-            $detailOrder->name_product = $value['name'];
-            $detailOrder->photo_product = $value['image'];
-            if ($value['price_sale'] > 0) $detailOrder->price = $value['price_sale'];
-            else $detailOrder->price = $value['price_regular'];
-            $detailOrder->quantity = $value['quantity'];
-            $detailOrder->save();
+            $mahd = 'HD' . Str::random(3);
+            $infoOrder = new TableOrder();
+            $infoOrder->code = $mahd;
+            $infoOrder->fullname = $req->fullname;
+            $infoOrder->phone = $req->phone;
+            $infoOrder->address = $req->address;
+            $infoOrder->email = $req->email;
+            $infoOrder->payment = $req->payments;
+            $infoOrder->status = 'moidat';
+            $infoOrder->total_price = getOrderTotal();
+            $infoOrder->save();
+            $cart = session()->get('cart');
+            foreach ($cart as $key => $value) {
+                $detailOrder = new TableOrderDetail();
+                $detailOrder->id_order = $infoOrder->id;
+                $detailOrder->id_product = $value['id_product'];
+                $detailOrder->id_color    = $value['id_color'];
+                $detailOrder->id_size = $value['id_size'];
+                $detailOrder->name_product = $value['name'];
+                $detailOrder->photo_product = $value['image'];
+                if ($value['price_sale'] > 0) $detailOrder->price = $value['price_sale'];
+                else $detailOrder->price = $value['price_regular'];
+                $detailOrder->quantity = $value['quantity'];
+                $detailOrder->save();
 
-            $miniusQuantity = TableProduct::find($value['id_product']);
+                $miniusQuantity = TableProduct::find($value['id_product']);
 
-            $miniusQuantity->quantity = $miniusQuantity->quantity - $value['quantity'];
-            $miniusQuantity->save();
+                $miniusQuantity->quantity = $miniusQuantity->quantity - $value['quantity'];
+                $miniusQuantity->save();
+            }
+            if (session()->has('cart')) {
+                session()->forget('cart');
+            }
+
+            return redirect()->route('trang-chu-user');
         }
-        if (session()->has('cart')) {
-            session()->forget('cart');
-        }
-
-        return redirect()->route('trang-chu-user');
     }
-    // }
 
 
     // ---------------- USER ---------------- //    

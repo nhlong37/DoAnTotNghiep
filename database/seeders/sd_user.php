@@ -22,7 +22,7 @@ class sd_user extends Seeder
         $ngDung->gender = 1;
         $ngDung->birthday = date("Y-m-d");
         $ngDung->email = 'admin@gmail.com';
-        $ngDung->phone = '0000000000';
+        $ngDung->phone = '0912345678';
         $ngDung->address = 'Không biết';
         $ngDung->avatar = '';
         $ngDung->username = 'admin';

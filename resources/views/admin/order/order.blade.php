@@ -31,6 +31,15 @@
                                 <option value="dagiao">Đã Giao</option>
                             </select>
                         </div>
+                        <div class="form-group col-md-3 col-sm-3">
+                            <label>Ngày đặt:</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                </div>
+                                <input type="date" class="form-control float-right text-sm" name="order_date" id="order_date" value="">
+                            </div>
+                        </div>
                         <div class="form-group text-center mt-2 mb-0 col-12">
                             <a class="btn btn-sm bg-gradient-success text-white" title="Tìm kiếm"><i class="fas fa-search mr-1"></i>Tìm kiếm</a>
                             <a class="btn btn-sm bg-gradient-danger text-white ml-1" title="Hủy lọc"><i class="fas fa-times mr-1"></i>Hủy lọc</a>

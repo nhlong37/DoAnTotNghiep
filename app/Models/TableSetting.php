@@ -6,12 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class TableBrand extends Model
+class TableSetting extends Model
 {
     use HasFactory;
     use SoftDeletes;
-
-    protected $table='table_product_brand';
+    protected $table='table_setting';
     protected $primaryKey='id';
     protected  $guarded=[];
 }

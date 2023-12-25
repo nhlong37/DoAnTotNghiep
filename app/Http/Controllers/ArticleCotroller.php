@@ -25,8 +25,7 @@ class ArticleCotroller extends Controller
     }
     public function Return_tpladm_addnew()
     {
-        $dsType = TableTypeArticle::all();
-        return view('.admin.new.add', compact('dsType'));
+        return view('.admin.new.add');
     }
 
     public function addnews(xlAddRequestNew $req)
@@ -39,7 +38,7 @@ class ArticleCotroller extends Controller
         // lưu các mục vào csdl
         $itemnew->name = $req->tenbaiviet;
         $itemnew->content = htmlspecialchars($req->noidung);
-        ($req->type > 0) ? $itemnew->id_type = $req->type : 0;
+        $itemnew->type = 'tin-tuc';
         if ($req->file != null) {
             // kiểm tra kích thước
             $size = $req->file->getSize();
@@ -59,33 +58,13 @@ class ArticleCotroller extends Controller
                 return "Định dạng ảnh không đúng. Định dạng cho phép (.jpg|.png|.jpeg)";
             }
         }
-        if ($req->file2 != null) {
-            // kiểm tra kích thước
-            $size = $req->file2->getSize();
-            if ($size > 512000) {
-                return "Dung lượng hình ảnh lớn. Dung lượng cho phép <= 500MB ~ 512000KB";
-            }
-            // lọc ra đuôi file2
-            $extension = $req->file2->getClientOriginalExtension();
-            if ($extension == 'jpg' || $extension == 'png' || $extension = 'jpeg') {
-                // đổi tên hình
-                $filename2 = 'article-' . $random . '.' . $req->file2->getClientOriginalExtension();
-                // lấy tên file2 để lưu vào csdl
-                $itemnew->photo2 = $filename2;
-                //Lưu trữ file2 vào thư mục product trong public -> upload -> product
-                $req->file2->move(public_path('upload/article/'), $filename);
-            } else {
-                return "Định dạng ảnh không đúng. Định dạng cho phép (.jpg|.png|.jpeg)";
-            }
-        }
         $itemnew->save();
         return redirect()->route('bai-viet-admin');
     }
     public function Return_tpladm_modifynew(Request $req, $id)
     {
         $new = TableArticle::find($id);
-        $dsType = TableTypeArticle::all();
-        return view('.admin.new.modify', ['detailNew'  => $new], compact('dsType'));
+        return view('.admin.new.modify', ['detailNew'  => $new]);
     }
 
     public function modifynews(xlAddRequestNew $req, $id)
@@ -99,7 +78,7 @@ class ArticleCotroller extends Controller
         }
         $itemnew->name = $req->tenbaiviet;
         $itemnew->content = htmlspecialchars($req->noidung);
-        ($req->type > 0) ? $itemnew->id_type = $req->type : 0;
+        $itemnew->type = 'tin-tuc';
         if ($req->file != null) {
             // kiểm tra kích thước
             $size = $req->file->getSize();
@@ -119,26 +98,7 @@ class ArticleCotroller extends Controller
                 return "Định dạng ảnh không đúng. Định dạng cho phép (.jpg|.png|.jpeg)";
             }
         }
-
-        if ($req->file2 != null) {
-            // kiểm tra kích thước
-            $size = $req->file2->getSize();
-            if ($size > 512000) {
-                return "Dung lượng hình ảnh lớn. Dung lượng cho phép <= 500MB ~ 512000KB";
-            }
-            // lọc ra đuôi file2
-            $extension = $req->file2->getClientOriginalExtension();
-            if ($extension == 'jpg' || $extension == 'png' || $extension = 'jpeg') {
-                // đổi tên hình
-                $filename2 = 'article-' . $random . '.' . $req->file2->getClientOriginalExtension();
-                // lấy tên file2 để lưu vào csdl
-                $itemnew->photo2 = $filename2;
-                //Lưu trữ file2 vào thư mục product trong public -> upload -> product
-                $req->file2->move(public_path('upload/article/'), $filename2);
-            } else {
-                return "Định dạng ảnh không đúng. Định dạng cho phép (.jpg|.png|.jpeg)";
-            }
-        }
+        
         $itemnew->save();
 
         return redirect()->route('bai-viet-admin');
