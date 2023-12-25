@@ -58,11 +58,11 @@
 
                                     <th class="align-middle" style="width:30%">Tên sản phẩm</th>
 
-                                    <th class="align-middle text-center">Hiển thị</th>
+                                    {{-- <th class="align-middle text-center">Hiển thị</th>
 
                                     <th class="align-middle text-center">Nổi bật</th>
 
-                                    <th class="align-middle text-center">Mới</th>
+                                    <th class="align-middle text-center">Mới</th> --}}
 
                                     <th class="align-middle text-center">Thao tác</th>
                                 </tr>
@@ -97,16 +97,16 @@
                                                     title="{{ $item->name }}">{{ $item->name }}</a>
                                             </td>
 
-                                            <td class="align-middle">
+                                            {{-- <td class="align-middle">
                                                 <div class="custom-control custom-checkbox my-checkbox">
                                                     <input type="checkbox" class="custom-control-input select-checkbox"
                                                         id="select-checkbox" data-attr="hienthi"
                                                         {{ in_array('hienthi', $arr_status) ? 'checked' : '' }}>
                                                     <label for="select-checkbox" class="custom-control-label"></label>
                                                 </div>
-                                            </td>
+                                            </td> --}}
 
-                                            <td class="align-middle">
+                                            {{-- <td class="align-middle">
                                                 <div class="custom-control custom-checkbox my-checkbox">
                                                     <input type="checkbox" class="custom-control-input select-checkbox"
                                                         id="select-checkbox" data-attr="noibat"
@@ -122,7 +122,7 @@
                                                         {{ in_array('moi', $arr_status) ? 'checked' : '' }}>
                                                     <label for="select-checkbox" class="custom-control-label"></label>
                                                 </div>
-                                            </td>
+                                            </td> --}}
 
                                             <td class="align-middle text-center text-md text-nowrap">
                                                 <a class="text-primary mr-2 modify-item"

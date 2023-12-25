@@ -4144,19 +4144,20 @@ if ($(".multiselect").length) {
         searchText: "Tìm kiếm",
         locale: ["OK", "Hủy", "Chọn hết"],
         captionFormat: "Đã chọn {0} mục",
+        csvDispCount: 30,
         captionFormatAllSelected: "Đã chọn tất cả {0} mục",
     });
 }
 
-$(".custom-control-input").on("click", function () {
-    var dataID = $(this).parent().parent().parent().data("id");
-    var dataStatus = $(this).data("attr");
-    $.ajax({
-        // type: "post",
-        url: "/admin/status",
-        data: { id: dataID, status: dataStatus },
-    }).done(function (result) {});
-});
+// $(".custom-control-input").on("click", function () {
+//     var dataID = $(this).parent().parent().parent().data("id");
+//     var dataStatus = $(this).data("attr");
+//     $.ajax({
+//         // type: "post",
+//         url: "/admin/status",
+//         data: { id: dataID, status: dataStatus },
+//     }).done(function (result) {});
+// });
 
 $(".nav-link").on("click", function () {
     $(this).parents(".dropdown").find(".dropdown-menu").slideToggle(500);

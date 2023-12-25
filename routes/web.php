@@ -48,7 +48,6 @@ Route::group(['middleware' => ['checkauth:admin']], function () {
     Route::get('/admin/product/delete-product', [ProductController::class, 'deleteproducts'])->name('xl-xoa-bo-san-pham-admin');
     Route::get('/admin/remove', [ProductController::class, 'removeFormGallery'])->name('xl-xoa-hinhcon-admin');
 
-
     Route::get('/admin/brand', [ProductController::class, 'index_brand'])->name('sanpham-lv1-admin');
     Route::get('/admin/brand/search/{keyword}', [ProductController::class, 'searchBrandAdmin'])->name('tim-kiem-brand');
     Route::get('/admin/brand/add-brand', [ProductController::class, 'index_addbrand'])->name('themmoi-sanpham-lv1-admin');
@@ -107,7 +106,7 @@ Route::group(['middleware' => ['checkauth:admin']], function () {
     Route::get('/admin/user', [UserController::class, 'getsusers'])->name('nguoi-dung-admin');
     Route::get('/admin/user/delete-user', [UserController::class, 'deleteuser'])->name('xl-xoa-bo-nguoi-dung-admin');
 
-    Route::get('/admin/status', [ProductController::class, 'setStatus'])->name('set-trang-thai-sp');
+    // Route::get('/admin/status', [ProductController::class, 'setStatus'])->name('set-trang-thai-sp');
 
     Route::get('/admin/invoice', [ProductController::class, 'loadOrder'])->name('don-hang');
     Route::get('/admin/invoice/{id}', [ProductController::class, 'loadOrderDetail'])->name('chi-tiet-don-hang');
@@ -130,7 +129,7 @@ Route::get('/login-user', [LoginCotroller::class, 'index_login_user'])->name('da
 Route::post('/login-user', [LoginCotroller::class, 'xlLoginUser'])->name('xl-dang-nhap-user');
 Route::get('/logout-user', [LoginCotroller::class, 'xlLogoutUser'])->name('xl-logout-user');
 
-Route::group(['middleware' => ['checkauth:admin']], function () {
+Route::group(['middleware' => ['checkauth:user']], function () {
 
     // Route::get('/get-password', [LoginCotroller::class, 'GetForgotPassword'])->name('trang-getpassword');
     // Route::post('/get-password', [LoginCotroller::class, 'xl_GetPassword'])->name('xl-trang-get-password');
@@ -141,8 +140,9 @@ Route::group(['middleware' => ['checkauth:admin']], function () {
 
     Route::get('/update-info/user/{id}', [LoginCotroller::class, 'index_update_user'])->name('suadoi-thongtin-user');
     Route::post('/update-info/user/{id}', [LoginCotroller::class, 'xl_update_info_user'])->name('xl-suadoi-thongtin-user');
+    Route::post('/payment', [ProductController::class, 'Payment'])->name('thanh-toan');
 
-    
+   
 });
 Route::get('/mail', [LoginCotroller::class, 'SendMail'])->name('trang-gui-mail');
 Route::post('/mail', [LoginCotroller::class, 'xl_SendMail'])->name('xl-gui-mail');
@@ -152,4 +152,3 @@ Route::post('/forgot-password', [LoginCotroller::class, 'xl_ForgotPassword'])->n
 
 Route::get('/register', [LoginCotroller::class, 'GetRegisterIndex'])->name('trang-dang-ky');
 Route::post('/register', [LoginCotroller::class, 'addRegister'])->name('xl-dang-ky-nguoi-dung');
-Route::post('/payment', [ProductController::class, 'Payment'])->name('thanh-toan');

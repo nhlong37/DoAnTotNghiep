@@ -13,27 +13,23 @@ return new class extends Migration
      */
     public function up()
     {
-        // tạo bảng Thương hiệu
+        // tạo bảng thương hiệu
         Schema::create('table_product_brand', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            // $table->text('content')->nullable();
-            $table->string('photo')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
 
-        // tạo bảng Loại Product
+        // tạo bảng loại sản phẩm
         Schema::create('table_product_type', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            // $table->text('content')->nullable();
-            $table->string('photo')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
 
-        // tạo bảng Color
+        // tạo bảng màu sắc
         Schema::create('table_color', function (Blueprint $table) {
             $table->id();
             $table->string('code')->nullable();
@@ -42,34 +38,33 @@ return new class extends Migration
             $table->softDeletes();
         });
 
-        // tạo bảng Size
+        // tạo bảng kích thước
         Schema::create('table_size', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->timestamps();
             $table->softDeletes();
         });
-     
-        // tạo bảng Product
+
+        // tạo bảng sản phẩm
         Schema::create('table_product', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_brand')->nullable();
             $table->foreign('id_brand')->references('id')->on('table_product_brand')->onDelete('set null');
             $table->unsignedBigInteger('id_type')->nullable();
             $table->foreign('id_type')->references('id')->on('table_product_type')->onDelete('set null');
-            $table->string('code',10)->nullable();//->unique()
+            $table->string('code', 10)->nullable()->unique();
             $table->string('name');
             $table->mediumText('content')->nullable();
             $table->string('photo')->nullable();
             $table->double('price_regular')->nullable();
             $table->double('sale_price')->nullable();
-            $table->string('status')->nullable();
-            $table->integer('quantity')->default(0);
+            // $table->string('status')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
 
-        // tạo bảng Album
+        // tạo bảng thư viện ảnh của sản phẩm
         Schema::create('table_album', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_product')->nullable();
@@ -79,30 +74,31 @@ return new class extends Migration
             $table->softDeletes();
         });
 
-        // tạo bảng phụ cho bảng Product và bảng Color
-        Schema::create('table_variants_color_product', function (Blueprint $table) {
+        // tạo bảng đánh giá sao của sản phẩm
+        Schema::create('table_rating', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('id_product')->nullable();
+            $table->foreign('id_product')->references('id')->on('table_product')->onDelete('set null');
+            $table->integer('rating')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        // tạo bảng phụ cho bảng sản phẩm và bảng màu sắc và bảng kích thước
+        Schema::create('table_variants_pcs', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_product')->nullable();
             $table->foreign('id_product')->references('id')->on('table_product')->onDelete('set null');
             $table->unsignedBigInteger('id_color')->nullable();
             $table->foreign('id_color')->references('id')->on('table_color')->onDelete('set null');
-            $table->timestamps();
-            $table->softDeletes();
-        });
-
-        // tạo bảng phụ cho bảng Product và bảng Size
-        Schema::create('table_variants_size_product', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('id_product')->nullable();
-            $table->foreign('id_product')->references('id')->on('table_product')->onDelete('set null');
             $table->unsignedBigInteger('id_size')->nullable();
             $table->foreign('id_size')->references('id')->on('table_size')->onDelete('set null');
+            $table->integer('quantity')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });
 
-
-        // tạo bảng Role
+        // tạo bảng vai trò
         Schema::create('table_role', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -110,7 +106,7 @@ return new class extends Migration
             $table->softDeletes();
         });
 
-        // tạo bảng User
+        // tạo bảng người dùng
         Schema::create('table_user', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_role')->nullable();
@@ -119,7 +115,7 @@ return new class extends Migration
             $table->integer('gender')->default(0);
             $table->date('birthday')->nullable();
             $table->string('email')->nullable();
-            $table->string('phone',11)->nullable();
+            $table->string('phone', 11)->nullable();
             $table->string('address')->nullable();
             $table->string('avatar')->nullable();
             $table->string('username')->nullable();
@@ -129,36 +125,16 @@ return new class extends Migration
             $table->softDeletes();
         });
 
-        // tạo bảng TypeArticle
-        Schema::create('table_article_type', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->timestamps();
-            $table->softDeletes();
-        });
-
-        // tạo bảng Article
-        Schema::create('table_article', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('id_type')->nullable();
-            $table->foreign('id_type')->references('id')->on('table_article_type')->onDelete('set null');
-            $table->string('name');
-            $table->mediumText('content')->nullable();
-            $table->string('photo')->nullable();
-            $table->string('photo2')->nullable();
-            $table->string('status')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
-        });
-
-        // tạo bảng Order
+        // tạo bảng hoá đơn
         Schema::create('table_order', function (Blueprint $table) {
             $table->id();
-            $table->string('code',5)->nullable();
+            $table->string('code', 5)->nullable();
+            $table->unsignedBigInteger('id_user')->nullable();
+            $table->foreign('id_user')->references('id')->on('table_user')->onDelete('set null');
             $table->string('fullname')->nullable();
-            $table->string('email',100)->nullable();
+            $table->string('email', 100)->nullable();
+            $table->string('phone', 11)->nullable();
             $table->string('address')->nullable();
-            $table->string('phone',11)->nullable();
             $table->text('content')->nullable();
             $table->string('payment')->nullable();
             $table->string('status')->nullable();
@@ -167,7 +143,7 @@ return new class extends Migration
             $table->softDeletes();
         });
 
-        // tạo bảng Order Detail
+        // tạo bảng chi tiết hoá đơn
         Schema::create('table_order_detail', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_order')->nullable();
@@ -186,11 +162,37 @@ return new class extends Migration
             $table->softDeletes();
         });
 
+        //tạo bảng photo
         Schema::create('table_photo', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
             $table->string('photo')->nullable();
             $table->string('link')->nullable();
+            $table->string('type');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        // tạo bảng bài viết
+        Schema::create('table_article', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->mediumText('content')->nullable();
+            $table->string('photo')->nullable();
+            //$table->string('status')->nullable();
+            $table->string('type');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        // tạo bảng thiết lập
+        Schema::create('table_setting', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('address');
+            $table->string('hotline');
+            $table->string('email');
+            $table->string('fanpage');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -203,18 +205,20 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('table_rating');
+        Schema::dropIfExists('table_variants_pcs');
+        Schema::dropIfExists('table_album');
         Schema::dropIfExists('table_product');
         Schema::dropIfExists('table_product_brand');
         Schema::dropIfExists('table_product_type');
         Schema::dropIfExists('table_color');
         Schema::dropIfExists('table_size');
-        Schema::dropIfExists('table_album');
         Schema::dropIfExists('table_role');
         Schema::dropIfExists('table_user');
-        Schema::dropIfExists('table_article_type');
-        Schema::dropIfExists('table_article');
         Schema::dropIfExists('table_order');
         Schema::dropIfExists('table_order_detail');
+        Schema::dropIfExists('table_article');
         Schema::dropIfExists('table_photo');
+        Schema::dropIfExists('table_setting');
     }
 };
