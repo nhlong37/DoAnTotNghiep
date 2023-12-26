@@ -16,14 +16,14 @@ class TableProduct extends Model
     protected  $guarded=[];
 
 
-    public function foreignKey_products_level1()
-    {
-        return $this->hasMany(related:TableBrand::class,foreignKey:'id_brand',localKey:'id');
-    }
+    // public function foreignKey_products_level1()
+    // {
+    //     return $this->hasMany(related:TableBrand::class,foreignKey:'id_brand',localKey:'id');
+    // }
 
-    public function foreignKey_products_level2()
-    {
-        return $this->hasMany(related:TableProductType::class,foreignKey:'id_type',localKey:'id');
-    }
+    // public function foreignKey_products_level2()
+    // {
+    //     return $this->hasMany(related:TableProductType::class,foreignKey:'id_type',localKey:'id');
+    // }
 
 }

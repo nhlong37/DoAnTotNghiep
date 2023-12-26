@@ -10,11 +10,11 @@
 <script src="{{ asset('assets/admin/filer/jquery.filer.js') }}"></script>
 <script src="{{ asset('assets/admin/filer/jquery.filer.js') }}"></script>
 <script src="{{ asset('assets/admin/sweetalert/sweetalert2.all.min.js') }}"></script>
+<script src="{{ asset('adminate/js/chart.umd.js') }}"></script>
 <meta name="csrf-token" content="{{csrf_token()}}">
 <!-- Theme app -->
 <script src="{{ asset('assets/admin/js/adminlte.js') }}"></script>
 
-<script src="{{ asset('assets/admin/js/adminlte.js') }}"></script>
 <script>
 $(document).ready(function () {
     $('.comment_duyet_btn').click(function(){
