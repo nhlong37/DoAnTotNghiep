@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReturnTpl;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\StaticticalController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\LoginCotroller;
 use App\Http\Controllers\ArticleCotroller;
@@ -88,13 +89,13 @@ Route::group(['middleware' => ['checkauth:admin']], function () {
     Route::post('/admin/article/modify-new/{id}', [ArticleCotroller::class, 'modifynews'])->name('xl-sua-doi-bai-viet-admin');
     Route::get('/admin/article/delete-new', [ArticleCotroller::class, 'deletenews'])->name('xl-xoa-bo-bai-viet-admin');
 
-    Route::get('/admin/articletype', [TypeArticleCotroller::class, 'getsnewtype'])->name('loai-bai-viet-admin');
-    Route::get('/admin/articletype/search/{keyword}', [TypeArticleCotroller::class, 'searchTypeArticle'])->name('tim-kiem-type-article');
-    Route::get('/admin/articletype/add-newtype', [TypeArticleCotroller::class, 'Return_tpladm_addnewtype'])->name('them-moi-loai-bai-viet-admin');
-    Route::post('/admin/articletype/add-newtype', [TypeArticleCotroller::class, 'addnewstype'])->name('xl-them-moi-loai-bai-viet-admin');
-    Route::get('/admin/articletype/modify-newtype/{id}', [TypeArticleCotroller::class, 'Return_tpladm_modifynewtype'])->name('sua-doi-loai-bai-viet-admin');
-    Route::post('/admin/articletype/modify-newtype/{id}', [TypeArticleCotroller::class, 'modifynewtypes'])->name('xl-sua-doi-loai-bai-viet-admin');
-    Route::get('/admin/articletype/delete-newtype', [TypeArticleCotroller::class, 'deletenewtypes'])->name('xl-xoa-bo-loai-bai-viet-admin');
+    // Route::get('/admin/articletype', [TypeArticleCotroller::class, 'getsnewtype'])->name('loai-bai-viet-admin');
+    // Route::get('/admin/articletype/search/{keyword}', [TypeArticleCotroller::class, 'searchTypeArticle'])->name('tim-kiem-type-article');
+    // Route::get('/admin/articletype/add-newtype', [TypeArticleCotroller::class, 'Return_tpladm_addnewtype'])->name('them-moi-loai-bai-viet-admin');
+    // Route::post('/admin/articletype/add-newtype', [TypeArticleCotroller::class, 'addnewstype'])->name('xl-them-moi-loai-bai-viet-admin');
+    // Route::get('/admin/articletype/modify-newtype/{id}', [TypeArticleCotroller::class, 'Return_tpladm_modifynewtype'])->name('sua-doi-loai-bai-viet-admin');
+    // Route::post('/admin/articletype/modify-newtype/{id}', [TypeArticleCotroller::class, 'modifynewtypes'])->name('xl-sua-doi-loai-bai-viet-admin');
+    // Route::get('/admin/articletype/delete-newtype', [TypeArticleCotroller::class, 'deletenewtypes'])->name('xl-xoa-bo-loai-bai-viet-admin');
 
     Route::get('/admin/photo', [PhotoController::class, 'getsphoto'])->name('hinh-anh-admin');
     Route::get('/admin/photo/add-photo', [PhotoController::class, 'Return_tpladm_addphoto'])->name('them-moi-hinh-anh-admin');
@@ -119,6 +120,9 @@ Route::group(['middleware' => ['checkauth:admin']], function () {
     Route::post('/reply-comment', [ProductController::class, 'reply_comment'])->name('tra-loi-binh-luan');
 
     Route::post('/insert-rating', [ProductController::class, 'insert_rating'])->name('danh-gia-sao');
+
+    Route::get('/admin/statistical/', [StaticticalController::class, 'index'])->name('thong-ke');
+    Route::get('/admin/statistical/{type}', [StaticticalController::class, 'loadStatistical'])->name('loadstatistical');
 });
 
 
@@ -157,6 +161,7 @@ Route::group(['middleware' => ['checkauth:user']], function () {
 
     Route::get('/purchase-history/user', [LoginCotroller::class, 'GetPurchaseHistory'])->name('lichsu-muahang-user');
     Route::get('/purchase-history-detail/{id}', [LoginCotroller::class, 'GetPurchaseHistoryDetail'])->name('chitiet-lichsu-muahang-user');
+    
 });
 Route::get('/mail', [LoginCotroller::class, 'SendMail'])->name('trang-gui-mail');
 Route::post('/mail', [LoginCotroller::class, 'xl_SendMail'])->name('xl-gui-mail');
