@@ -69,9 +69,9 @@
                             </thead>
                             @if (count($dsProduct))
                                 @foreach ($dsProduct as $k => $item)
-                                    @php
+                                    <!-- @php
                                         $arr_status = !empty($item->status) ? explode(',', $item->status) : [];
-                                    @endphp
+                                    @endphp -->
                                     <tbody>
                                         <tr data-id="{{ $item->id }}">
 

@@ -275,6 +275,34 @@
 
                 </li>
 
+                <li
+                    class="nav-item {{ $name == 'binh-luan-admin' || $name == 'them-moi-hinh-anh-admin' || $name == 'sua-doi-hinh-anh-admin' ? 'menu-open' : '' }}">
+                    <a
+                        class="nav-link {{ $name == 'binh-luan-admin' || $name == 'them-moi-hinh-anh-admin' || $name == 'sua-doi-hinh-anh-admin' ? 'active' : '' }} ">
+                        <i class="nav-icon fas fa-duotone fa-comment"></i>
+                        <p>
+                            Quản lý bình luận
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('binh-luan-admin') }}"
+                                class="nav-link {{ $name == 'binh-luan-admin' || $name == 'them-moi-hinh-anh-admin' || $name == 'sua-doi-hinh-anh-admin' ? 'active' : '' }}">
+                                <i class="nav-icon-small fas fa-circle fa-2xs"></i>
+                                <p>Danh sách bình luận</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('danh-gia-admin') }}"
+                                class="nav-link {{ $name == 'danh-gia-admin' || $name == 'them-moi-hinh-anh-admin' || $name == 'sua-doi-hinh-anh-admin' ? 'active' : '' }}">
+                                <i class="nav-icon-small fas fa-circle fa-2xs"></i>
+                                <p>Danh sách đánh giá</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

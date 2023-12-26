@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\xlDangNhapRequest;
 use App\Models\TableUser;
+use App\Models\TableOrder;
+use App\Models\TableOrderDetail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
@@ -130,6 +132,32 @@ class LoginCotroller extends Controller
     function index_login_user()
     {
         return view('.user.login.login');
+    }
+    public function GetPurchaseHistory(Request $req)
+    {
+        $limit = 10;
+        $dsOrder = TableOrder::latest()->paginate($limit);
+        // lấy trang hiện tại
+        $current = $dsOrder->currentPage();
+        // lấy số thứ tự đầu tiên nhưng theo dạng mảng (là số 0)
+        $perSerial = $limit * ($current - 1);
+        $serial = $perSerial + 1;
+        return view('.user.login.purchase_history',compact('dsOrder','serial'));
+    }
+    public function GetPurchaseHistoryDetail($id)
+    {
+        $limit = 10;
+        $infoOrder = TableOrder::find($id);
+        $dsOrderDetail = TableOrderDetail::where('id_order', $infoOrder->id)->latest()->paginate($limit);
+        // $color = TableColor::where('id',$dsOrderDetail->id_color)->first();
+        // $size = TableColor::where('id',$dsOrderDetail->id_size)->first();
+
+        // lấy trang hiện tại
+        $current = $dsOrderDetail->currentPage();
+        // lấy số thứ tự đầu tiên nhưng theo dạng mảng (là số 0)
+        $perSerial = $limit * ($current - 1);
+        $serial = $perSerial + 1;
+        return view('.user.login.purchase_history_detail', ['orderDetail' => $infoOrder], compact('dsOrderDetail', 'serial'));
     }
 
     function xlLoginUser(Request $req)
