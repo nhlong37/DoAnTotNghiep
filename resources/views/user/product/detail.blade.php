@@ -133,6 +133,97 @@
                     @endif
                 </div>
             </div>
+
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="tabcomment" data-toggle="tab" href="#home" role="tab"
+                    aria-controls="home" aria-selected="true">Đánh giá</a>
+            </li>
+        </ul>
+        <div class="tab-content pt-4 pb-4" id="myTabContent">
+            <div class="tab-pane fade show active" id="reviews" role="tabpanel" aria-labelledby="home-tab">
+                <div class="col-sm-12" id="comment_style">
+                    <form>
+                        @csrf
+                        <div id="comment_show"></div>
+                        <input type="hidden" class="id_product" data-status="0" name="id_product" value="{{$rowDetail->id}}" />
+                        <!-- <div class="row  style_comment" style="background-color: #F0FFFF">
+                            <div class="col-sm-2">
+                                <input type="hidden" class="comment_product_id" name="comment_product_id"
+                                    value="{{$rowDetail->id}}" />
+                                <img width="200px" src="{{ asset('.upload/avatar/avatar.png') }}"
+                                    class="img img-avatar" />
+                            </div>
+                            <div class="col-sm-10">
+                                <p style="color: blue">@Hung</p>
+                                <p>
+                                    C# (hay C sharp) là một ngôn ngữ lập trình đơn giản, được phát triển bởi đội ngũ kỹ
+                                    sư
+                                    của Microsoft
+                                    vào năm 2000. C# là ngôn ngữ lập trình hiện đại, hướng đối tượng và được xây dựng
+                                    trên
+                                    nền tảng của
+                                    hai ngôn ngữ mạnh nhất là C++ và Java.
+                                    Trong các ứng dụng Windows truyền thống, mã nguồn chương trình được biên dịch trực
+                                    tiếp
+                                    thành mã
+                                    thực thi của hệ điều hành.
+                                </p>
+                            </div>
+                        </div> -->
+                        <p></p>
+                    </form>
+                    <p>
+
+                    </p>
+                    
+                    <form action="#">
+                        @csrf
+                        <p><b>Viết đánh giá của bạn</b></p>
+                        <div class="col">
+                            <div class="row">
+                                <ul class="list-inline rating" title="Average Rating">
+                                    <div class="row-md-10">
+                                        @for($count=1;$count<=5;$count++) 
+                                        @php
+                                            if($count<=$rating){
+                                            $color='color:#ffcc00;';
+                                            }else{
+                                                $color='color:#ccc;';
+                                            }
+                                        @endphp
+                                        <span title="Đánh giá số sao" id="{{$rowDetail->id}}-{{$count}}"
+                                            data-index="{{$count}}" data-product_id="{{$rowDetail->id}}" style="cursor:pointer; {{$color}}; font-size:30px;" data-rating="{{$rating}}" class="rating">
+                                            &#9733;
+                                            </span>
+                                            @endfor
+                                        <span>(Tổng sao sản phẩm)</span>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-12 comment_style">
+                            <!-- <span>
+                                <input type="hidden" class="form-control id_user" data-id_user="id_user"
+                                    placeholder="ID bình luận" />
+                            </span> -->
+                            <!-- <p></p> -->
+                            <span>
+                                <textarea name="content" class="form-control content"
+                                    placeholder="Nội dung bình luận"></textarea>
+                            </span>
+                            <div class="notify_comment">
+                                <p></p>
+                            </div>
+                            <button type="button" class="btn btn-warning send-comment">Gửi bình luận</button>
+                        </div>
+                </div>
+                <!-- <div style="width:500px; resize: none;" class="col-md-4">
+                                <textarea  name="content"class="content" placeholder="Noi dung binh luan"></textarea>
+                            </div> -->
+            </div>
+            </form>
+        </div>
         </div>
     </div>
 @endsection

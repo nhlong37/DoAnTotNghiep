@@ -21,6 +21,7 @@
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="{{ route('suadoi-thongtin-user', ['id' => Auth::guard('user')->user()->id]) }}">Thông tin cá nhân</a>
                             <a class="dropdown-item" href="{{ route('doi-matkhau-user', ['id' => Auth::guard('user')->user()->id]) }}">Đổi mật khẩu</a>
+                            <a class="dropdown-item" href="{{ route('lichsu-muahang-user', ['id' => Auth::guard('user')->user()->id]) }}">Lịch sử mua hàng</a>
                             <a class="dropdown-item" href="{{ route('xl-logout-user') }}"><span>Đăng xuất</span> <i class="fa fa-sign-out"></i></a>
                         </div>
                     </div>
