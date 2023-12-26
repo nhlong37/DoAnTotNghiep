@@ -206,7 +206,7 @@ return new class extends Migration
             $table->string('avatar')->nullable();
             $table->string('comment_name')->nullable();
             $table->integer('content_parent_comment')->nullable();
-            $table->boolean('status')->default(0);
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });
