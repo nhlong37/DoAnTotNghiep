@@ -5,7 +5,6 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -22,7 +21,8 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         $this->call([
-          sd_sizes::class,
+          sd_role::class,
+          sd_user::class,
         ]);
     }
 }

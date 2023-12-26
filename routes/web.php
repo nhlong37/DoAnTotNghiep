@@ -111,6 +111,14 @@ Route::group(['middleware' => ['checkauth:admin']], function () {
     Route::get('/admin/invoice', [ProductController::class, 'loadOrder'])->name('don-hang');
     Route::get('/admin/invoice/{id}', [ProductController::class, 'loadOrderDetail'])->name('chi-tiet-don-hang');
     Route::post('/admin/invoice/{id}', [ProductController::class, 'modifyorders'])->name('xl-don-hang');
+
+    Route::get('/admin/comment', [ProductController::class, 'loadComment'])->name('binh-luan-admin');
+    Route::get('/admin/rating', [ProductController::class, 'loadRating'])->name('danh-gia-admin');
+    Route::get('/admin/comment/delete-comment', [ProductController::class, 'deletecomment'])->name('xl-xoa-bo-binh-luan-admin');
+    Route::post('/allow-comment', [ProductController::class, 'allow_comment'])->name('duyet-binh-luan');
+    Route::post('/reply-comment', [ProductController::class, 'reply_comment'])->name('tra-loi-binh-luan');
+
+    Route::post('/insert-rating', [ProductController::class, 'insert_rating'])->name('danh-gia-sao');
 });
 
 
@@ -129,6 +137,11 @@ Route::get('/login-user', [LoginCotroller::class, 'index_login_user'])->name('da
 Route::post('/login-user', [LoginCotroller::class, 'xlLoginUser'])->name('xl-dang-nhap-user');
 Route::get('/logout-user', [LoginCotroller::class, 'xlLogoutUser'])->name('xl-logout-user');
 
+Route::post('/get-comment', [ProductController::class, 'get_comment_status'])->name('hien-thi-comment');
+Route::post('/get-comment', [ProductController::class, 'get_comment'])->name('hien-thi-comment');
+Route::post('/load-comment', [ProductController::class, 'load_comment'])->name('xl-hien-thi-comment');
+Route::post('/send-comment', [ProductController::class, 'send_comment'])->name('gui-comment');
+
 Route::group(['middleware' => ['checkauth:user']], function () {
 
     // Route::get('/get-password', [LoginCotroller::class, 'GetForgotPassword'])->name('trang-getpassword');
@@ -142,7 +155,8 @@ Route::group(['middleware' => ['checkauth:user']], function () {
     Route::post('/update-info/user/{id}', [LoginCotroller::class, 'xl_update_info_user'])->name('xl-suadoi-thongtin-user');
     Route::post('/payment', [ProductController::class, 'Payment'])->name('thanh-toan');
 
-   
+    Route::get('/purchase-history/user', [LoginCotroller::class, 'GetPurchaseHistory'])->name('lichsu-muahang-user');
+    Route::get('/purchase-history-detail/{id}', [LoginCotroller::class, 'GetPurchaseHistoryDetail'])->name('chitiet-lichsu-muahang-user');
 });
 Route::get('/mail', [LoginCotroller::class, 'SendMail'])->name('trang-gui-mail');
 Route::post('/mail', [LoginCotroller::class, 'xl_SendMail'])->name('xl-gui-mail');

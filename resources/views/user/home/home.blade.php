@@ -63,7 +63,7 @@
                     <div class="title-main">
                         <?php /*<p><?=substr($get_1bv['name'.$lang], 0,30)?> ?> ?> ?> ?> ?></p>
                         <span><?= substr($get_1bv['name' . $lang], 30) ?></span>*/?>
-                        <span>Giới thiệu về công ty</span>
+                        <span>Giới thiệu về website</span>
                     </div>
                     <div class="desc-main w-clear catchuoi6">
                         C# (hay C sharp) là một ngôn ngữ lập trình đơn giản, được phát triển bởi đội ngũ kỹ sư của Microsoft

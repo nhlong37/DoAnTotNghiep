@@ -9,6 +9,8 @@ use App\Http\Requests\xlAddRequestDmucLevel;
 use App\Http\Requests\xlAddRequestOrder;
 use Illuminate\Support\Str;
 use App\Models\TableProduct;
+use App\Models\TableComment;
+use App\Models\TableRating;
 use App\Models\TableOrder;
 use App\Models\TableBrand;
 use App\Models\TableProductType;
@@ -529,14 +531,60 @@ class ProductController extends Controller
     {
     }
 
+    public function loadComment()
+    {
+        $limit = 10;
+        //latest() = orderBy('created_at','desc')
+        $dsComment = TableComment::latest()->paginate($limit);
+        $comment_rep = TableComment::where('content_parent_comment', '>', 0)->get();
+        // lấy trang hiện tại
+        $current = $dsComment->currentPage();
+        // lấy số thứ tự đầu tiên nhưng theo dạng mảng (là số 0)
+        $perSerial = $limit * ($current - 1);
+        $serial = $perSerial + 1;
+        return view('.admin.comment.list', compact('dsComment', 'serial','comment_rep'));
+    }
+
+    public function deletecomment(Request $req)
+    {
+        $comments = TableComment::find($req->id);
+        if ($comments == null) {
+            return "không tìm thấy bình luận nào có ID = {$req->id} này";
+        }
+        $comments->delete();
+        return redirect()->route('binh-luan-admin');
+    }
+    public function allow_comment(Request $req)
+    {
+        $data = $req->all();
+        $comment = TableComment::find($data['comment_id']);
+        $comment->status = $data['comment_status'];
+        $comment->save();
+    }
+
+    public function loadRating(Request $req)
+    {
+        $limit = 10;
+        //latest() = orderBy('created_at','desc')
+        $dsRating = TableRating::latest()->paginate($limit);
+
+        // lấy trang hiện tại
+        $current = $dsRating->currentPage();
+        // lấy số thứ tự đầu tiên nhưng theo dạng mảng (là số 0)
+        $perSerial = $limit * ($current - 1);
+        $serial = $perSerial + 1;
+        return view('.admin.comment.listrate', compact('dsRating', 'serial'));
+    }
+
+
     // ---------------- ADMIN ---------------- //
 
     // ---------------- USER ---------------- //
     public function GetProductIndex(Request $req)
     {
         // lấy sản phẩm
-        $dsProductNew = TableProduct::whereRaw('FIND_IN_SET("moi", status)')->limit(8)->get();
-        $dsProductOutsanding = TableProduct::whereRaw('FIND_IN_SET("noibat", status)')->get();
+        $dsProductNew = TableProduct::where('deleted_at',null)->limit(8)->get();
+        $dsProductOutsanding = TableProduct::where('deleted_at',null)->get();
 
         return view('.user.home.home', compact('dsProductNew', 'dsProductOutsanding'));
     }
@@ -546,7 +594,7 @@ class ProductController extends Controller
     {
         $limit = 12;
 
-        $dsProduct = TableProduct::whereRaw('FIND_IN_SET("hienthi", status)')->latest()->paginate($limit);
+        $dsProduct = TableProduct::where('deleted_at',null)->latest()->paginate($limit);
         $dsBrand = TableBrand::select('id', 'name')->get();
         $min_price = TableProduct::min('price_regular');
         $max_price = TableProduct::max('price_regular');
@@ -563,7 +611,7 @@ class ProductController extends Controller
 
             $dsProduct = TableProduct::whereBetween('price_regular', [$min_price, $max_price])->latest()->paginate($limit);
         } else {
-            $dsProduct = TableProduct::whereRaw('FIND_IN_SET("hienthi", status)')->latest()->paginate($limit);
+            $dsProduct = TableProduct::where('deleted_at',null)->latest()->paginate($limit);
         }
         return view('.user.product.product', compact('dsProduct', 'dsBrand', 'min_price', 'max_price', 'max_price_range', 'min_price_range'));
     }
@@ -573,7 +621,7 @@ class ProductController extends Controller
     {
         if ($req->keyword != null) {
             $limit = 12;
-            $dsProduct = TableProduct::whereRaw('FIND_IN_SET("hienthi", status)')->where('name', 'like', '%' . $req->keyword . '%')->latest()->paginate($limit);
+            $dsProduct = TableProduct::where('deleted_at',null)->where('name', 'like', '%' . $req->keyword . '%')->latest()->paginate($limit);
         }
         return view('.user.product.product', compact('dsProduct'));
     }
@@ -581,7 +629,7 @@ class ProductController extends Controller
 
     public function GetDetailProduct(Request $req, $id)
     {
-        $detailProduct = TableProduct::whereRaw('FIND_IN_SET("hienthi", status)')->where('id', $id)->first();
+        $detailProduct = TableProduct::where('deleted_at',null)->where('id', $id)->first();
         $dsGallery = TableAlbum::where('id_product', $id)->get();
         $listSelectedColor = TableVariantsPCS::where('id_product', $id)->get();
         $listSelectedSize = TableVariantsPCS::where('id_product', $id)->get();
@@ -599,8 +647,10 @@ class ProductController extends Controller
 
         $rowColor  = TableColor::whereIn('id', $arrIdColor)->get();
         $rowSize  = TableSize::whereIn('id', $arrIdSize)->get();
+        $rating = TableRating::where('id_product', $id)->avg('rating');
+        $rating = round($rating);
 
-        return view('.user.product.detail', ['rowDetail' => $detailProduct], compact('rowColor', 'rowSize', 'dsGallery'));
+        return view('.user.product.detail', ['rowDetail' => $detailProduct], compact('rowColor', 'rowSize', 'dsGallery','rating'));
     }
 
     public function viewCart()
@@ -760,6 +810,99 @@ class ProductController extends Controller
         }
     }
 
+    public function send_comment(Request $req)
+    {
+        $product_id = $req->id_product;
+        //$id_user = $req->id_user;
+        $content = $req->content;
+        $comment = new TableComment();
+        $comment->content = $content;
+        $comment->id_product = $product_id;
+        $comment->content_parent_comment = 0;
+        $comment->save();
+    }
+    public function load_comment(Request $req)
+    {
+        $output = '';
+        $product_id = $req->id_product;
+        $id_user = $req->id_user;
+        $status= $req->status;
+        $dsComment = TableComment::where('id_product', $product_id)->where('content_parent_comment', '=', 0)->where('status', 1)->get();
+        $comment_rep = TableComment::where('content_parent_comment', '>', 0)->get();
+        $comment = TableComment::all();
+        //$user = TableUser::get('id','avatar');
+        $data = $req->all();
+        //$dsCommentUser=TableComment::where('id_user', $user_id)->get();
+        // $id_user = TableUser::all();
+        //$id_user_comment = TableUser::where('id',$id)->get();
+        // $id_user_name = $id_user_comment->name;
+        //$dsCommentUser=TableComment::where('id_user',$data[''])
+        foreach ($dsComment as $k => $comment) {
+            $output .= '<div class="row " id="style_comment">
+            <div class="col-sm-1" id="img-avatar">
+                <img width="100%" src="' . url('/upload/avatar/user.jpg') . '"
+                    class="img-avatar" />
+            </div>
+            <div class="col-sm-11" id="content">
+                <span style="color: green">' . $comment->$id_user . '<span></span>
+                ' . $comment->created_at->format('d-m-Y h:m') . '
+                </span>
+                <p>
+                <p></p>
+                ' . $comment->content . '
+                </p>
+            </div>
+        </div> <p></p>';
+            foreach ($comment_rep as $k => $reply_comment) {
+                if ($reply_comment->content_parent_comment == $comment->id) {
+                    $output .= '<div class="row " id="style_comment" style="margin: 5px 40px; background-color:#FFCC99">
+            <div class="col-sm-1" id="img-avatar">
+                <img width="60%" src="' . url('/upload/avatar/avatar5.png') . '"
+                    class="img-avatar" />
+            </div>
+            <div class="col-sm-11" id="content">
+                <span style="color: blue">HL Shoes Store<span></span>
+                ' . $reply_comment->created_at->format('d-m-Y h:m') . '
+                </span>
+                <p>
+                <p></p>
+                ' . $reply_comment->content . '
+                </p>
+            </div>
+        </div> <p></p>
+        
+        ';
+                }
+            }
+        }
+        echo $output;
+        
+    }
+    // public function get_comment_status(Request $req)
+    // {
+    //     $comment = TableComment::where('status', 0)->get();
+    //     return view('.user.product.detail',compact('comment'));
+    // }
+    public function reply_comment(Request $req)
+    {
+        $data = $req->all();
+        $comment = new TableComment();
+        $comment->content = $data['comment'];
+        $comment->id_product = $data['id_product'];
+        $comment->content_parent_comment = $data['comment_id'];
+        $comment->status = 1;
+        $comment->comment_name = 'HL Shoes Store ';
+        $comment->save();
+    }
+    public function insert_rating(Request $req)
+    {
+        $data = $req->all();
+        $rating = new TableRating();
+        $rating->id_product = $data['product_id'];
+        $rating->rating = $data['index'];
+        $rating->save();
+        echo 'Đánh giá thành công';
+    }
 
     // ---------------- USER ---------------- //    
 }
