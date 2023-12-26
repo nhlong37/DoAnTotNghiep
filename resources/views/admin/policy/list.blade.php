@@ -50,6 +50,8 @@
 
                                     <th class="align-middle">Hình</th>
 
+                                    <th class="align-middle">Hình2</th>
+
                                     <th class="align-middle" style="width:30%">Tên</th>
 
                                     <th class="align-middle text-center">Thao tác</th>
@@ -77,10 +79,21 @@
                                             </td>
 
                                             <td class="align-middle">
+                                                <a href="{{ route('sua-doi-bai-viet-admin', ['id' => $item->id]) }}"
+                                                    title="{{ $item->name }}">
+                                                    <img class="rounded img-preview"
+                                                        src="{{ asset('upload/article/' . $item->photo2) }}"
+                                                        onerror="src='{{ asset('assets/admin/images/noimage.png') }}'"
+                                                        alt="Alt Photo" style="" />
+                                                </a>
+                                            </td>
+
+                                            <td class="align-middle">
                                                 <a class="text-dark text-break"
                                                     href="{{ route('sua-doi-bai-viet-admin', ['id' => $item->id]) }}"
                                                     title="{{ $item->name }}">{{ $item->name }}</a>
                                             </td>
+
 
                                             <td class="align-middle text-center text-md text-nowrap">
                                                 <a class="text-primary mr-2 modify-item"

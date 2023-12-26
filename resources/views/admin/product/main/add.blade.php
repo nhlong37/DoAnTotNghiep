@@ -41,7 +41,7 @@
                             <div class="form-group-category row">
 
                                 <div class="form-group col-xl-6 col-sm-4">
-                                    <label class="d-block" for="id_list">Danh mục thương hiệu:</label>
+                                    <label class="d-block" for="select-brand">Danh mục thương hiệu:</label>
                                     <select id="select-brand" name="brand" class="form-control select2">
                                         <option value="0">Chọn Danh mục</option>
                                         @foreach ($level1 as $k => $value)
@@ -51,7 +51,7 @@
                                 </div>
 
                                 <div class="form-group col-xl-6 col-sm-4">
-                                    <label class="d-block" for="id_cat">Danh mục loại sản phẩm:</label>
+                                    <label class="d-block" for="select-type">Danh mục loại sản phẩm:</label>
                                     <select id="select-type" name="type" class="form-control select2">
                                         <option value="0">Chọn Danh mục</option>
                                         @foreach ($level2 as $k => $value)
@@ -107,15 +107,6 @@
                                                 id="code" placeholder="Mã sản phẩm"
                                                 @error('masp') is-invalid @enderror>
                                             @error('masp')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group col-md-3">
-                                            <label class="d-block" for="code-product">Số lượng tồn kho:</label>
-                                            <input type="text" class="form-control check-valid text-sm" name="soluong"
-                                                id="code" placeholder="Số lượng tồn kho"
-                                                @error('soluong') is-invalid @enderror>
-                                            @error('soluong')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>

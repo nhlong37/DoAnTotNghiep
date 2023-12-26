@@ -26,7 +26,7 @@
                         <a class="btn btn-sm bg-gradient-danger" href="{{ route('bai-viet-admin') }}" title="Thoát"><i
                                 class="fas fa-sign-out-alt mr-2"></i>Thoát</a>
                     </div>
-                    <div class="card card-primary card-outline text-sm">
+                    {{-- <div class="card card-primary card-outline text-sm">
                         <div class="card-header">
                             <h3 class="card-title">Danh mục bài viết</h3>
                             <div class="card-tools">
@@ -54,9 +54,9 @@
 
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="row">
-                        <div class="col-xl-12">
+                        <div class="col-xl-8">
                             <div class="card card-default color-palette-box card-primary card-outline text-sm">
                                 <div class="card-header">
                                     <h3 class="card-title">Thông tin bài viết</h3>
@@ -81,10 +81,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-12 row">
-                            <div class="card card-primary card-outline text-sm col-card">
+                        <div class="col-xl-4">
+                            <div class="card card-primary card-outline text-sm">
                                 <div class="card-header">
-                                    <h3 class="card-title">Hình ảnh loại bài viết</h3>
+                                    <h3 class="card-title">Hình ảnh tin tức</h3>
                                 </div>
                                 <div class="card-body">
                                     {{-- Image --}}
@@ -104,28 +104,6 @@
                                         </label>
                                         <div class="photoUpload-dimension">Width: 734px - Height: 734px (.jpg|.png|.jpeg)
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card card-primary card-outline text-sm col-card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Hình ảnh 2 bài viết</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div class="photoUpload-zone -bottom-3">
-                                        <div class="photoUpload-detail" id="photoUpload-preview2">
-                                            <img class="rounded"
-                                                onerror="src='{{ asset('assets/admin/images/noimage.png') }}'"
-                                                src="" alt="Alt Photo" style="" />
-                                        </div>
-                                        <label class="photoUpload-file" id="photo-zone2" for="file-zone2">
-                                            <input type="file" name="file2" id="file-zone2">
-                                            <i class="fas fa-cloud-upload-alt"></i>
-                                            <p class="photoUpload-drop">Kéo và thả hình vào đây</p>
-                                            <p class="photoUpload-or">hoặc</p>
-                                            <p class="photoUpload-choose btn btn-sm bg-gradient-success">Chọn hình</p>
-                                        </label>
-                                        <div class="photoUpload-dimension">Width: 734px - Height: 734px (.jpg|.png|.jpeg)</div>
                                     </div>
                                 </div>
                             </div>

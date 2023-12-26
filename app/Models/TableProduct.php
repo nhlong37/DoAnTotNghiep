@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class TableProduct extends Model
 {
     use HasFactory;
-    // use SoftDeletes;
+    use SoftDeletes;
 
     protected $table='table_product';
     protected $primaryKey='id';
@@ -18,12 +18,12 @@ class TableProduct extends Model
 
     public function foreignKey_products_level1()
     {
-        return $this->hasMany(related:TableBrand::class,foreignKey:'id_level1',localKey:'id');
+        return $this->hasMany(related:TableBrand::class,foreignKey:'id_brand',localKey:'id');
     }
 
     public function foreignKey_products_level2()
     {
-        return $this->hasMany(related:TableProductType::class,foreignKey:'id_level2',localKey:'id');
+        return $this->hasMany(related:TableProductType::class,foreignKey:'id_type',localKey:'id');
     }
 
 }
