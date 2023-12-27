@@ -25,14 +25,14 @@ class xlAddRequestProduct extends FormRequest
     {
         return [
             'tensp' => 'required',
-            'masp' => 'required',
+            //'soluong' => 'required',
         ];
     }
     public function messages()
     {
         return[
-            'tensp.required'=> 'Chưa nhập tên sản phẩm',
-            'masp.required'=> 'Chưa nhập mã sản phẩm',
+            'tensp.required'=> 'Vui lòng nhập tên sản phẩm',
+            //'soluong.required'=> 'Vui lòng nhập số lượng',
         ];
     }
 }

@@ -105,6 +105,7 @@ class ProductController extends Controller
                 }
             }
         }
+
         //kiểm tra xem có file ko
         if (!empty($req->filenames)) {
             foreach ($req->filenames as $image) {
@@ -203,27 +204,41 @@ class ProductController extends Controller
             $count_size = count($req->size);
             for ($i = 0; $i < $count_size; $i++) {
                 $arr_color = $req->color;
-                if (!empty($arr_color)) {
-                    $count_color = count($req->color);
-                    if ($count_color > 0) {
-                        for ($j = 0; $j < $count_color; $j++) {
-                            $pro_color = new TableVariantsPCS();
-                            $pro_color->id_product = $itemproduct->id;
-                            $pro_color->id_size = $arr_size[$i];
-                            $pro_color->id_color = $arr_color[$j];
-                            $pro_color->quantity = 0;
-                            $pro_color->save();
-                        }
-                    } else {
-                        $pro_size = new TableVariantsPCS();
-                        $pro_size->id_product = $itemproduct->id;
-                        $pro_size->id_size = $arr_size[$i];
-                        $pro_size->id_color = 0;
-                        $pro_size->quantity = 0;
-                        $pro_size->save();
+                $count_color = count($req->color);
+                for ($j = 0; $j < $count_color; $j++) {
+                    if (TableVariantsPCS::where([
+                        ['id_product', '=', $id],
+                        ['id_size', '=', $arr_size[$i]],
+                        ['id_color', '=', $arr_color[$j]],
+                    ])->get()->toArray() == NULL) {
+                        $pro_color = new TableVariantsPCS();
+                        $pro_color->id_product = $itemproduct->id;
+                        $pro_color->id_size = $arr_size[$i];
+                        $pro_color->id_color = $arr_color[$j];
+                        $pro_color->quantity = 0;
+                        $pro_color->save();
                     }
                 }
             }
+        }
+
+        if ($req->id_adv != NULL) {
+            $count_id_adv = count($req->id_adv);
+            for ($i = 0; $i < $count_id_adv; $i++) {
+                $add_quantity = TableVariantsPCS::where([
+                    ['id_product', '=', $id],
+                    ['id', '=', $req->id_adv[$i]],
+                ])->firstOrFail();
+                $add_quantity->quantity =  $req->quantity[$i];
+                $add_quantity->save();
+            }
+        }
+
+        if ($req->color != NULL && $req->size != NULL) {
+            TableVariantsPCS::where('id_product', $id)->whereNotIn('id_color', $req->color)->delete();
+            TableVariantsPCS::where('id_product', $id)->whereNotIn('id_size', $req->size)->delete();
+            TableVariantsPCS::withTrashed()->where('id_product', $id)->whereNotIn('id_color', $req->color)->forceDelete();
+            TableVariantsPCS::withTrashed()->where('id_product', $id)->whereNotIn('id_size', $req->size)->forceDelete();
         }
 
         //kiểm tra xem có nhập file hay không
@@ -542,7 +557,7 @@ class ProductController extends Controller
         // lấy số thứ tự đầu tiên nhưng theo dạng mảng (là số 0)
         $perSerial = $limit * ($current - 1);
         $serial = $perSerial + 1;
-        return view('.admin.comment.list', compact('dsComment', 'serial','comment_rep'));
+        return view('.admin.comment.list', compact('dsComment', 'serial', 'comment_rep'));
     }
 
     public function deletecomment(Request $req)
@@ -583,8 +598,8 @@ class ProductController extends Controller
     public function GetProductIndex(Request $req)
     {
         // lấy sản phẩm
-        $dsProductNew = TableProduct::where('deleted_at',null)->limit(8)->get();
-        $dsProductOutsanding = TableProduct::where('deleted_at',null)->get();
+        $dsProductNew = TableProduct::where('deleted_at', null)->limit(8)->get();
+        $dsProductOutsanding = TableProduct::where('deleted_at', null)->get();
 
         return view('.user.home.home', compact('dsProductNew', 'dsProductOutsanding'));
     }
@@ -594,7 +609,7 @@ class ProductController extends Controller
     {
         $limit = 12;
 
-        $dsProduct = TableProduct::where('deleted_at',null)->latest()->paginate($limit);
+        $dsProduct = TableProduct::where('deleted_at', null)->latest()->paginate($limit);
         $dsBrand = TableBrand::select('id', 'name')->get();
         $min_price = TableProduct::min('price_regular');
         $max_price = TableProduct::max('price_regular');
@@ -611,7 +626,7 @@ class ProductController extends Controller
 
             $dsProduct = TableProduct::whereBetween('price_regular', [$min_price, $max_price])->latest()->paginate($limit);
         } else {
-            $dsProduct = TableProduct::where('deleted_at',null)->latest()->paginate($limit);
+            $dsProduct = TableProduct::where('deleted_at', null)->latest()->paginate($limit);
         }
         return view('.user.product.product', compact('dsProduct', 'dsBrand', 'min_price', 'max_price', 'max_price_range', 'min_price_range'));
     }
@@ -621,7 +636,7 @@ class ProductController extends Controller
     {
         if ($req->keyword != null) {
             $limit = 12;
-            $dsProduct = TableProduct::where('deleted_at',null)->where('name', 'like', '%' . $req->keyword . '%')->latest()->paginate($limit);
+            $dsProduct = TableProduct::where('deleted_at', null)->where('name', 'like', '%' . $req->keyword . '%')->latest()->paginate($limit);
         }
         return view('.user.product.product', compact('dsProduct'));
     }
@@ -629,7 +644,7 @@ class ProductController extends Controller
 
     public function GetDetailProduct(Request $req, $id)
     {
-        $detailProduct = TableProduct::where('deleted_at',null)->where('id', $id)->first();
+        $detailProduct = TableProduct::where('deleted_at', null)->where('id', $id)->first();
         $dsGallery = TableAlbum::where('id_product', $id)->get();
         $listSelectedColor = TableVariantsPCS::where('id_product', $id)->get();
         $listSelectedSize = TableVariantsPCS::where('id_product', $id)->get();
@@ -650,7 +665,7 @@ class ProductController extends Controller
         $rating = TableRating::where('id_product', $id)->avg('rating');
         $rating = round($rating);
 
-        return view('.user.product.detail', ['rowDetail' => $detailProduct], compact('rowColor', 'rowSize', 'dsGallery','rating'));
+        return view('.user.product.detail', ['rowDetail' => $detailProduct], compact('rowColor', 'rowSize', 'dsGallery', 'rating'));
     }
 
     public function viewCart()
@@ -797,10 +812,10 @@ class ProductController extends Controller
                 $detailOrder->quantity = $value['quantity'];
                 $detailOrder->save();
 
-                $miniusQuantity = TableProduct::find($value['id_product']);
+                // $miniusQuantity = TableProduct::find($value['id_product']);
 
-                $miniusQuantity->quantity = $miniusQuantity->quantity - $value['quantity'];
-                $miniusQuantity->save();
+                // $miniusQuantity->quantity = $miniusQuantity->quantity - $value['quantity'];
+                // $miniusQuantity->save();
             }
             if (session()->has('cart')) {
                 session()->forget('cart');
@@ -826,7 +841,7 @@ class ProductController extends Controller
         $output = '';
         $product_id = $req->id_product;
         $id_user = $req->id_user;
-        $status= $req->status;
+        $status = $req->status;
         $dsComment = TableComment::where('id_product', $product_id)->where('content_parent_comment', '=', 0)->where('status', 1)->get();
         $comment_rep = TableComment::where('content_parent_comment', '>', 0)->get();
         $comment = TableComment::all();
@@ -876,7 +891,6 @@ class ProductController extends Controller
             }
         }
         echo $output;
-        
     }
     // public function get_comment_status(Request $req)
     // {

@@ -123,13 +123,13 @@
                                             placeholder="Nội dung">{!! $detailSP->content !!}</textarea>
                                     </div>
                                     <div class="row">
-                                        <div class="form-group col-md-3">
+                                        <div class="form-group col-md-2">
                                             <label class="d-block" for="code-product">Mã sản phẩm:</label>
                                             <input type="text" class="form-control text-sm" name="masp"
                                                 id="code" placeholder="Mã sản phẩm" value="{{ $detailSP->code }}"
                                                 readonly>
                                         </div>
-                                        <div class="form-group col-md-3">
+                                        <div class="form-group col-md-5">
                                             <label class="d-block" for="regular_price">Giá gốc:</label>
                                             <div class="input-group">
                                                 <input type="text"
@@ -141,7 +141,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group col-md-3">
+                                        <div class="form-group col-md-5">
                                             <label class="d-block" for="sale_price">Giá mới:</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control format-price sale_price text-sm"
@@ -203,12 +203,15 @@
                                             @foreach ($list_advanted as $k4 => $v4)
                                                 <tr>
                                                     <td>{{ $k4 + 1 }}</td>
+                                                    <input type="hidden" name="id_adv[]" value="{{ $v4['id'] }}"
+                                                        hidden>
                                                     <td>{{ $v4['name_size'] }}</td>
                                                     <td>{{ $v4['name_color'] }}</td>
                                                     <td>
                                                         <input type="number" class="form-control" name="quantity[]"
                                                             id="quantity"
-                                                            value="{{ $v4['quantity'] != null ? $v4['quantity'] : '' }}">
+                                                            value="{{ $v4['quantity'] != null ? $v4['quantity'] : '' }}"
+                                                            >
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -217,7 +220,6 @@
                                 </div>
                             </div>
                         </div>
-                    @else
                     @endif
                     <div class="card card-primary card-outline text-sm">
                         <div class="card-header">

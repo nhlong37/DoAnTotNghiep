@@ -251,8 +251,6 @@
                     
                 </li>
 
-
-
                 <li
                     class="nav-item {{ $name == 'hinh-anh-admin' || $name == 'them-moi-hinh-anh-admin' || $name == 'sua-doi-hinh-anh-admin' ? 'menu-open' : '' }}">
                     <a
@@ -301,6 +299,14 @@
                             </a>
                         </li>
                     </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('thong-ke') }}"
+                        class="nav-link {{ $name == 'thong-ke' ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-chart-simple"></i>
+                        <p>Thống kê</p>
+                    </a>
                 </li>
 
             </ul>
