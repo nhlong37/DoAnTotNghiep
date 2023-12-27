@@ -14,7 +14,6 @@
 <!-- Theme app -->
 <script src="{{ asset('assets/admin/js/adminlte.js') }}"></script>
 
-<script src="{{ asset('assets/admin/js/adminlte.js') }}"></script>
 <script>
 $(document).ready(function () {
     $('.comment_duyet_btn').click(function(){
