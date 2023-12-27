@@ -101,16 +101,13 @@
                                             placeholder="Nội dung"></textarea>
                                     </div>
                                     <div class="row">
-                                        <div class="form-group col-md-3">
+                                        <div class="form-group col-md-2">
                                             <label class="d-block" for="code-product">Mã sản phẩm:</label>
                                             <input type="text" class="form-control check-valid text-sm" name="masp"
-                                                id="code" placeholder="Mã sản phẩm"
-                                                @error('masp') is-invalid @enderror>
-                                            @error('masp')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
+                                                id="code" placeholder="Mã sản phẩm" value="SP<?=substr(time(), 5)?>"
+                                                readonly>
                                         </div>
-                                        <div class="form-group col-md-3">
+                                        <div class="form-group col-md-5">
                                             <label class="d-block" for="regular_price">Giá gốc:</label>
                                             <div class="input-group">
                                                 <input type="text"
@@ -121,7 +118,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group col-md-3">
+                                        <div class="form-group col-md-5">
                                             <label class="d-block" for="sale_price">Giá mới:</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control format-price sale_price text-sm"
