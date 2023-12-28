@@ -153,7 +153,8 @@
             values: [{{ $min_price }}, {{ $max_price }}],
             step: 500000,
             slide: function(event, ui) {
-                $("#amount").val(ui.values[0] + "đ" + " - " + ui.values[1] + "đ");
+                $("#amount").val(ui.values[0] + " đ" + " - " + ui.values[1] + " đ");
+
                 $("#start_price").val(ui.values[0]);
                 $("#end_price").val(ui.values[1]);
             }
@@ -192,11 +193,18 @@
                 method: "POST",
                 data: { id_user:id_user,id_product: id_product, content: content, _token: _token, },
                 success: function (data) {
+                    if(data=='Bình luận thành công')
+                    {
                     $(".notify_comment").html('<span class="text text-success">Thêm bình luận thành công, vui lòng chờ xét duyệt</span>');
                     load_comment();
                     $(".notify_comment").fadeOut(4000);
                     //$('.comment_name').val('');
                     $('.content').val('');
+                    }
+                    else
+                    {
+                        alert("Vui lòng đăng nhập để gửi bình luận !");
+                    }
                 }
             })
         });
@@ -251,7 +259,7 @@
                    }
                    else
                    {
-                    alert("Lỗi đánh giá");
+                    alert("Lỗi đánh giá. Vui lòng đăng nhập để đánh giá sản phẩm!");
                    }
                 }
             })

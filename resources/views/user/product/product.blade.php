@@ -8,7 +8,7 @@
         <h2 class="title text-center">{{$name->dsBrand}}</h2>
         @endforeach
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-9">
                 @php
                 $brand_id=[];
                 $brand_arr=[];
@@ -30,22 +30,29 @@
                 @endforeach
 
             </div>
-            <div class="col-md-6" style="font-weight:bold">
-                Lọc Giá:
+            <div class="col-md-3" style="font-weight:bold width:100%">
+                <label for="amount" style="font-weight:bold">Lọc Giá:</label>
                 <form>
-                    <div id="slider-range" class="col-md-6">
-                        <div class="col-md-6">
-                        </div>
+                    <div id="slider-range" class="col-md-12">
                     </div>
-                    <div class="col-md-9">
+                    <div style="width:100%" class="col-md-12">
                         <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-                        <input type="hidden" name="start_price" id="start_price">
-                        <input type="hidden" name="end_price" id="end_price"><br>
-                        <input type="submit" name="filter_price" value="Lọc giá" class="btn btn-warning">
+                        <input type="hidden" name="start_price" id="start_price"/>
+                        <input type="hidden" name="end_price" id="end_price"/><br>
+                        
                     </div>
-
+                    <input type="submit" name="filter_price" value="Lọc giá" class="btn btn-warning">
                 </form>
             </div>
+            <!-- <div id="" class="col-md-4">
+            <label for="amount" style="font-weight:bold">Lọc Giá:</label>
+                <select style="width:100%" name="Loc" id="">
+                <datalist id="price">
+                    <option>abc</option>
+                    <option>xyz</option>
+                    </datalist>
+                </select>
+            </div> -->
 
         </div>
         <div class="content-main w-clear">
@@ -76,7 +83,6 @@
                                 'Liên hệ' }}</span>
                             @endif
                         </p>
-
                         <a class="cart-product text-decoration-none"
                             href="{{ route('chi-tiet-product', ['id' => $item->id]) }}">
                             <span class="btn-add cart-add addcart">

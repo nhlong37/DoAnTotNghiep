@@ -139,7 +139,7 @@
 
     <div class="box-tintuc-video">
         <div class="wap_1200">
-            <div class="wap-tin-video">
+            <!-- <div class="wap-tin-video">
                 <div class="left-intro">
                     <p class="title-intro"><span>Video clip</span></p>
                     <div class="videohome-intro" id="video-select">
@@ -152,8 +152,8 @@
                             <?php } ?>
                         </select>
                     </div>
-                </div>
-                <div class="right-intro">
+                </div> -->
+                <div class="right-intro" style="width:100%">
                     <p class="title-intro"><span>Tin tức mới</span></p>
                     <div class="newshome-intro chay-tt w-clear">
                         {{-- /308x208x1/ --}}

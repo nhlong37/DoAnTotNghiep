@@ -827,14 +827,20 @@ class ProductController extends Controller
 
     public function send_comment(Request $req)
     {
-        $product_id = $req->id_product;
-        //$id_user = $req->id_user;
-        $content = $req->content;
-        $comment = new TableComment();
-        $comment->content = $content;
-        $comment->id_product = $product_id;
-        $comment->content_parent_comment = 0;
-        $comment->save();
+        if (Auth::guard('user')->check()) {
+            $product_id = $req->id_product;
+            //$id_user = $req->id_user;
+            $content = $req->content;
+            $comment = new TableComment();
+            $comment->content = $content;
+            $comment->id_product = $product_id;
+            $comment->content_parent_comment = 0;
+            $comment->save();
+            echo 'Bình luận thành công';
+        }
+        else{
+            echo 'Vui lòng đăng nhập để gửi bình luận !';
+        }
     }
     public function load_comment(Request $req)
     {
@@ -910,12 +916,18 @@ class ProductController extends Controller
     }
     public function insert_rating(Request $req)
     {
-        $data = $req->all();
-        $rating = new TableRating();
-        $rating->id_product = $data['product_id'];
-        $rating->rating = $data['index'];
-        $rating->save();
-        echo 'Đánh giá thành công';
+        if (Auth::guard('user')->check()) {
+            $data = $req->all();
+            $rating = new TableRating();
+            $rating->id_product = $data['product_id'];
+            $rating->rating = $data['index'];
+            $rating->save();
+            echo 'Đánh giá thành công';
+        }
+        else
+        {
+            echo 'Vui lòng đăng nhập để đánh giá sản phẩm!';
+        }
     }
 
     // ---------------- USER ---------------- //    

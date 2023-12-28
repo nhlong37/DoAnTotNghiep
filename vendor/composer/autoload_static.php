@@ -578,6 +578,7 @@ class ComposerStaticInit585eb8fbe9d07c015a27114c727eae47
     public static $classMap = array (
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Exports\\ExportFile' => __DIR__ . '/../..' . '/app/Exports/ExportFile.php',
         'App\\Http\\Controllers\\ArticleCotroller' => __DIR__ . '/../..' . '/app/Http/Controllers/ArticleCotroller.php',
         'App\\Http\\Controllers\\ColorController' => __DIR__ . '/../..' . '/app/Http/Controllers/ColorController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
@@ -586,6 +587,8 @@ class ComposerStaticInit585eb8fbe9d07c015a27114c727eae47
         'App\\Http\\Controllers\\PhotoController' => __DIR__ . '/../..' . '/app/Http/Controllers/PhotoController.php',
         'App\\Http\\Controllers\\ProductController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProductController.php',
         'App\\Http\\Controllers\\ReturnTpl' => __DIR__ . '/../..' . '/app/Http/Controllers/ReturnTpl.php',
+        'App\\Http\\Controllers\\StaticticalController' => __DIR__ . '/../..' . '/app/Http/Controllers/StaticticalController.php',
+        'App\\Http\\Controllers\\TypeArticleCotroller' => __DIR__ . '/../..' . '/app/Http/Controllers/TypeArticleCotroller.php',
         'App\\Http\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
