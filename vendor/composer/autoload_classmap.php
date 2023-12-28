@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
+    'App\\Exports\\ExportFile' => $baseDir . '/app/Exports/ExportFile.php',
     'App\\Http\\Controllers\\ArticleCotroller' => $baseDir . '/app/Http/Controllers/ArticleCotroller.php',
     'App\\Http\\Controllers\\ColorController' => $baseDir . '/app/Http/Controllers/ColorController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
@@ -16,6 +17,8 @@ return array(
     'App\\Http\\Controllers\\PhotoController' => $baseDir . '/app/Http/Controllers/PhotoController.php',
     'App\\Http\\Controllers\\ProductController' => $baseDir . '/app/Http/Controllers/ProductController.php',
     'App\\Http\\Controllers\\ReturnTpl' => $baseDir . '/app/Http/Controllers/ReturnTpl.php',
+    'App\\Http\\Controllers\\StaticticalController' => $baseDir . '/app/Http/Controllers/StaticticalController.php',
+    'App\\Http\\Controllers\\TypeArticleCotroller' => $baseDir . '/app/Http/Controllers/TypeArticleCotroller.php',
     'App\\Http\\Controllers\\UserController' => $baseDir . '/app/Http/Controllers/UserController.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
     'App\\Http\\Middleware\\Authenticate' => $baseDir . '/app/Http/Middleware/Authenticate.php',
