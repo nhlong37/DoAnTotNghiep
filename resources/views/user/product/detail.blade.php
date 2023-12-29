@@ -1,7 +1,7 @@
 @extends('user.index')
 @section('body')
 <div class="wap_detail">
-    <div class="grid-pro-detail w-clear">
+    <div class="grid-pro-detail w-clear" data-id="{{ $rowDetail->id }}">
         <div class="row">
             <div class="left-pro-detail col-md-6 col-lg-6 mb-4">
                 <div class="photo-prodetail">
@@ -83,26 +83,10 @@
                                 <input type="number" class="qty-pro" min="1" value="1" readonly />
                                 <span class="quantity-plus-pro-detail increase"><i class="fa-solid fa-plus"></i></span>
                             </div>
-                            <div class="show-available ml-4">Còn <span class="quantity-available">{{
-                                    $rowDetail->quantity }}</span> sản phẩm có sẵn</div>
+                            <div class="show-available ml-4">Còn <span class="quantity-available">0</span> sản phẩm có sẵn</div>
                         </div>
                     </li>
-                    <li class="color-block-pro-detail w-clear">
-                        <label class="attr-label-pro-detail d-block">Màu sắc:</label>
-                        <div class="attr-content-pro-detail d-block">
-                            @if (count($rowColor))
-                            @foreach ($rowColor as $k => $v)
-                            <label for="color-pro-detail-{{ $v->id }}" class="color-pro-detail text-decoration-none"
-                                data-idproduct="{{ $rowDetail->id }}" style="background-color: {{ $v->code }}">
-                                <input type="radio" value="{{ $v->id }}" id="color-pro-detail-{{ $v->id }}"
-                                    name="color-pro-detail">
-                            </label>
-                            @endforeach
-                            @else
-                            Chưa có màu sắc
-                            @endif
-                        </div>
-                    </li>
+                    <input type="hidden" value="{{$rowDetail->id}}" class="id-pro-detail" />
                     <li class="size-block-pro-detail w-clear">
                         <label class="attr-label-pro-detail d-block">Size:</label>
                         <div class="attr-content-pro-detail d-block">
@@ -120,6 +104,22 @@
                         </div>
                     </li>
 
+                    <li class="color-block-pro-detail w-clear">
+                        <label class="attr-label-pro-detail d-block">Màu sắc:</label>
+                        <div class="attr-content-pro-detail d-block">
+                            @if (count($rowColor))
+                            @foreach ($rowColor as $k => $v)
+                            <label for="color-pro-detail-{{ $v->id }}" class="color-pro-detail text-decoration-none"
+                                data-idproduct="{{ $rowDetail->id }}" style="background-color: {{ $v->code }}">
+                                <input type="radio" value="{{ $v->id }}" id="color-pro-detail-{{ $v->id }}"
+                                    name="color-pro-detail">
+                            </label>
+                            @endforeach
+                            @else
+                            Chưa có màu sắc
+                            @endif
+                        </div>
+                    </li>
                 </ul>
                 <div class="cart-pro-detail">
                     <a class="btn btn-success add-cart rounded-0 mr-2" data-id="{{ $rowDetail->id }}">

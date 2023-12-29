@@ -38,29 +38,6 @@
                 }
             }]
         });
-        $('.chay-yk').slick({
-            lazyLoad: 'progressive',
-            infinite: true,
-            accessibility: true,
-            vertical: false,
-            slidesToShow: 2,
-            slidesToScroll: 1,
-            autoplay: true,
-            autoplaySpeed: 3000,
-            speed: 1000,
-            arrows: false,
-            centerMode: false,
-            dots: false,
-            draggable: true,
-            responsive: [{
-                breakpoint: 871,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    arrows: false
-                }
-            }]
-        });
         $('.chay-tt').slick({
             lazyLoad: 'progressive',
             infinite: true,

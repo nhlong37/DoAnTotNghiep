@@ -17,23 +17,21 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="card-footer text-sm sticky-top">
-                    <a class="btn btn-sm bg-gradient-primary text-white" href="{{ route('them-moi-bai-viet-admin') }}"
+                    <a class="btn btn-sm bg-gradient-primary text-white" href="{{ route('them-moi-tin-tuc-admin') }}"
                         title="Thêm mới"><i class="fas fa-plus mr-2"></i>Thêm mới</a>
                     
                     <div class="form-inline form-search d-inline-block align-middle ml-3">
-                        
                             <div class="input-group input-group-sm">
                                 <input class="form-control form-control-navbar text-sm" type="search" name="keyword"
                                     id="keyword" placeholder="Tìm kiếm" aria-label="Tìm kiếm" value=""
-                                    data-href="new">
+                                    data-href="tin-tuc">
                                 <input type="hidden" value="">
                                 <div class="input-group-append bg-primary rounded-right">
-                                    <button class="btn btn-navbar text-white btn-search" type="submit">
+                                    <button class="btn btn-navbar text-white btn-search-article" type="submit">
                                         <i class="fas fa-search"></i>
                                     </button>
                                 </div>
                             </div>
-                        
                     </div>
                 </div>
 
@@ -67,7 +65,7 @@
                                             </td>
 
                                             <td class="align-middle">
-                                                <a href="{{ route('sua-doi-bai-viet-admin', ['id' => $item->id]) }}"
+                                                <a href="{{ route('sua-doi-tin-tuc-admin', ['id' => $item->id]) }}"
                                                     title="{{ $item->name }}">
                                                     <img class="rounded img-preview"
                                                         src="{{ asset('upload/article/' . $item->photo) }}"
@@ -78,13 +76,13 @@
 
                                             <td class="align-middle">
                                                 <a class="text-dark text-break"
-                                                    href="{{ route('sua-doi-bai-viet-admin', ['id' => $item->id]) }}"
+                                                    href="{{ route('sua-doi-tin-tuc-admin', ['id' => $item->id]) }}"
                                                     title="{{ $item->name }}">{{ $item->name }}</a>
                                             </td>
 
                                             <td class="align-middle text-center text-md text-nowrap">
                                                 <a class="text-primary mr-2 modify-item"
-                                                    href="{{ route('sua-doi-bai-viet-admin', ['id' => $item->id]) }}"
+                                                    href="{{ route('sua-doi-tin-tuc-admin', ['id' => $item->id]) }}"
                                                     title="Chỉnh sửa"><i class="fas fa-edit"></i></a>
 
                                                 <a class="text-danger delete-item"

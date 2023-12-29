@@ -71,8 +71,8 @@ class ProductController extends Controller
         if ($req->file != null) {
             // kiểm tra kích thước
             $size = $req->file->getSize();
-            if ($size > 512000) {
-                return "Dung lượng hình ảnh lớn. Dung lượng cho phép <= 500MB ~ 512000KB";
+            if ($size > 102400) {
+                return "Dung lượng hình ảnh lớn. Dung lượng cho phép <= 100MB ~ 102400KB";
             }
             // lọc ra đuôi file
             $extension = $req->file->getClientOriginalExtension();
@@ -178,9 +178,9 @@ class ProductController extends Controller
         if ($req->file != null) {
             // kiểm tra kích thước
             $size = $req->file->getSize();
-            if ($size > 512000) {
+            if ($size > 102400) {
 
-                return "Dung lượng hình ảnh lớn. Dung lượng cho phép <= 100MB ~ 512000KB";
+                return "Dung lượng hình ảnh lớn. Dung lượng cho phép <= 100MB ~ 102400KB";
             }
             // lọc ra đuôi file
             $extension = $req->file->getClientOriginalExtension();
@@ -582,7 +582,7 @@ class ProductController extends Controller
         $limit = 10;
         //latest() = orderBy('created_at','desc')
         $dsRating = TableRating::latest()->paginate($limit);
-
+            
         // lấy trang hiện tại
         $current = $dsRating->currentPage();
         // lấy số thứ tự đầu tiên nhưng theo dạng mảng (là số 0)
@@ -648,6 +648,7 @@ class ProductController extends Controller
         $dsGallery = TableAlbum::where('id_product', $id)->get();
         $listSelectedColor = TableVariantsPCS::where('id_product', $id)->get();
         $listSelectedSize = TableVariantsPCS::where('id_product', $id)->get();
+        
         // Lấy mảng id từ danh sách color theo sản phẩm
         $arrIdColor = [];
         foreach ($listSelectedColor as $k => $v) {
@@ -660,18 +661,27 @@ class ProductController extends Controller
             array_push($arrIdSize, $v->id_size);
         }
 
+        $dsSoLuong = TableVariantsPCS::where('id_product', $req->idProduct)->where('id_size',$req->idSize)->where('id_color',$req->idColor)
+            ->select('table_variants_pcs.quantity')
+            ->first();
+
         $rowColor  = TableColor::whereIn('id', $arrIdColor)->get();
         $rowSize  = TableSize::whereIn('id', $arrIdSize)->get();
         $rating = TableRating::where('id_product', $id)->avg('rating');
         $rating = round($rating);
-
-        return view('.user.product.detail', ['rowDetail' => $detailProduct], compact('rowColor', 'rowSize', 'dsGallery', 'rating'));
+        if($req->ajax()){
+            return Response($dsSoLuong);
+        }
+        else{
+            return view('.user.product.detail', ['rowDetail' => $detailProduct], compact('rowColor', 'rowSize', 'dsGallery', 'rating'));
+        }
     }
 
     public function viewCart()
     {
         $colors = TableColor::all();
         $sizes = TableSize::all();
+        
         return view('.user.order.order', compact('colors', 'sizes'));
     }
 
@@ -702,6 +712,9 @@ class ProductController extends Controller
         $code_order = $req->id . $req->id_color . $req->id_size;
         // tạo session
         $Itemproduct = TableProduct::findOrFail($req->id);
+        $ItemproductSoLuong = TableVariantsPCS::where('id_product', $req->id)->where('id_size',$req->id_size)->where('id_color',$req->id_color)
+            ->select('table_variants_pcs.quantity')
+            ->first();
         // kiểm tra session giỏ hàng có tồn tại và không rỗng
         if (!empty(session()->get('cart'))) {
             $cart = session()->get('cart');
@@ -715,7 +728,7 @@ class ProductController extends Controller
                     "price_regular" => $Itemproduct->price_regular,
                     "price_sale" => $Itemproduct->sale_price,
                     "image" => $Itemproduct->photo,
-                    "available" => $Itemproduct->quantity,
+                    "available" => $ItemproductSoLuong->quantity,
                     "id_product" => $Itemproduct->id,
                     "id_color" => $req->id_color,
                     "id_size" => $req->id_size,
@@ -732,7 +745,7 @@ class ProductController extends Controller
                 "price_regular" => $Itemproduct->price_regular,
                 "price_sale" => $Itemproduct->sale_price,
                 "image" => $Itemproduct->photo,
-                "available" => $Itemproduct->quantity,
+                "available" => $ItemproductSoLuong->quantity,
                 "id_product" => $req->id,
                 "id_color" => $req->id_color,
                 "id_size" => $req->id_size,
