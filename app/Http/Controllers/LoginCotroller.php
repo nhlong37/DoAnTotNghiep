@@ -37,7 +37,7 @@ class LoginCotroller extends Controller
 
     public function xlLogoutAdmin(Request $req): RedirectResponse
     {
-        if (Auth::guard('admin')->check()) // this means that the user was logged in.
+        if (Auth::guard('admin')->check()) // kiểm đã đăng nhập chưa
         {
             Auth::guard('admin')->logout();
             $req->session()->regenerateToken();
@@ -91,7 +91,7 @@ class LoginCotroller extends Controller
         return redirect()->route('trang-chu-admin');
     }
 
-    function index_change()
+    function index_change_password_admin()
     {
         return view('.admin.login.change_password');
     }
@@ -190,7 +190,7 @@ class LoginCotroller extends Controller
         return redirect()->route('trang-chu-user');
     }
 
-    function index_change_user()
+    function index_change_password_user()
     {
         return view('.user.login.change_password');
     }

@@ -29,7 +29,7 @@ class CheckAuth
             else{
                 return redirect('/login-admin');
             }
-        } elseif ($role == 'user') {
+        } else if ($role == 'user') {
             if(auth()->guard('user')->check()){
                 if (auth()->guard('user')->user()->id_role == 2 ) {
                     return $next($request);
@@ -41,7 +41,7 @@ class CheckAuth
                 return redirect('/login-user');
             }
         } else {
-            return redirect('/login');
+            return redirect('/login-user');
         }
     }
 }

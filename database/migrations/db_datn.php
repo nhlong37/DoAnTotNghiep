@@ -59,7 +59,7 @@ return new class extends Migration
             $table->string('photo')->nullable();
             $table->double('price_regular')->nullable();
             $table->double('sale_price')->nullable();
-            // $table->string('status')->nullable();
+            $table->string('view')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -179,7 +179,7 @@ return new class extends Migration
             $table->string('name');
             $table->mediumText('content')->nullable();
             $table->string('photo')->nullable();
-            //$table->string('status')->nullable();
+            $table->integer('view')->default(0);
             $table->string('type');
             $table->timestamps();
             $table->softDeletes();

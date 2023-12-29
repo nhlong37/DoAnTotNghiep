@@ -4068,14 +4068,20 @@ function readImage(inputFile, elementPhoto) {
                 };
                 reader.readAsDataURL(inputFile[0].files[0]);
             } else {
-                notifyDialog(
-                    "Dung lượng hình ảnh lớn. Dung lượng cho phép <= 100MB ~ 4096KB"
-                );
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Dung lượng hình ảnh lớn. Dung lượng cho phép <= 100MB ~ 102400KBx",
+                });
                 return false;
             }
         } else {
             $(elementPhoto).attr("src", "");
-            notifyDialog("Định dạng hình ảnh không hợp lệ");
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Định dạng hình ảnh không hợp lệ",
+            });
             return false;
         }
     } else {
@@ -4286,6 +4292,36 @@ $(document).ready(function () {
     });
 });
 
+$(document).ready(function () {
+    $(".delete-item").on("click", function () {
+        var href = $(this).data("href");
+        var id = $(this).data("id");
+        Swal.fire({
+            title: "Thông báo",
+            text: "Bạn muốn xóa mục này?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Đồng ý",
+            cancelButtonText: "Huỷ",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "GET",
+                    url: "/admin/article/"+href+"/delete-"+href,
+                    data: {
+                        id: id,
+                    },
+                    success: function (response) {
+                        window.location.href = "/admin/article/"+href;
+                    },
+                });
+            }
+        });
+    });
+});
+
 /* Search */
 $("body").on("click", ".btn-search", function () {
     var href = $(".form-control-navbar").val();
@@ -4304,3 +4340,20 @@ $("body").on("click", ".btn-search", function () {
     }
 });
 
+/* Search bài viết */
+$("body").on("click", ".btn-search-article", function () {
+    var href = $(".form-control-navbar").val();
+    if ($(".form-control-navbar").val() == "") {
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Bạn chưa nhập từ khoá!",
+        });
+    } else {
+        window.location.href =
+            "/admin/article/" +
+            $(".form-control#keyword").data("href") +
+            "/search/" +
+            $(".form-control-navbar").val();
+    }
+});

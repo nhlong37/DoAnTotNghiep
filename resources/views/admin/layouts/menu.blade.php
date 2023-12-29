@@ -193,25 +193,31 @@
                     </ul>
                 </li>
                 <li
-                    class="nav-item {{ $name == 'bai-viet-admin' ||
-                    $name == 'them-moi-bai-viet-admin' ||
-                    $name == 'sua-doi-bai-viet-admin' ||
-                    $name == 'loai-bai-viet-admin' ||
-                    $name == 'them-moi-loai-bai-viet-admin' ||
-                    $name == 'sua-doi-loai-bai-viet-admin' ||
+                    class="nav-item {{ $name == 'tin-tuc-admin' ||
+                    $name == 'them-moi-tin-tuc-admin' ||
+                    $name == 'sua-doi-tin-tuc-admin' ||
+                    $name == 'loai-tin-tuc-admin' ||
+                    $name == 'them-moi-loai-tin-tuc-admin' ||
+                    $name == 'sua-doi-loai-tin-tuc-admin' ||
                     $name == 'tim-kiem-article' ||
-                    $name == 'tim-kiem-type-article'
+                    $name == 'chinh-sach-admin' ||
+                    $name == 'them-moi-chinh-sach-admin' ||
+                    $name == 'sua-doi-chinh-sach-admin' ||
+                     $name == 'tim-kiem-chinh-sach'
                         ? 'menu-open'
                         : '' }}">
                     <a
-                        class="nav-link {{ $name == 'bai-viet-admin' ||
-                        $name == 'them-moi-bai-viet-admin' ||
-                        $name == 'sua-doi-bai-viet-admin' ||
-                        $name == 'loai-bai-viet-admin' ||
-                        $name == 'them-moi-loai-bai-viet-admin' ||
-                        $name == 'sua-doi-loai-bai-viet-admin' ||
+                        class="nav-link {{ $name == 'tin-tuc-admin' ||
+                        $name == 'them-moi-tin-tuc-admin' ||
+                        $name == 'sua-doi-tin-tuc-admin' ||
+                        $name == 'loai-tin-tuc-admin' ||
+                        $name == 'them-moi-loai-tin-tuc-admin' ||
+                        $name == 'sua-doi-loai-tin-tuc-admin' ||
                         $name == 'tim-kiem-article' ||
-                        $name == 'tim-kiem-type-article'
+                        $name == 'chinh-sach-admin' ||
+                        $name == 'them-moi-chinh-sach-admin' ||
+                        $name == 'sua-doi-chinh-sach-admin' ||
+                        $name == 'tim-kiem-chinh-sach'
                             ? 'active'
                             : '' }} ">
                         <i class="nav-icon fas fa-duotone fa-clipboard"></i>
@@ -222,11 +228,11 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('bai-viet-admin') }}"
-                                class="nav-link {{ $name == 'bai-viet-admin' ||
-                                $name == 'them-moi-bai-viet-admin' ||
-                                $name == 'sua-doi-bai-viet-admin' ||
-                                $name == 'tim-kiem-article'
+                            <a href="{{ route('tin-tuc-admin') }}"
+                                class="nav-link {{ $name == 'tin-tuc-admin' ||
+                                $name == 'them-moi-tin-tuc-admin' ||
+                                $name == 'sua-doi-tin-tuc-admin' ||
+                                $name == 'tim-kiem-tin-tuc'
                                     ? 'active'
                                     : '' }}">
                                 <i class="nav-icon-small fas fa-circle fa-2xs"></i>
@@ -234,20 +240,20 @@
                             </a>
                         </li>
                     </ul>
-                    {{-- <ul class="nav nav-treeview">
+                    <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('bai-viet-admin') }}"
-                                class="nav-link {{ $name == 'bai-viet-admin' ||
-                                $name == 'them-moi-bai-viet-admin' ||
-                                $name == 'sua-doi-bai-viet-admin' ||
-                                $name == 'tim-kiem-article'
+                            <a href="{{ route('chinh-sach-admin') }}"
+                                class="nav-link {{ $name == 'chinh-sach-admin' ||
+                                $name == 'them-moi-chinh-sach-admin' ||
+                                $name == 'sua-doi-chinh-sach-admin' ||
+                                $name == 'tim-kiem-chinh-sach'
                                     ? 'active'
                                     : '' }}">
                                 <i class="nav-icon-small fas fa-circle fa-2xs"></i>
                                 <p>Danh sách chính sách</p>
                             </a>
                         </li>
-                    </ul> --}}
+                    </ul>
                     
                 </li>
 
@@ -274,26 +280,26 @@
                 </li>
 
                 <li
-                    class="nav-item {{ $name == 'binh-luan-admin' || $name == 'them-moi-hinh-anh-admin' || $name == 'sua-doi-hinh-anh-admin' ? 'menu-open' : '' }}">
+                    class="nav-item {{ $name == 'binh-luan-admin' || $name == 'danh-gia-admin' ? 'menu-open' : '' }}">
                     <a
-                        class="nav-link {{ $name == 'binh-luan-admin' || $name == 'them-moi-hinh-anh-admin' || $name == 'sua-doi-hinh-anh-admin' ? 'active' : '' }} ">
+                        class="nav-link {{ $name == 'binh-luan-admin' || $name == 'danh-gia-admin' ? 'active' : '' }} ">
                         <i class="nav-icon fas fa-duotone fa-comment"></i>
                         <p>
-                            Quản lý bình luận
+                            Quản lý bluận - đgiá
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{ route('binh-luan-admin') }}"
-                                class="nav-link {{ $name == 'binh-luan-admin' || $name == 'them-moi-hinh-anh-admin' || $name == 'sua-doi-hinh-anh-admin' ? 'active' : '' }}">
+                                class="nav-link {{ $name == 'binh-luan-admin' ? 'active' : '' }}">
                                 <i class="nav-icon-small fas fa-circle fa-2xs"></i>
                                 <p>Danh sách bình luận</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('danh-gia-admin') }}"
-                                class="nav-link {{ $name == 'danh-gia-admin' || $name == 'them-moi-hinh-anh-admin' || $name == 'sua-doi-hinh-anh-admin' ? 'active' : '' }}">
+                                class="nav-link {{ $name == 'danh-gia-admin' ? 'active' : '' }}">
                                 <i class="nav-icon-small fas fa-circle fa-2xs"></i>
                                 <p>Danh sách đánh giá</p>
                             </a>
