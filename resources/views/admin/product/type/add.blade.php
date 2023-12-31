@@ -8,7 +8,7 @@
                         <li class="breadcrumb-item"><a href="{{ route('trang-chu-admin') }}" title="Bảng điều khiển">Bảng điều
                                 khiển</a></li>
 
-                        <li class="breadcrumb-item"><a href="{{ route('sanpham-lv2-admin') }}"
+                        <li class="breadcrumb-item"><a href="{{ route('loai-admin') }}"
                                 title="Quản lý loại sản phẩm">Quản lý loại sản phẩm</a></li>
 
                         <li class="breadcrumb-item active">Thêm mới loại sản phẩm</li>
@@ -18,7 +18,7 @@
         </section>
         <section class="content">
             <div class="container-fluid">
-                <form class="validation-form" method="post" action="{{ route('xl-themmoi-sanpham-lv2-admin') }}"
+                <form class="validation-form" method="post" action="{{ route('xl-themmoi-loai-admin') }}"
                     enctype="multipart/form-data">
                     @csrf
                     <div class="card-footer text-sm sticky-top">
@@ -26,7 +26,7 @@
                                 class="far fa-save mr-2"></i>Lưu</button>
                         <button type="reset" class="btn btn-sm bg-gradient-secondary"><i class="fas fa-redo mr-2"></i>Làm
                             lại</button>
-                        <a class="btn btn-sm bg-gradient-danger" href="{{ route('sanpham-lv2-admin') }}" title="Thoát"><i
+                        <a class="btn btn-sm bg-gradient-danger" href="{{ route('loai-admin') }}" title="Thoát"><i
                                 class="fas fa-sign-out-alt mr-2"></i>Thoát</a>
                     </div>
 

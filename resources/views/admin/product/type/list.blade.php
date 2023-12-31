@@ -17,7 +17,7 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="card-footer text-sm sticky-top">
-                    <a class="btn btn-sm bg-gradient-primary text-white" href="{{ route('themmoi-sanpham-lv2-admin') }}"
+                    <a class="btn btn-sm bg-gradient-primary text-white" href="{{ route('themmoi-loai-admin') }}"
                         title="Thêm mới"><i class="fas fa-plus mr-2"></i>Thêm mới</a>
                     <div class="form-inline form-search d-inline-block align-middle ml-3">
 
@@ -72,7 +72,7 @@
                                             </td>
 
                                             {{-- <td class="align-middle">
-                                                <a href="{{ route('suadoi-sanpham-lv2-admin', ['id' => $item->id]) }}"
+                                                <a href="{{ route('suadoi-loai-admin', ['id' => $item->id]) }}"
                                                     title="{{ $item->name }}">
                                                     <img class="rounded img-preview"
                                                         src="{{ asset('upload/product/' . $item->photo) }}"
@@ -83,13 +83,13 @@
 
                                             <td class="align-middle">
                                                 <a class="text-dark text-break"
-                                                    href="{{ route('suadoi-sanpham-lv2-admin', ['id' => $item->id]) }}"
+                                                    href="{{ route('suadoi-loai-admin', ['id' => $item->id]) }}"
                                                     title="{{ $item->name }}">{{ $item->name }}</a>
                                             </td>
 
                                             <td class="align-middle text-center text-md text-nowrap">
                                                 <a class="text-primary mr-2 modify-item"
-                                                    href="{{ route('suadoi-sanpham-lv2-admin', ['id' => $item->id]) }}"
+                                                    href="{{ route('suadoi-loai-admin', ['id' => $item->id]) }}"
                                                     title="Chỉnh sửa"><i class="fas fa-edit"></i></a>
                                                 <a class="text-danger delete-item" data-id="{{ $item->id }}" data-href="type"
                                                     title="Xóa"><i class="fas fa-trash-alt"></i></a>

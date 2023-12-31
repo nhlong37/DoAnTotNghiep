@@ -19,20 +19,23 @@
                 <div class="card-footer text-sm sticky-top">
                     <a class="btn btn-sm bg-gradient-primary text-white" href="{{ route('them-moi-tin-tuc-admin') }}"
                         title="Thêm mới"><i class="fas fa-plus mr-2"></i>Thêm mới</a>
-                    
+
                     <div class="form-inline form-search d-inline-block align-middle ml-3">
-                            <div class="input-group input-group-sm">
-                                <input class="form-control form-control-navbar text-sm" type="search" name="keyword"
-                                    id="keyword" placeholder="Tìm kiếm" aria-label="Tìm kiếm" value=""
-                                    data-href="tin-tuc">
-                                <input type="hidden" value="">
-                                <div class="input-group-append bg-primary rounded-right">
-                                    <button class="btn btn-navbar text-white btn-search-article" type="submit">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
+                        <div class="input-group input-group-sm">
+                            <input class="form-control form-control-navbar text-sm" type="search" name="keyword"
+                                id="keyword" placeholder="Tìm kiếm" aria-label="Tìm kiếm" value=""
+                                data-href="tin-tuc">
+                            <input type="hidden" value="">
+                            <div class="input-group-append bg-primary rounded-right">
+                                <button class="btn btn-navbar text-white btn-search-article" type="submit">
+                                    <i class="fas fa-search"></i>
+                                </button>
                             </div>
+                            <a class="btn btn-sm bg-gradient-danger text-white ml-1" href="{{ route('tin-tuc-admin') }}"
+                                title="Huỷ tìm kiếm"><i class="fas fa-times mr-1"></i>Huỷ tìm kiếm</a>
+                        </div>
                     </div>
+
                 </div>
 
                 <div class="card card-primary card-outline text-sm mb-0">
@@ -56,7 +59,7 @@
                             @if (count($dsNew))
                                 @foreach ($dsNew as $k => $item)
                                     <tbody>
-                                        <tr data-id="{{$item->id}}">
+                                        <tr data-id="{{ $item->id }}">
 
                                             <td class="align-middle">
                                                 <input type="number"
@@ -85,10 +88,9 @@
                                                     href="{{ route('sua-doi-tin-tuc-admin', ['id' => $item->id]) }}"
                                                     title="Chỉnh sửa"><i class="fas fa-edit"></i></a>
 
-                                                <a class="text-danger delete-item"
-                                                    data-href="article"
-                                                    data-id="{{$item->id}}"
-                                                    title="Xóa"><i class="fas fa-trash-alt"></i></a>
+                                                <a class="text-danger delete-item" data-href="article"
+                                                    data-id="{{ $item->id }}" title="Xóa"><i
+                                                        class="fas fa-trash-alt"></i></a>
                                             </td>
                                         </tr>
                                     </tbody>

@@ -17,7 +17,7 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="card-footer text-sm sticky-top">
-                    <a class="btn btn-sm bg-gradient-primary text-white" href="{{ route('themmoi-sanpham-lv1-admin') }}"
+                    <a class="btn btn-sm bg-gradient-primary text-white" href="{{ route('themmoi-thuong-hieu-admin') }}"
                         title="Thêm mới"><i class="fas fa-plus mr-2"></i>Thêm mới</a>
                     <div class="form-inline form-search d-inline-block align-middle ml-3">
 
@@ -31,6 +31,8 @@
                                     <i class="fas fa-search"></i>
                                 </button>
                             </div>
+                            <a class="btn btn-sm bg-gradient-danger text-white ml-1" href="{{ route('san-pham-admin') }}"
+                                title="Huỷ tìm kiếm"><i class="fas fa-times mr-1"></i>Huỷ tìm kiếm</a>
                         </div>
 
                     </div>
@@ -81,7 +83,7 @@
                                             </td>
 
                                             {{-- <td class="align-middle">
-                                                <a href="{{ route('suadoi-sanpham-lv1-admin', ['id' => $item->id]) }}"
+                                                <a href="{{ route('suadoi-thuong-hieu-admin', ['id' => $item->id]) }}"
                                                     title="{{ $item->name }}">
                                                     <img class="rounded img-preview"
                                                         src="{{ asset('upload/product/' . $item->photo) }}"
@@ -92,16 +94,16 @@
 
                                             <td class="align-middle">
                                                 <a class="text-dark text-break"
-                                                    href="{{ route('suadoi-sanpham-lv1-admin', ['id' => $item->id]) }}"
+                                                    href="{{ route('suadoi-thuong-hieu-admin', ['id' => $item->id]) }}"
                                                     title="{{ $item->name }}">{{ $item->name }}</a>
                                             </td>
 
                                             <td class="align-middle text-center text-md text-nowrap">
                                                 <a class="text-primary mr-2 modify-item"
-                                                    href="{{ route('suadoi-sanpham-lv1-admin', ['id' => $item->id]) }}"
+                                                    href="{{ route('suadoi-thuong-hieu-admin', ['id' => $item->id]) }}"
                                                     title="Chỉnh sửa"><i class="fas fa-edit"></i></a>
-                                                <a class="text-danger delete-item" data-id="{{ $item->id }}" data-href="brand"
-                                                    title="Xóa"><i class="fas fa-trash-alt"></i></a>
+                                                <a class="text-danger delete-item" data-id="{{ $item->id }}"
+                                                    data-href="brand" title="Xóa"><i class="fas fa-trash-alt"></i></a>
                                             </td>
                                         </tr>
                                     </tbody>
