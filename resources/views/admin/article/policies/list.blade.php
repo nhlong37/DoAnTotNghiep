@@ -7,7 +7,7 @@
                     <ol class="breadcrumb float-sm-left pl-3">
                         <li class="breadcrumb-item"><a href="{{ route('trang-chu-admin') }}" title="Bảng điều khiển">Bảng điều
                                 khiển</a></li>
-                        <li class="breadcrumb-item active">Quản lý bài viết</li>
+                        <li class="breadcrumb-item active">Quản lý chính sách</li>
                     </ol>
                 </div>
             </div>
@@ -17,7 +17,7 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="card-footer text-sm sticky-top">
-                    <a class="btn btn-sm bg-gradient-primary text-white" href="{{ route('them-moi-bai-viet-admin') }}"
+                    <a class="btn btn-sm bg-gradient-primary text-white" href="{{ route('them-moi-chinh-sach-admin') }}"
                         title="Thêm mới"><i class="fas fa-plus mr-2"></i>Thêm mới</a>
                     
                     <div class="form-inline form-search d-inline-block align-middle ml-3">
@@ -28,7 +28,7 @@
                                     data-href="new">
                                 <input type="hidden" value="">
                                 <div class="input-group-append bg-primary rounded-right">
-                                    <button class="btn btn-navbar text-white btn-search" type="submit">
+                                    <button class="btn btn-navbar text-white btn-search-article" type="submit">
                                         <i class="fas fa-search"></i>
                                     </button>
                                 </div>
@@ -39,7 +39,7 @@
 
                 <div class="card card-primary card-outline text-sm mb-0">
                     <div class="card-header">
-                        <h3 class="card-title"><b>Danh sách bài viết</b></h3>
+                        <h3 class="card-title"><b>Danh sách chính sách</b></h3>
                     </div>
                     <div class="card-body table-responsive p-0">
                         <table class="table card-table table-hover">
@@ -49,8 +49,6 @@
                                     <th class="align-middle text-center" width="10%">STT</th>
 
                                     <th class="align-middle">Hình</th>
-
-                                    <th class="align-middle">Hình2</th>
 
                                     <th class="align-middle" style="width:30%">Tên</th>
 
@@ -69,7 +67,7 @@
                                             </td>
 
                                             <td class="align-middle">
-                                                <a href="{{ route('sua-doi-bai-viet-admin', ['id' => $item->id]) }}"
+                                                <a href="{{ route('sua-doi-chinh-sach-admin', ['id' => $item->id]) }}"
                                                     title="{{ $item->name }}">
                                                     <img class="rounded img-preview"
                                                         src="{{ asset('upload/article/' . $item->photo) }}"
@@ -79,25 +77,14 @@
                                             </td>
 
                                             <td class="align-middle">
-                                                <a href="{{ route('sua-doi-bai-viet-admin', ['id' => $item->id]) }}"
-                                                    title="{{ $item->name }}">
-                                                    <img class="rounded img-preview"
-                                                        src="{{ asset('upload/article/' . $item->photo2) }}"
-                                                        onerror="src='{{ asset('assets/admin/images/noimage.png') }}'"
-                                                        alt="Alt Photo" style="" />
-                                                </a>
-                                            </td>
-
-                                            <td class="align-middle">
                                                 <a class="text-dark text-break"
-                                                    href="{{ route('sua-doi-bai-viet-admin', ['id' => $item->id]) }}"
+                                                    href="{{ route('sua-doi-chinh-sach-admin', ['id' => $item->id]) }}"
                                                     title="{{ $item->name }}">{{ $item->name }}</a>
                                             </td>
 
-
                                             <td class="align-middle text-center text-md text-nowrap">
                                                 <a class="text-primary mr-2 modify-item"
-                                                    href="{{ route('sua-doi-bai-viet-admin', ['id' => $item->id]) }}"
+                                                    href="{{ route('sua-doi-chinh-sach-admin', ['id' => $item->id]) }}"
                                                     title="Chỉnh sửa"><i class="fas fa-edit"></i></a>
 
                                                 <a class="text-danger delete-item"

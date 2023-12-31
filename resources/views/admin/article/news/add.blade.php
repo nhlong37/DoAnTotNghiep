@@ -14,7 +14,7 @@
         </section>
         <section class="content">
             <div class="container-fluid">
-                <form class="validation-form" method="post" action="{{ route('xl-them-moi-bai-viet-admin') }}"
+                <form class="validation-form" method="post" action="{{ route('xl-them-moi-tin-tuc-admin') }}"
                     enctype="multipart/form-data">
                     @csrf
                     <div class="card-footer text-sm sticky-top">
@@ -22,7 +22,7 @@
                                 class="far fa-save mr-2"></i>Lưu</button>
                         <button type="reset" class="btn btn-sm bg-gradient-secondary"><i class="fas fa-redo mr-2"></i>Làm
                             lại</button>
-                        <a class="btn btn-sm bg-gradient-danger" href="{{ route('bai-viet-admin') }}" title="Thoát"><i
+                        <a class="btn btn-sm bg-gradient-danger" href="{{ route('tin-tuc-admin') }}" title="Thoát"><i
                                 class="fas fa-sign-out-alt mr-2"></i>Thoát</a>
                     </div>
                     {{-- <div class="card card-primary card-outline text-sm">

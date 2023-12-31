@@ -369,8 +369,19 @@ NN_FRAMEWORK.Cart = function () {
                 .prop("checked", false);
             $this.addClass("active");
             $this.find("input").prop("checked", true);
+
+            $(".color-block-pro-detail")
+                .find(".color-pro-detail")
+                .removeClass("active");
+
+            $(".color-block-pro-detail")
+                .find(".color-pro-detail input")
+                .prop("checked", false);
+
+            $(".qty-pro").val(1);
         });
     }
+
     /* Add Cart */
     $("body").on("click", ".add-cart", function () {
         $this = $(this);
@@ -615,7 +626,7 @@ NN_FRAMEWORK.CheckSubmit = function () {
         var phone = $(".field-phone").val();
         var email = $(".field-email").val();
         var address = $(".field-address").val();
-        
+
         if (name == "") {
             Swal.fire({
                 icon: "error",
@@ -628,7 +639,7 @@ NN_FRAMEWORK.CheckSubmit = function () {
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: "Bạn chưa nhập họ tên!!!",
+                text: "Bạn chưa nhập số điện thoại!!!",
             });
         }
         elseif(email == "");
@@ -679,43 +690,89 @@ NN_FRAMEWORK.ShowPassword = function () {
         }
     });
 };
-// Kiểm tra còn hàng không
-NN_FRAMEWORK.Disable = function () {
-    var available = $(".quantity-available").text();
-    var value = $(".price-new-pro-detail").text();
-    if (available <= 0) {
-        $(".cart-pro-detail .add-cart").addClass("disable");
-    } else {
-        $(".cart-pro-detail .add-cart").remove("disable");
-    }
-};
 
-NN_FRAMEWORK.Filter = function (){
-    $('.brand-filter').click(function () {
-        var brand = [], tempArray = [];
-        if ($('[data-filters="brand"]:checked').prop('checked')) {
+NN_FRAMEWORK.Filter = function () {
+    $(".brand-filter").click(function () {
+        var brand = [],
+            tempArray = [];
+        if ($('[data-filters="brand"]:checked').prop("checked")) {
             $.each($("[data-filters='brand']:checked"), function () {
                 tempArray.push($(this).val());
             });
             tempArray.reverse();
             if (tempArray.length !== 0) {
-                brand += '?brand=' + tempArray.toString();
+                brand += "?brand=" + tempArray.toString();
             }
             window.location.href = brand;
-        }
-        else {
-            $('[data-filters="brand"]:checked').prop('checked', false);
+        } else {
+            $('[data-filters="brand"]:checked').prop("checked", false);
             tempArray.pop($(this).val());
             tempArray.reverse();
-            brand += '?brand=' + tempArray.toString();
+            brand += "?brand=" + tempArray.toString();
             if (tempArray.length === 0) {
-                brand = 'product';
+                brand = "product";
             }
             window.location.href = brand;
         }
     });
 };
 
+NN_FRAMEWORK.Choose = function () {
+    $(".color-pro-detail").click(function (e) {
+        // e.preventDefault();
+        var idSize = $(".size-pro-detail.active input").val();
+        if (!idSize) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Bạn vui lòng chọn size trước!!!",
+            });
+            return false;
+        } else {
+            idColor = $(this).find("input").val();
+            idProduct = $(".id-pro-detail").val();
+            $.ajax({
+                type: "GET",
+                url: "/detail/" + idProduct,
+                dataType: "json",
+                data: {
+                    idProduct: idProduct,
+                    idSize: idSize,
+                    idColor: idColor,
+                },
+                success: function (response) {
+                    $(".quantity-available").html(response["quantity"]);
+                },
+            });
+        }
+    });
+};
+
+// Kiểm tra còn hàng không
+NN_FRAMEWORK.Disable = function () {
+    $(".cart-pro-detail .add-cart").click(function (e) {
+        if (
+            $(".color-pro-detail").hasClass("active") &&
+            $(".size-pro-detail").hasClass("active")
+        ) {
+            // var available = parseInt($(".quantity-available").text());
+            // alert(available);
+            // if (available <= 0) {
+            //     $(".cart-pro-detail .add-cart").addClass("disable");
+            // } else {
+            //     $(".cart-pro-detail .add-cart").removeClass("disable");
+            // }
+            
+        }
+        else{
+            alert("Bạn vui lòng chọn màu sắc và size");
+        }
+        // else{
+        //     $(".cart-pro-detail .add-cart").addClass("disable");
+        // }
+    });
+    
+};
 
 /* Ready */
 $(document).ready(function () {
@@ -726,8 +783,9 @@ $(document).ready(function () {
     NN_FRAMEWORK.Cart();
     NN_FRAMEWORK.Search();
     NN_FRAMEWORK.RenderPicture();
-    NN_FRAMEWORK.CheckSubmit();
+    //NN_FRAMEWORK.CheckSubmit();
     NN_FRAMEWORK.ShowPassword();
-    NN_FRAMEWORK.Disable();
     NN_FRAMEWORK.Filter();
+    NN_FRAMEWORK.Choose();
+    //NN_FRAMEWORK.Disable();
 });
