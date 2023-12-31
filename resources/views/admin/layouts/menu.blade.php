@@ -83,12 +83,12 @@
                     class="nav-item {{ $name == 'san-pham-admin' ||
                     $name == 'them-moi-san-pham-admin' ||
                     $name == 'sua-doi-san-pham-admin' ||
-                    $name == 'sanpham-lv1-admin' ||
-                    $name == 'themmoi-sanpham-lv1-admin' ||
-                    $name == 'suadoi-sanpham-lv1-admin' ||
-                    $name == 'sanpham-lv2-admin' ||
-                    $name == 'themmoi-sanpham-lv2-admin' ||
-                    $name == 'suadoi-sanpham-lv2-admin' ||
+                    $name == 'thuong-hieu-admin' ||
+                    $name == 'themmoi-thuong-hieu-admin' ||
+                    $name == 'suadoi-thuong-hieu-admin' ||
+                    $name == 'loai-admin' ||
+                    $name == 'themmoi-loai-admin' ||
+                    $name == 'suadoi-loai-admin' ||
                     $name == 'tim-kiem-product' ||
                     $name == 'tim-kiem-brand' ||
                     $name == 'tim-kiem-type'
@@ -99,12 +99,12 @@
                         class="nav-link {{ $name == 'san-pham-admin' ||
                         $name == 'them-moi-san-pham-admin' ||
                         $name == 'sua-doi-san-pham-admin' ||
-                        $name == 'sanpham-lv1-admin' ||
-                        $name == 'themmoi-sanpham-lv1-admin' ||
-                        $name == 'suadoi-sanpham-lv1-admin' ||
-                        $name == 'sanpham-lv2-admin' ||
-                        $name == 'themmoi-sanpham-lv2-admin' ||
-                        $name == 'suadoi-sanpham-lv2-admin' ||
+                        $name == 'thuong-hieu-admin' ||
+                        $name == 'themmoi-thuong-hieu-admin' ||
+                        $name == 'suadoi-thuong-hieu-admin' ||
+                        $name == 'loai-admin' ||
+                        $name == 'themmoi-loai-admin' ||
+                        $name == 'suadoi-loai-admin' ||
                         $name == 'tim-kiem-product' ||
                         $name == 'tim-kiem-brand' ||
                         $name == 'tim-kiem-type'
@@ -130,10 +130,10 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('sanpham-lv1-admin') }}"
-                                class="nav-link {{ $name == 'sanpham-lv1-admin' ||
-                                $name == 'themmoi-sanpham-lv1-admin' ||
-                                $name == 'suadoi-sanpham-lv1-admin' ||
+                            <a href="{{ route('thuong-hieu-admin') }}"
+                                class="nav-link {{ $name == 'thuong-hieu-admin' ||
+                                $name == 'themmoi-thuong-hieu-admin' ||
+                                $name == 'suadoi-thuong-hieu-admin' ||
                                 $name == 'tim-kiem-brand'
                                     ? 'active'
                                     : '' }}">
@@ -142,10 +142,10 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('sanpham-lv2-admin') }}"
-                                class="nav-link {{ $name == 'sanpham-lv2-admin' ||
-                                $name == 'themmoi-sanpham-lv2-admin' ||
-                                $name == 'suadoi-sanpham-lv2-admin' ||
+                            <a href="{{ route('loai-admin') }}"
+                                class="nav-link {{ $name == 'loai-admin' ||
+                                $name == 'themmoi-loai-admin' ||
+                                $name == 'suadoi-loai-admin' ||
                                 $name == 'tim-kiem-type'
                                     ? 'active'
                                     : '' }}">
@@ -258,9 +258,9 @@
                 </li>
 
                 <li
-                    class="nav-item {{ $name == 'hinh-anh-admin' || $name == 'them-moi-hinh-anh-admin' || $name == 'sua-doi-hinh-anh-admin' ? 'menu-open' : '' }}">
+                    class="nav-item {{ $name == 'slide-admin' || $name == 'them-moi-slide-admin' || $name == 'sua-doi-slide-admin' ? 'menu-open' : '' }}">
                     <a
-                        class="nav-link {{ $name == 'hinh-anh-admin' || $name == 'them-moi-hinh-anh-admin' || $name == 'sua-doi-hinh-anh-admin' ? 'active' : '' }} ">
+                        class="nav-link {{ $name == 'slide-admin' || $name == 'them-moi-slide-admin' || $name == 'sua-doi-slide-admin' ? 'active' : '' }} ">
                         <i class="nav-icon fas fa-duotone fa-image"></i>
                         <p>
                             Quản lý Hình Ảnh
@@ -269,8 +269,8 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('hinh-anh-admin') }}"
-                                class="nav-link {{ $name == 'hinh-anh-admin' || $name == 'them-moi-hinh-anh-admin' || $name == 'sua-doi-hinh-anh-admin' ? 'active' : '' }}">
+                            <a href="{{ route('slide-admin') }}"
+                                class="nav-link {{ $name == 'slide-admin' || $name == 'them-moi-slide-admin' || $name == 'sua-doi-slide-admin' ? 'active' : '' }}">
                                 <i class="nav-icon-small fas fa-circle fa-2xs"></i>
                                 <p>Danh sách hình ảnh</p>
                             </a>
@@ -314,7 +314,6 @@
                         <p>Thống kê</p>
                     </a>
                 </li>
-
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

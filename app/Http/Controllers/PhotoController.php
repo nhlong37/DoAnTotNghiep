@@ -7,7 +7,7 @@ use App\Models\TablePhoto;
 use Illuminate\Support\Str;
 class PhotoController extends Controller
 {
-    public function getsphoto(Request $req)
+    public function getphoto(Request $req)
     {
         $limit =  10;
         //latest() = orderBy('created_at','desc')
@@ -17,14 +17,14 @@ class PhotoController extends Controller
         // lấy số thứ tự đầu tiên nhưng theo dạng mảng (là số 0)
         $perSerial = $limit * ($current - 1);
         $serial = $perSerial + 1;
-        return view('.admin.photo.list', compact('dsPhoto', 'serial'));
+        return view('.admin.photo.slide.list', compact('dsPhoto', 'serial'));
     }
-    public function Return_tpladm_addphoto()
+    public function index_addphoto()
     {
         $photo = TablePhoto::all();
        
 
-        return view('.admin.photo.add', compact('photo'));
+        return view('.admin.photo.slide.add', compact('photo'));
     }
 
     public function addphoto(Request $req)
@@ -35,8 +35,8 @@ class PhotoController extends Controller
         // tạo 1 item mới
         $itemphoto = new TablePhoto();
         // lưu các mục vào csdl
-        $itemphoto->name = $req->tenhinhanh;
-
+        $itemphoto->name = (isset($req->tenhinhanh) && !empty($req->tenhinhanh)) ? $req->tenhinhanh : "";
+        $itemphoto->type = 'slide';
         if ($req->file != null) {
             // lọc ra đuôi file
             $extension = $req->file->getClientOriginalExtension();
@@ -53,14 +53,14 @@ class PhotoController extends Controller
         }
         $itemphoto->save();
 
-        return redirect()->route('hinh-anh-admin');
+        return redirect()->route('slide-admin');
     }
 
-    public function Return_tpladm_modifyphoto(Request $req, $id)
+    public function index_modifyphoto(Request $req, $id)
     {
         $photo = TablePhoto::find($id);
 
-        return view('.admin.photo.modify', ['detailPhoto'  => $photo]);
+        return view('.admin.photo.slide.modify', ['detailPhoto'  => $photo]);
     }
 
     public function modifyphoto(Request $req, $id)
@@ -91,7 +91,7 @@ class PhotoController extends Controller
         
 
         $itemphoto->save();
-        return redirect()->route('hinh-anh-admin');
+        return redirect()->route('slide-admin');
     }
 
     public function deletephoto(Request $req)
@@ -102,6 +102,6 @@ class PhotoController extends Controller
         }
 
         $photo->delete();
-        return redirect()->route('hinh-anh-admin');
+        return redirect()->route('slide-admin');
     }
 }

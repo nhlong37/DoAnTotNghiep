@@ -39,3 +39,6 @@
 
 .brand-link img{width: 30% !important;}
 .brand-link .brand-text{font-size: 35px;}
+
+.border-photoUpload-detail{border: 1px solid #ebebeb; padding: 0.5rem;}
+.w-40{max-width: 40%;}

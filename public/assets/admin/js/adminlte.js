@@ -4071,7 +4071,7 @@ function readImage(inputFile, elementPhoto) {
                 Swal.fire({
                     icon: "error",
                     title: "Oops...",
-                    text: "Dung lượng hình ảnh lớn. Dung lượng cho phép <= 100MB ~ 102400KBx",
+                    text: "Dung lượng hình ảnh lớn. Dung lượng cho phép <= 100MB ~ 102400KB",
                 });
                 return false;
             }

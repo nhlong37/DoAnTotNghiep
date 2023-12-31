@@ -159,5 +159,9 @@
                 @endif
             </div>
         </form>
+        <form action="{{ url('/payment_vnpay') }}" method="POST">
+            @csrf
+            <button type="submit" class="btn btn-dark btn-payment w-100" name="thanhtoanvnpay">Thanh toán bằng VNPay</button>
+        </form>
     </div>
 @endsection

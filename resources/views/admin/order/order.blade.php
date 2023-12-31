@@ -37,12 +37,15 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                 </div>
-                                <input type="date" class="form-control float-right text-sm" name="order_date" id="order_date" value="">
+                                <input type="date" class="form-control float-right text-sm" name="order_date"
+                                    id="order_date" value="">
                             </div>
                         </div>
                         <div class="form-group text-center mt-2 mb-0 col-12">
-                            <a class="btn btn-sm bg-gradient-success text-white" title="Tìm kiếm"><i class="fas fa-search mr-1"></i>Tìm kiếm</a>
-                            <a class="btn btn-sm bg-gradient-danger text-white ml-1" title="Hủy lọc"><i class="fas fa-times mr-1"></i>Hủy lọc</a>
+                            <a class="btn btn-sm bg-gradient-success text-white" title="Tìm kiếm"><i
+                                    class="fas fa-search mr-1"></i>Tìm kiếm</a>
+                            <a class="btn btn-sm bg-gradient-danger text-white ml-1" title="Hủy lọc"><i
+                                    class="fas fa-times mr-1"></i>Hủy lọc</a>
                         </div>
                     </div>
                 </div>
@@ -63,11 +66,11 @@
 
                                     <th class="align-middle" style="width:10%">Số điện thoại</th>
 
-                                    <th class="align-middle" style="width:30%">Trạng Thái</th>
+                                    <th class="align-middle" style="width:20%">Trạng Thái</th>
 
                                     <th class="align-middle" style="width:20%">Tống giá trị Hoá Đơn</th>
 
-                                    <th class="align-middle text-center">Thao tác</th>
+                                    <th class="align-middle text-center" style="width:10%">Thao tác</th>
                                 </tr>
                             </thead>
                             @if (count($dsOrder))
@@ -83,37 +86,48 @@
 
                                             <td class="align-middle">
                                                 <a class="text-dark text-break"
-                                                    href="{{ route('chi-tiet-don-hang', ['id'=>$item->id]) }}"
+                                                    href="{{ route('chi-tiet-don-hang', ['id' => $item->id]) }}"
                                                     title="Mã Hoá Đơn">{{ $item->code }}</a>
                                             </td>
 
                                             <td class="align-middle">
                                                 <a class="text-dark text-break"
-                                                    href="{{ route('chi-tiet-don-hang', ['id'=>$item->id]) }}"
+                                                    href="{{ route('chi-tiet-don-hang', ['id' => $item->id]) }}"
                                                     title="Tên khách hàng">{{ $item->fullname }}</a>
                                             </td>
 
                                             <td class="align-middle">
                                                 <a class="text-dark text-break"
-                                                    href="{{ route('chi-tiet-don-hang', ['id'=>$item->id]) }}"
+                                                    href="{{ route('chi-tiet-don-hang', ['id' => $item->id]) }}"
                                                     title="Số điện thoại">{{ $item->phone }}</a>
                                             </td>
 
                                             <td class="align-middle">
                                                 <a class="text-dark text-break"
-                                                    href="{{ route('chi-tiet-don-hang', ['id'=>$item->id]) }}"
-                                                    title="Địa chỉ">{{ $item->status }}</a>
+                                                    href="{{ route('chi-tiet-don-hang', ['id' => $item->id]) }}"
+                                                    title="Trạng thái">
+                                                    @if ($item->status == 'moidat')
+                                                        Mới đặt
+                                                    @elseif($item->status == 'daxacnhan')
+                                                        Đã Xác Nhận
+                                                    @elseif($item->status == 'danggiao')
+                                                        Đang giao
+                                                    @elseif($item->status == 'dagiao')
+                                                        Đã giao
+                                                    @else
+                                                        Đã Huỷ
+                                                    @endif
+                                                </a>
                                             </td>
 
                                             <td class="align-middle">
-                                                <a class="text-dark text-break"
-                                                    href=""
+                                                <a class="text-dark text-break" href=""
                                                     title="Tống giá trị Hoá Đơn">{{ formatMoney($item->total_price) }}</a>
                                             </td>
-                                            
+
                                             <td class="align-middle text-center text-md text-nowrap">
                                                 <a class="text-primary mr-2 modify-item"
-                                                    href="{{ route('chi-tiet-don-hang', ['id'=>$item->id]) }}"
+                                                    href="{{ route('chi-tiet-don-hang', ['id' => $item->id]) }}"
                                                     title="Chỉnh sửa"><i class="fas fa-edit"></i></a>
 
                                                 <a class="text-danger delete-item" data-href="order"

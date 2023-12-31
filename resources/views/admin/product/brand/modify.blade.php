@@ -7,7 +7,7 @@
                     <ol class="breadcrumb float-sm-left pl-3">
                         <li class="breadcrumb-item"><a href="{{ route('trang-chu-admin') }}" title="Bảng điều khiển">Bảng điều khiển</a></li>
 
-                        <li class="breadcrumb-item"><a href="{{ route('sanpham-lv1-admin') }}" title="Quản lý thương hiệu">Quản lý thương hiệu</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('thuong-hieu-admin') }}" title="Quản lý thương hiệu">Quản lý thương hiệu</a></li>
 
                         <li class="breadcrumb-item active">Chỉnh sửa thương hiệu</li>
                     </ol>
@@ -16,12 +16,12 @@
         </section>
         <section class="content">
             <div class="container-fluid">
-                <form class="validation-form" method="post" action="{{ route('xl-suadoi-sanpham-lv1-admin', ['id' => $detailLV1->id]) }}" enctype="multipart/form-data">
+                <form class="validation-form" method="post" action="{{ route('xl-suadoi-thuong-hieu-admin', ['id' => $detailLV1->id]) }}" enctype="multipart/form-data">
                     @csrf
                     <div class="card-footer text-sm sticky-top">
                         <button type="submit" class="btn btn-sm bg-gradient-primary submit-check"><i class="far fa-save mr-2"></i>Lưu</button>
                         <button type="reset" class="btn btn-sm bg-gradient-secondary"><i class="fas fa-redo mr-2"></i>Làm lại</button>
-                        <a class="btn btn-sm bg-gradient-danger" href="{{ route('sanpham-lv1-admin') }}" title="Thoát"><i class="fas fa-sign-out-alt mr-2"></i>Thoát</a>
+                        <a class="btn btn-sm bg-gradient-danger" href="{{ route('thuong-hieu-admin') }}" title="Thoát"><i class="fas fa-sign-out-alt mr-2"></i>Thoát</a>
                     </div>
                     
                     <div class="row">

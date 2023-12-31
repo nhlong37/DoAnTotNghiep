@@ -229,7 +229,7 @@ class ProductController extends Controller
                     ['id_product', '=', $id],
                     ['id', '=', $req->id_adv[$i]],
                 ])->firstOrFail();
-                $add_quantity->quantity =  $req->quantity[$i];
+                $add_quantity->quantity =  ($req->quantity[$i]) ? $req->quantity[$i] : 0;
                 $add_quantity->save();
             }
         }
@@ -325,7 +325,7 @@ class ProductController extends Controller
         // lưu các mục vào csdl
         $itemlevel1->name = $req->tendm;
         $itemlevel1->save();
-        return redirect()->route('sanpham-lv1-admin');
+        return redirect()->route('thuong-hieu-admin');
     }
 
     public function index_modifybrand($id)
@@ -343,7 +343,7 @@ class ProductController extends Controller
         // lưu các mục vào csdl
         $itemlevel1->name = $req->tendm;
         $itemlevel1->save();
-        return redirect()->route('sanpham-lv1-admin');
+        return redirect()->route('thuong-hieu-admin');
     }
 
     public function deletelevel1(Request $req)
@@ -354,7 +354,7 @@ class ProductController extends Controller
         }
 
         $itemlevel1->delete();
-        return redirect()->route('sanpham-lv1-admin');
+        return redirect()->route('thuong-hieu-admin');
     }
 
     // Danh mục thương hiệu //
@@ -385,7 +385,7 @@ class ProductController extends Controller
         // lưu các mục vào csdl
         $itemlevel2->name = $req->tendm;
         $itemlevel2->save();
-        return redirect()->route('sanpham-lv2-admin');
+        return redirect()->route('loai-admin');
     }
 
     public function index_modifytype($id)
@@ -404,7 +404,7 @@ class ProductController extends Controller
         // lưu các mục vào csdl
         $itemlevel2->name = $req->tendm;
         $itemlevel2->save();
-        return redirect()->route('sanpham-lv2-admin');
+        return redirect()->route('loai-admin');
     }
 
     public function deletelevel2(Request $req)
@@ -415,7 +415,7 @@ class ProductController extends Controller
         }
 
         $itemlevel2->delete();
-        return redirect()->route('sanpham-lv2-admin');
+        return redirect()->route('loai-admin');
     }
 
     // Danh mục loại //
