@@ -379,6 +379,7 @@ NN_FRAMEWORK.Cart = function () {
                 .prop("checked", false);
 
             $(".qty-pro").val(1);
+            $(".quantity-available").text(0);
         });
     }
 
@@ -723,7 +724,7 @@ NN_FRAMEWORK.Choose = function () {
         var idSize = $(".size-pro-detail.active input").val();
         if (!idSize) {
             Swal.fire({
-                icon: "error",
+                icon: "warning",
                 title: "Oops...",
                 text: "Bạn vui lòng chọn size trước!!!",
             });

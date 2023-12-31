@@ -7,7 +7,7 @@
                     <ol class="breadcrumb float-sm-left pl-3">
                         <li class="breadcrumb-item"><a href="{{ route('trang-chu-admin') }}" title="Bảng điều khiển">Bảng điều khiển</a></li>
 
-                        <li class="breadcrumb-item"><a href="{{ route('sanpham-lv2-admin') }}" title="Quản lý loại sản phẩm">Quản lý loại sản phẩm</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('loai-admin') }}" title="Quản lý loại sản phẩm">Quản lý loại sản phẩm</a></li>
 
                         <li class="breadcrumb-item active">Chỉnh sửa loại sản phẩm</li>
                     </ol>
@@ -16,12 +16,12 @@
         </section>
         <section class="content">
             <div class="container-fluid">
-                <form class="validation-form" method="post" action="{{ route('xl-suadoi-sanpham-lv2-admin', ['id' => $detailLV2->id]) }}" enctype="multipart/form-data">
+                <form class="validation-form" method="post" action="{{ route('xl-suadoi-loai-admin', ['id' => $detailLV2->id]) }}" enctype="multipart/form-data">
                     @csrf
                     <div class="card-footer text-sm sticky-top">
                         <button type="submit" class="btn btn-sm bg-gradient-primary submit-check"><i class="far fa-save mr-2"></i>Lưu</button>
                         <button type="reset" class="btn btn-sm bg-gradient-secondary"><i class="fas fa-redo mr-2"></i>Làm lại</button>
-                        <a class="btn btn-sm bg-gradient-danger" href="{{ route('sanpham-lv2-admin') }}" title="Thoát"><i class="fas fa-sign-out-alt mr-2"></i>Thoát</a>
+                        <a class="btn btn-sm bg-gradient-danger" href="{{ route('loai-admin') }}" title="Thoát"><i class="fas fa-sign-out-alt mr-2"></i>Thoát</a>
                     </div>
 
                     <div class="row">

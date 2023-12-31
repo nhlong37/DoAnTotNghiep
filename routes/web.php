@@ -7,6 +7,7 @@ use App\Http\Controllers\StaticticalController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\LoginCotroller;
 use App\Http\Controllers\ArticleCotroller;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TypeArticleCotroller;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\UserController;
@@ -49,21 +50,21 @@ Route::group(['middleware' => ['checkauth:admin']], function () {
     Route::get('/admin/product/delete-product', [ProductController::class, 'deleteproducts'])->name('xl-xoa-bo-san-pham-admin');
     Route::get('/admin/remove', [ProductController::class, 'removeFormGallery'])->name('xl-xoa-hinhcon-admin');
 
-    Route::get('/admin/brand', [ProductController::class, 'index_brand'])->name('sanpham-lv1-admin');
+    Route::get('/admin/brand', [ProductController::class, 'index_brand'])->name('thuong-hieu-admin');
     Route::get('/admin/brand/search/{keyword}', [ProductController::class, 'searchBrandAdmin'])->name('tim-kiem-brand');
-    Route::get('/admin/brand/add-brand', [ProductController::class, 'index_addbrand'])->name('themmoi-sanpham-lv1-admin');
-    Route::post('/admin/brand/add-brand', [ProductController::class, 'addlevel1'])->name('xl-themmoi-sanpham-lv1-admin');
-    Route::get('/admin/brand/modify-brand/{id}', [ProductController::class, 'index_modifybrand'])->name('suadoi-sanpham-lv1-admin');
-    Route::post('/admin/brand/modify-brand/{id}', [ProductController::class, 'modifylevel1'])->name('xl-suadoi-sanpham-lv1-admin');
-    Route::get('/admin/brand/delete-brand', [ProductController::class, 'deletelevel1'])->name('xl-xoabo-sanpham-lv1-admin');
+    Route::get('/admin/brand/add-brand', [ProductController::class, 'index_addbrand'])->name('themmoi-thuong-hieu-admin');
+    Route::post('/admin/brand/add-brand', [ProductController::class, 'addlevel1'])->name('xl-themmoi-thuong-hieu-admin');
+    Route::get('/admin/brand/modify-brand/{id}', [ProductController::class, 'index_modifybrand'])->name('suadoi-thuong-hieu-admin');
+    Route::post('/admin/brand/modify-brand/{id}', [ProductController::class, 'modifylevel1'])->name('xl-suadoi-thuong-hieu-admin');
+    Route::get('/admin/brand/delete-brand', [ProductController::class, 'deletelevel1'])->name('xl-xoabo-thuong-hieu-admin');
 
-    Route::get('/admin/type', [ProductController::class, 'index_type'])->name('sanpham-lv2-admin');
+    Route::get('/admin/type', [ProductController::class, 'index_type'])->name('loai-admin');
     Route::get('/admin/type/search/{keyword}', [ProductController::class, 'searchTypeAdmin'])->name('tim-kiem-type');
-    Route::get('/admin/type/add-type', [ProductController::class, 'index_addtype'])->name('themmoi-sanpham-lv2-admin');
-    Route::post('/admin/type/add-type', [ProductController::class, 'addlevel2'])->name('xl-themmoi-sanpham-lv2-admin');
-    Route::get('/admin/type/modify-type/{id}', [ProductController::class, 'index_modifytype'])->name('suadoi-sanpham-lv2-admin');
-    Route::post('/admin/type/modify-type/{id}', [ProductController::class, 'modifylevel2'])->name('xl-suadoi-sanpham-lv2-admin');
-    Route::get('/admin/type/delete-type', [ProductController::class, 'deletelevel2'])->name('xl-xoabo-sanpham-lv2-admin');
+    Route::get('/admin/type/add-type', [ProductController::class, 'index_addtype'])->name('themmoi-loai-admin');
+    Route::post('/admin/type/add-type', [ProductController::class, 'addlevel2'])->name('xl-themmoi-loai-admin');
+    Route::get('/admin/type/modify-type/{id}', [ProductController::class, 'index_modifytype'])->name('suadoi-loai-admin');
+    Route::post('/admin/type/modify-type/{id}', [ProductController::class, 'modifylevel2'])->name('xl-suadoi-loai-admin');
+    Route::get('/admin/type/delete-type', [ProductController::class, 'deletelevel2'])->name('xl-xoabo-loai-admin');
 
     Route::get('/admin/color', [ColorController::class, 'getcolors'])->name('mau-sac-admin');
     Route::get('/admin/color/search/{keyword}', [ColorController::class, 'searchColorAdmin'])->name('tim-kiem-color');
@@ -97,12 +98,12 @@ Route::group(['middleware' => ['checkauth:admin']], function () {
     Route::post('/admin/article/chinh-sach/modify/{id}', [ArticleCotroller::class, 'modifypolicies'])->name('xl-sua-doi-chinh-sach-admin');
     Route::get('/admin/article/chinh-sach/delete', [ArticleCotroller::class, 'deletepolicies'])->name('xl-xoa-bo-chinh-sach-admin');
 
-    Route::get('/admin/photo', [PhotoController::class, 'getsphoto'])->name('hinh-anh-admin');
-    Route::get('/admin/photo/add-photo', [PhotoController::class, 'Return_tpladm_addphoto'])->name('them-moi-hinh-anh-admin');
-    Route::post('/admin/photo/add-photo', [PhotoController::class, 'addphoto'])->name('xl-them-moi-hinh-anh-admin');
-    Route::get('/admin/photo/modify-photo/{id}', [PhotoController::class, 'Return_tpladm_modifyphoto'])->name('sua-doi-hinh-anh-admin');
-    Route::post('/admin/photo/modify-photo/{id}', [PhotoController::class, 'modifyphoto'])->name('xl-sua-doi-hinh-anh-admin');
-    Route::get('/admin/photo/delete-photo', [PhotoController::class, 'deletephoto'])->name('xl-xoa-bo-hinh-anh-admin');
+    Route::get('/admin/photo/slide', [PhotoController::class, 'getphoto'])->name('slide-admin');
+    Route::get('/admin/photo/add-photo/slide', [PhotoController::class, 'index_addphoto'])->name('them-moi-slide-admin');
+    Route::post('/admin/photo/add-photo/slide', [PhotoController::class, 'addphoto'])->name('xl-them-moi-slide-admin');
+    Route::get('/admin/photo/modify-photo/slide/{id}', [PhotoController::class, 'index_modifyphoto'])->name('sua-doi-slide-admin');
+    Route::post('/admin/photo/modify-photo/slide/{id}', [PhotoController::class, 'modifyphoto'])->name('xl-sua-doi-slide-admin');
+    Route::get('/admin/photo/delete-photo/slide', [PhotoController::class, 'deletephoto'])->name('xl-xoa-bo-slide-admin');
 
     Route::get('/admin/user', [UserController::class, 'getsusers'])->name('nguoi-dung-admin');
     Route::get('/admin/user/delete-user', [UserController::class, 'deleteuser'])->name('xl-xoa-bo-nguoi-dung-admin');
@@ -156,6 +157,8 @@ Route::group(['middleware' => ['checkauth:user']], function () {
     Route::post('/update-info/user/{id}', [LoginCotroller::class, 'xl_update_info_user'])->name('xl-suadoi-thongtin-user');
 
     Route::post('/payment', [ProductController::class, 'Payment'])->name('thanh-toan');
+
+    Route::post('/payment_vnpay',[PaymentController::class,'VNPay_Payment'])->name('thanh-toan-vnpay');
 
     Route::get('/purchase-history/user', [LoginCotroller::class, 'GetPurchaseHistory'])->name('lichsu-muahang-user');
     Route::get('/purchase-history-detail/{id}', [LoginCotroller::class, 'GetPurchaseHistoryDetail'])->name('chitiet-lichsu-muahang-user');

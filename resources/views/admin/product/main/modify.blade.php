@@ -8,7 +8,7 @@
                         <li class="breadcrumb-item"><a href="{{ route('trang-chu-admin') }}" title="Bảng điều khiển">Bảng điều
                                 khiển</a></li>
 
-                        <li class="breadcrumb-item"><a href="{{ route('sanpham-lv1-admin') }}" title="Quản lý sản phẩm">Quản
+                        <li class="breadcrumb-item"><a href="{{ route('san-pham-admin') }}" title="Quản lý sản phẩm">Quản
                                 lý sản phẩm</a></li>
 
                         <li class="breadcrumb-item active">Chỉnh sửa sản phẩm</li>

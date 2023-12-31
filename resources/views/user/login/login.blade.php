@@ -68,7 +68,7 @@
                         </a>
                     </div>
 
-                    <div class="text-center p-t-136">
+                    <div class="text-center p-t-50">
                         Nếu bạn chưa có
                         <a class="txt2" href="{{ route('trang-dang-ky') }}">
                             tải khoản

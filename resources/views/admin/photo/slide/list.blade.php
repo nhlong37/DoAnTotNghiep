@@ -7,7 +7,7 @@
                 <ol class="breadcrumb float-sm-left pl-3">
                     <li class="breadcrumb-item"><a href="{{ route('trang-chu-admin') }}" title="Bảng điều khiển">Bảng điều
                             khiển</a></li>
-                    <li class="breadcrumb-item active">Quản lý hình ảnh</li>
+                    <li class="breadcrumb-item active">Quản lý hình ảnh slideshow</li>
                 </ol>
             </div>
         </div>
@@ -17,7 +17,7 @@
     <section class="content">
         <div class="container-fluid">
             <div class="card-footer text-sm sticky-top">
-                <a class="btn btn-sm bg-gradient-primary text-white" href="{{ route('them-moi-hinh-anh-admin') }}"
+                <a class="btn btn-sm bg-gradient-primary text-white" href="{{ route('them-moi-slide-admin') }}"
                     title="Thêm mới"><i class="fas fa-plus mr-2"></i>Thêm mới</a>
                 {{-- <a class="btn btn-sm bg-gradient-danger text-white" id="delete-all" title="Xóa tất cả"><i
                         class="far fa-trash-alt mr-2"></i>Xóa tất cả</a> --}}
@@ -65,7 +65,7 @@
                                         </td>
 
                                         <td class="align-middle">
-                                                <a href="{{ route('sua-doi-hinh-anh-admin', ['id' => $item->id]) }}"
+                                                <a href="{{ route('sua-doi-slide-admin', ['id' => $item->id]) }}"
                                                     title="{{ $item->name }}">
                                                     <img class="rounded img-preview"
                                                         src="{{ asset('upload/photo/' . $item->photo) }}"
@@ -77,17 +77,17 @@
 
                                         <td class="align-middle">
                                             <a class="text-dark text-break"
-                                                href="{{ route('sua-doi-hinh-anh-admin', ['id' => $item->id]) }}"
+                                                href="{{ route('sua-doi-slide-admin', ['id' => $item->id]) }}"
                                                 title="{{ $item->name }}">{{ $item->name }}</a>
                                         </td>
 
                                         <td class="align-middle text-center text-md text-nowrap">
                                             <a class="text-primary mr-2 modify-item"
-                                                href="{{ route('sua-doi-hinh-anh-admin', ['id' => $item->id]) }}"
+                                                href="{{ route('sua-doi-slide-admin', ['id' => $item->id]) }}"
                                                 title="Chỉnh sửa"><i class="fas fa-edit"></i></a>
 
                                             <a class="text-danger delete-item"
-                                                data-href="{{ route('xl-xoa-bo-hinh-anh-admin') . '?id=' . $item->id }}"
+                                                data-href="{{ route('xl-xoa-bo-slide-admin') . '?id=' . $item->id }}"
                                                 data-bs-toggle="modal" data-bs-target="#popup-notify-delete"
                                                 title="Xóa"><i class="fas fa-trash-alt"></i></a>
                                         </td>
