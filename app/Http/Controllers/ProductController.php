@@ -546,9 +546,11 @@ class ProductController extends Controller
     {
     }
 
-    public function loadComment()
+    public function loadComment(Request $req)
     {
         $limit = 10;
+        //$id=TableComment::find($id);
+        //dd($id);
         //latest() = orderBy('created_at','desc')
         $dsComment = TableComment::latest()->paginate($limit);
         $comment_rep = TableComment::where('content_parent_comment', '>', 0)->get();
@@ -581,8 +583,13 @@ class ProductController extends Controller
     {
         $limit = 10;
         //latest() = orderBy('created_at','desc')
+        //$id_pr = TableProduct::get('id_product');
+        $id_product_rating = TableRating::get('id');
+        $id_product = TableProduct::get('id');
+        
+        //dd($id_product);
         $dsRating = TableRating::latest()->paginate($limit);
-            
+        //dd($dsRating);
         // lấy trang hiện tại
         $current = $dsRating->currentPage();
         // lấy số thứ tự đầu tiên nhưng theo dạng mảng (là số 0)
@@ -607,7 +614,7 @@ class ProductController extends Controller
 
     public function GetProductPage(Request $req)
     {
-        $limit = 12;
+        $limit = 8;
 
         $dsProduct = TableProduct::where('deleted_at', null)->latest()->paginate($limit);
         $dsBrand = TableBrand::select('id', 'name')->get();
@@ -803,6 +810,7 @@ class ProductController extends Controller
             $mahd = 'HD' . Str::random(3);
             $infoOrder = new TableOrder();
             $infoOrder->code = $mahd;
+            $infoOrder->id_user = Auth::guard('user')->user()->id;
             $infoOrder->fullname = $req->fullname;
             $infoOrder->phone = $req->phone;
             $infoOrder->address = $req->address;
@@ -818,6 +826,7 @@ class ProductController extends Controller
                 $detailOrder->id_product = $value['id_product'];
                 $detailOrder->id_color    = $value['id_color'];
                 $detailOrder->id_size = $value['id_size'];
+                $detailOrder->id_user = $infoOrder->id_user;
                 $detailOrder->name_product = $value['name'];
                 $detailOrder->photo_product = $value['image'];
                 if ($value['price_sale'] > 0) $detailOrder->price = $value['price_sale'];
@@ -841,12 +850,13 @@ class ProductController extends Controller
     public function send_comment(Request $req)
     {
         if (Auth::guard('user')->check()) {
+            $id_user = Auth::guard('user')->user()->id;
             $product_id = $req->id_product;
-            //$id_user = $req->id_user;
             $content = $req->content;
             $comment = new TableComment();
-            $comment->content = $content;
+            $id_user = Auth::guard('user')->user()->id;
             $comment->id_product = $product_id;
+            $comment->content = $content;
             $comment->content_parent_comment = 0;
             $comment->save();
             echo 'Bình luận thành công';
