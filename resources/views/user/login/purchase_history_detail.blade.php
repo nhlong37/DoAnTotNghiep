@@ -14,13 +14,15 @@
                         <tr>
                             <th class="align-middle text-center" width="10%">STT</th>
 
-                            <th class="align-middle text-center" style="width:20%">Hoá Đơn</th>
+                            <th class="align-middle text-center" style="width:10%">Hoá Đơn</th>
 
                             <th class="align-middle text-center" style="width:20%">Khách hàng</th>
 
-                            <th class="align-middle text-center" style="width:30%">Tổng tiền</th>
+                            <th class="align-middle text-center" style="width:20%">Số điện thoại</th>
 
-                            <!-- <th class="align-middle text-center" style="width:10%">Số điện thoại</th> -->
+                            <th class="align-middle text-center" style="width:20%">Địa chỉ</th>
+
+                            <th class="align-middle text-center" style="width:10%">Tổng tiền</th>
 
                             <th class="align-middle text-center" style="width:30%">Ngày đặt</th>
 
@@ -46,17 +48,22 @@
                                     title="Tên khách hàng">{{ $item->fullname
                                     }}</a>
                             </td>
+                                
+                             <td class="align-middle text-center">
+                                <span class="text-dark text-break" href="" title="Số điện thoại">{{ $item->phone
+                                    }}</span>
+                            </td>
+
+                             <td class="align-middle text-center">
+                                <span class="text-dark text-break" href="" title="Địa chỉ">{{ $item->address
+                                    }}</span>
+                            </td>
 
 
                             <td class="align-middle text-center">
                                 <a class="text-dark text-break" title="Tống giá trị Hoá Đơn">{{
                                     formatMoney($item->total_price) }}</a>
                             </td>
-
-                            <!-- <td class="align-middle text-center">
-                                <span class="text-dark text-break" href="" title="Số điện thoại">{{ $item->phone
-                                    }}</span>
-                            </td> -->
 
                             <td class="align-middle text-center">
                                 <span class="text-dark text-break" href="" title="Ngày đặt">{{
