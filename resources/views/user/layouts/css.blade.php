@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="{{asset('assets/user/css/cart.css')}}">
 <link rel="stylesheet" href="{{asset('assets/user/css/media.css')}}">
 <link rel="stylesheet" href="{{asset('assets/user/css/animate.min.css')}}">
-<link rel="stylesheet" href="{{asset('assets/fontawesome611/all.css')}}">
+<link rel="stylesheet" href="{{asset('assets/user/fontawesome611/all.css')}}">
 <link rel="stylesheet" href="{{asset('assets/bootstrap/bootstrap.css')}}">
 <link rel="stylesheet" href="{{asset('assets/user/slick/slick.css')}}">
 <link rel="stylesheet" href="{{asset('assets/user/slick/slick-theme.css')}}">

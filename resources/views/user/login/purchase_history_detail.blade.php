@@ -33,10 +33,8 @@
                     @foreach ($dsOrder as $k => $item)
                     <tbody>
                         <tr>
-                            <td class="align-middle">
-                                <input type="number" class="form-control form-control-mini m-auto update-numb" min="0"
-                                    style="text-align: center" value="{{ $k+1 }}" data-id="" data-table="product"
-                                    readonly>
+                            <td class="align-middle" style="text-align: center">
+                                <span>{{ $k+1 }}</span>
                             </td>
                             <td class="align-middle text-center">
                                 <span class="text-dark text-break" href="" title="Mã Hoá Đơn">{{ $item->code }}</span>
@@ -50,7 +48,7 @@
                             </td>
                                 
                              <td class="align-middle text-center">
-                                <span class="text-dark text-break" href="" title="Số điện thoại">{{ $item->phone
+                                <span class="text-dark text-break" href="" title="Số điện thoại">{{ formatPhone($item->phone)
                                     }}</span>
                             </td>
 
@@ -58,6 +56,7 @@
                                 <span class="text-dark text-break" href="" title="Địa chỉ">{{ $item->address
                                     }}</span>
                             </td>
+
 
                             <td class="align-middle text-center">
                                 <a class="text-dark text-break" title="Tống giá trị Hoá Đơn">{{
@@ -96,7 +95,7 @@
         </div>
     </div>
     <div class="card-header">
-        <h6 class="card-title " style="text-align:center"><b></b>THÔNG TIN ĐƠN HÀNG
+        <h6 class="card-title " style="text-align:center"><b></b> Danh sách mặt hàng
         </h6>
     </div>
     <div class="card-body table-responsive p-0">
@@ -129,10 +128,8 @@
             <tbody>
                 <tr data-id="{{ $item->id }}">
 
-                    <td class="align-middle">
-                        <input type="number" class="form-control form-control-mini m-auto update-numb"
-                            style="text-align: center" min="0" value="{{ $k+1 }}" data-id="" data-table="product"
-                            readonly>
+                    <td class="align-middle" style="text-align: center">
+                        <span>{{ $k+1 }}</span>
                     </td>
                     <td class="align-middle">
                         <a href="{{ route('sua-doi-san-pham-admin', ['id' => $item->id]) }}" title="{{ $item->name }}">
@@ -158,7 +155,7 @@
                     @endif
                     @endforeach
                     <td class="align-middle text-center">
-                        <a class="text-dark text-break" title="{{ $item->name_product }}">{{ $item->name_product
+                        <a class="text-dark text-break" title="{{ $item->name_product }}" href="{{ route('chi-tiet-product', ['id'=> $item->id_product]) }}">{{ $item->name_product
                             }}</a>
                     </td>
                     <td class="align-middle text-center">

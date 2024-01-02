@@ -435,14 +435,14 @@ img:not([src]) {
 
 .hotline-header {
     display: inline-block;
-    padding: 4px 0 4px 75px;
+    padding: 1px 0 10px 75px;
     text-decoration: none !important;
     background: url(../images/ico_hotline.png) no-repeat left center;
 }
 
 .hotline-header div {
     color: #dc0000;
-    font-size: 25px;
+    font-size: 34px;
     -webkit-text-stroke: 0.4px #fff;
     font-family: utm-alter-gothic;
     text-shadow: 2.925px 2.728px 1.5px rgba(0, 0, 0, 0.55);
@@ -450,7 +450,7 @@ img:not([src]) {
 }
 
 .hotline-header div:nth-child(1) {
-    margin-bottom: -5px;
+    margin-bottom: 0px;
 }
 
 
@@ -1940,7 +1940,7 @@ div.box-tintuc-video {
 .box-tintuc-video .newshome-intro .news .pic-news {
     width: 100%;
     margin-right: 0;
-    margin-bottom: 0;
+    margin-bottom: 15px;
 }
 
 .box-tintuc-video .newshome-intro .news .pic-news img {
@@ -2526,3 +2526,6 @@ input[type=radio] {
 .title-brand{display: none;}
 /* .color-pro-detail{display: none;} */
 #form_user .card{height: 100%;}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{font-family: 'quicksand-b';color: #000;}
+.nav-tabs .nav-link{color: #000;font-family: 'quicksand-r';}

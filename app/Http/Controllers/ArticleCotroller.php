@@ -250,4 +250,7 @@ class ArticleCotroller extends Controller
         return view('.admin.article.policies.list', compact('dsNew','serial'));
     }
     // Chính sách //
+
+
+
 }
