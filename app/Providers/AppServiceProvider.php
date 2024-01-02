@@ -28,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $limit = 12;
         Paginator::useBootstrap();
         $min_price = TableProduct::min('price_regular');
         $max_price = TableProduct::max('price_regular');
@@ -35,13 +36,16 @@ class AppServiceProvider extends ServiceProvider
         $max_price_range = $max_price + 1000000;
         $dsBrand = TableBrand::select('id', 'name')->get();
         $rating = TableRating::select('id')->get();
+        $dsProduct = TableProduct::latest()->paginate($limit);
         View::share([
             'min_price'=>$min_price,
             'max_price'=>$max_price,
             'min_price_range'=>$min_price_range,
             'max_price_range'=>$max_price_range,
             'dsBrand'=>$dsBrand,
-            'rating'=>$rating
+            'rating'=>$rating,
+            'dsProduct'=>$dsProduct,
+            'limit'=>$limit
         ]);
     }
 }

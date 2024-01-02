@@ -239,7 +239,8 @@
                     alert("Lỗi đánh giá. Vui lòng đăng nhập để đánh giá sản phẩm!");
                    }
                 }
-            })
+            });
+           
         });
     });
 
