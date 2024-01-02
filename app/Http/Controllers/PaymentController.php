@@ -3,23 +3,36 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\TableOrder;
+use App\Models\TableOrderDetail;
+use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
 {
-    public function VNPay_Payment () {
+    public function VNPay_Payment (Request $req) {
+
+        
+        $name = $req->fullname;
+        $email = $req->email;
+        $phone = $req->phone;
+        $address = $req->address;
+        $requirements = $req->requirements;
+        $method = $req->paymentmethod;
+        $id_user = Auth::guard('user')->user()->id;
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "https://localhost/vnpay_php/vnpay_return.php";
+        $vnp_Returnurl = "http://localhost:8000/return-vnpay/".$name."/".$phone."/".$email."/".$address."/".$requirements."/".$method;
         $vnp_TmnCode = "IZ97NBEN";//Mã website tại VNPAY 
         $vnp_HashSecret = "JGUDYSDIZFBSTYQOXERJXFZURDMZFUZC"; //Chuỗi bí mật
         
-        $vnp_TxnRef = "HD01"; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
-        $vnp_OrderInfo = "Thanh toán test qua VNPay";
+        $vnp_TxnRef = $req->code; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
+        $vnp_OrderInfo = "Thanh toán hoá đơn" . $req->code;
         $vnp_OrderType = "Thanh toán";
-        $vnp_Amount = 10000 * 100;
+        $vnp_Amount = getOrderTotal() * 100;
         $vnp_Locale = "VN";
         $vnp_BankCode = "NCB";
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
-      
+        $vnp_Inv_Phone = $phone;
+        $vnp_Inv_Customer = $name;
         $inputData = array(
             "vnp_Version" => "2.1.0",
             "vnp_TmnCode" => $vnp_TmnCode,
@@ -33,6 +46,8 @@ class PaymentController extends Controller
             "vnp_OrderType" => $vnp_OrderType,
             "vnp_ReturnUrl" => $vnp_Returnurl,
             "vnp_TxnRef" => $vnp_TxnRef,
+            "vnp_Inv_Phone" => $vnp_Inv_Phone,
+            "vnp_Inv_Customer" => $vnp_Inv_Customer,
            
         );
         
@@ -63,15 +78,62 @@ class PaymentController extends Controller
             $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret);//  
             $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
         }
-        $returnData = array('code' => '00'
-            , 'message' => 'success'
-            , 'data' => $vnp_Url);
-            if (isset($_POST['redirect'])) {
-                header('Location: ' . $vnp_Url);
-                die();
-            } else {
-                echo json_encode($returnData);
-            }
-            // vui lòng tham khảo thêm tại code demo     
+        // $returnData = array('code' => '00'
+        //     , 'message' => 'success'
+        //     , 'data' => $vnp_Url);
+        //     if (isset($_POST['redirect'])) {
+        //         header('Location: ' . $vnp_Url);
+        //         die();
+        //     } else {
+        //         echo json_encode($returnData);
+        //     }
+
+            // vui lòng tham khảo thêm tại code demo
+        $cart = session()->get('cart');
+        session()->put('cart_tam', $cart);
+        //dd(session()->get('cart_tam'));
+        //return redirect($vnp_Url);
+        header('Location: ' . $vnp_Url);
+        die();
+    }
+
+    public function returnVNPay (Request $req) {
+        $cart = session()->get('cart_tam');
+        dd($cart);
+        $infoOrder = new TableOrder();
+        $infoOrder->code = $req->vnp_TxnRef;
+        $infoOrder->id_user = $req->id_user;
+        $infoOrder->fullname = $req->vnp_Inv_Customer;
+        $infoOrder->phone = $req->vnp_Inv_Phone;
+        $infoOrder->address = $req->address;
+        $infoOrder->email = $req->email;
+        $infoOrder->payment = $req->paymentmethod;
+        $infoOrder->status = 'dathanhtoan';
+        $infoOrder->total_price = getOrderTotal();
+        $infoOrder->save();
+       
+        foreach ($cart as $key => $value) {
+            $detailOrder = new TableOrderDetail();
+            $detailOrder->id_order = $infoOrder->id;
+            $detailOrder->id_product = $value['id_product'];
+            $detailOrder->id_color    = $value['id_color'];
+            $detailOrder->id_size = $value['id_size'];
+            $detailOrder->name_product = $value['name'];
+            $detailOrder->photo_product = $value['image'];
+            if ($value['price_sale'] > 0) $detailOrder->price = $value['price_sale'];
+            else $detailOrder->price = $value['price_regular'];
+            $detailOrder->quantity = $value['quantity'];
+            $detailOrder->save();
+
+            // $miniusQuantity = TableProduct::find($value['id_product']);
+
+            // $miniusQuantity->quantity = $miniusQuantity->quantity - $value['quantity'];
+            // $miniusQuantity->save();
+        }
+        if (session()->has('cart')) {
+            session()->forget('cart');
+        }
+
+        return redirect()->route('trang-chu-user');
     }
 }

@@ -17,6 +17,7 @@ use App\Models\TableProductType;
 use App\Models\TableColor;
 use App\Models\TableSize;
 use App\Models\TableAlbum;
+use App\Models\TableArticle;
 use App\Models\TableVariantsPCS;
 use App\Models\TableOrderDetail;
 use Illuminate\Support\Facades\Storage;
@@ -520,7 +521,6 @@ class ProductController extends Controller
         return view('.admin.order.detail', ['orderDetail' => $infoOrder], compact('dsOrderDetail', 'serial'));
     }
 
-
     public function modifyorders(xlAddRequestOrder $req, $id)
     {
         //tìm xem sản phẩm có hay không
@@ -584,27 +584,18 @@ class ProductController extends Controller
         $limit = 10;
         //latest() = orderBy('created_at','desc')
         //$id_pr = TableProduct::get('id_product');
-        //$id_product_rating = TableRating::get('id_product');
-        //$id_product = TableRating::where('id_product',$id_product_rating->id)->get();
-        $data = [];
-        $data_id_rating= TableRating::get('id_product');
-        $data_id_product=TableProduct::whereIn('id',$data_id_rating)->find($data_id_rating);
-        //$idproduct = TableProduct::join('table_rating','table_product.id','table_rating.id_product')->get();
-        //$data=$req->all();
-        //dd($data_id_product);
+        $id_product_rating = TableRating::get('id');
+        $id_product = TableProduct::get('id');
+
+        //dd($id_product);
         $dsRating = TableRating::latest()->paginate($limit);
-        //dd($dsRating);
-        //lay 3 sp da dc danh gia
-        //$data_nameproduct = TableProduct::get('name',$data_id_product['name']);
-        //dd($data_id_product);
-        
         //dd($dsRating);
         // lấy trang hiện tại
         $current = $dsRating->currentPage();
         // lấy số thứ tự đầu tiên nhưng theo dạng mảng (là số 0)
         $perSerial = $limit * ($current - 1);
         $serial = $perSerial + 1;
-        return view('.admin.comment.listrate', compact('dsRating', 'serial','data_id_product'));
+        return view('.admin.comment.listrate', compact('dsRating', 'serial'));
     }
 
 
@@ -615,11 +606,10 @@ class ProductController extends Controller
     {
         // lấy sản phẩm
         $dsProductNew = TableProduct::where('deleted_at', null)->limit(8)->get();
-        $dsProductOutsanding = TableProduct::where('deleted_at', null)->get();
-
-        return view('.user.home.home', compact('dsProductNew', 'dsProductOutsanding'));
+        $dsProductOutsanding = TableProduct::where('deleted_at', null)->where('view','>=',50)->get();
+        $dsNewsOutsanding = TableArticle::where('deleted_at', null)->where('view','>=',20)->where('type','tin-tuc')->get();
+        return view('.user.home.home', compact('dsProductNew', 'dsProductOutsanding','dsNewsOutsanding'));
     }
-
 
     public function GetProductPage(Request $req)
     {
@@ -661,10 +651,12 @@ class ProductController extends Controller
     public function GetDetailProduct(Request $req, $id)
     {
         $detailProduct = TableProduct::where('deleted_at', null)->where('id', $id)->first();
+        $view = $detailProduct->view;
+        $view++;
         $dsGallery = TableAlbum::where('id_product', $id)->get();
         $listSelectedColor = TableVariantsPCS::where('id_product', $id)->get();
         $listSelectedSize = TableVariantsPCS::where('id_product', $id)->get();
-        
+
         // Lấy mảng id từ danh sách color theo sản phẩm
         $arrIdColor = [];
         foreach ($listSelectedColor as $k => $v) {
@@ -677,7 +669,7 @@ class ProductController extends Controller
             array_push($arrIdSize, $v->id_size);
         }
 
-        $dsSoLuong = TableVariantsPCS::where('id_product', $req->idProduct)->where('id_size',$req->idSize)->where('id_color',$req->idColor)
+        $dsSoLuong = TableVariantsPCS::where('id_product', $req->idProduct)->where('id_size', $req->idSize)->where('id_color', $req->idColor)
             ->select('table_variants_pcs.quantity')
             ->first();
 
@@ -685,19 +677,20 @@ class ProductController extends Controller
         $rowSize  = TableSize::whereIn('id', $arrIdSize)->get();
         $rating = TableRating::where('id_product', $id)->avg('rating');
         $rating = round($rating);
-        if($req->ajax()){
+        if ($req->ajax()) {
             return Response($dsSoLuong);
-        }
-        else{
+        } else {
             return view('.user.product.detail', ['rowDetail' => $detailProduct], compact('rowColor', 'rowSize', 'dsGallery', 'rating'));
+           
         }
+        
     }
 
     public function viewCart()
     {
         $colors = TableColor::all();
         $sizes = TableSize::all();
-        
+
         return view('.user.order.order', compact('colors', 'sizes'));
     }
 
@@ -728,7 +721,7 @@ class ProductController extends Controller
         $code_order = $req->id . $req->id_color . $req->id_size;
         // tạo session
         $Itemproduct = TableProduct::findOrFail($req->id);
-        $ItemproductSoLuong = TableVariantsPCS::where('id_product', $req->id)->where('id_size',$req->id_size)->where('id_color',$req->id_color)
+        $ItemproductSoLuong = TableVariantsPCS::where('id_product', $req->id)->where('id_size', $req->id_size)->where('id_color', $req->id_color)
             ->select('table_variants_pcs.quantity')
             ->first();
         // kiểm tra session giỏ hàng có tồn tại và không rỗng
@@ -812,11 +805,11 @@ class ProductController extends Controller
         return response()->json(array('regularPrice' => $regular_price, 'salePrice' => $sale_price, 'totalText' => $totalText));
     }
 
-    public function Payment(Request $req)
+    public function OrderProduct(Request $req)
     {
         if (!empty(Auth::guard('user')->user()->id)) {
 
-            $mahd = 'HD' . Str::random(3);
+            $mahd = $req->code;
             $infoOrder = new TableOrder();
             $infoOrder->code = $mahd;
             $infoOrder->id_user = Auth::guard('user')->user()->id;
@@ -824,7 +817,7 @@ class ProductController extends Controller
             $infoOrder->phone = $req->phone;
             $infoOrder->address = $req->address;
             $infoOrder->email = $req->email;
-            $infoOrder->payment = $req->payments;
+            $infoOrder->payment = $req->paymentmethod;
             $infoOrder->status = 'moidat';
             $infoOrder->total_price = getOrderTotal();
             $infoOrder->save();
@@ -835,7 +828,6 @@ class ProductController extends Controller
                 $detailOrder->id_product = $value['id_product'];
                 $detailOrder->id_color    = $value['id_color'];
                 $detailOrder->id_size = $value['id_size'];
-                $detailOrder->id_user = $infoOrder->id_user;
                 $detailOrder->name_product = $value['name'];
                 $detailOrder->photo_product = $value['image'];
                 if ($value['price_sale'] > 0) $detailOrder->price = $value['price_sale'];
@@ -855,7 +847,7 @@ class ProductController extends Controller
             return redirect()->route('trang-chu-user');
         }
     }
-
+    
     public function send_comment(Request $req)
     {
         if (Auth::guard('user')->check()) {
@@ -869,8 +861,7 @@ class ProductController extends Controller
             $comment->content_parent_comment = 0;
             $comment->save();
             echo 'Bình luận thành công';
-        }
-        else{
+        } else {
             echo 'Vui lòng đăng nhập để gửi bình luận !';
         }
     }
@@ -891,7 +882,7 @@ class ProductController extends Controller
         // $id_user_name = $id_user_comment->name;
         //$dsCommentUser=TableComment::where('id_user',$data[''])
         foreach ($dsComment as $k => $comment) {
-            $output .= '<div class="row " id="style_comment">
+            $output .= '<div class="d-flex mb-3" id="style_comment">
             <div class="col-sm-1" id="img-avatar">
                 <img width="100%" src="' . url('/upload/avatar/user.jpg') . '"
                     class="img-avatar" />
@@ -901,11 +892,11 @@ class ProductController extends Controller
                 ' . $comment->created_at->format('d-m-Y h:m') . '
                 </span>
                 <p>
-                <p></p>
+                
                 ' . $comment->content . '
                 </p>
             </div>
-        </div> <p></p>';
+        </div> ';
             foreach ($comment_rep as $k => $reply_comment) {
                 if ($reply_comment->content_parent_comment == $comment->id) {
                     $output .= '<div class="row " id="style_comment" style="margin: 5px 40px; background-color:#FFCC99">
@@ -918,12 +909,10 @@ class ProductController extends Controller
                 ' . $reply_comment->created_at->format('d-m-Y h:m') . '
                 </span>
                 <p>
-                <p></p>
                 ' . $reply_comment->content . '
                 </p>
             </div>
-        </div> <p></p>
-        
+        </div>        
         ';
                 }
             }
@@ -955,9 +944,7 @@ class ProductController extends Controller
             $rating->rating = $data['index'];
             $rating->save();
             echo 'Đánh giá thành công';
-        }
-        else
-        {
+        } else {
             echo 'Vui lòng đăng nhập để đánh giá sản phẩm!';
         }
     }

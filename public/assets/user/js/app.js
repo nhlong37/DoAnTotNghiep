@@ -621,46 +621,46 @@ NN_FRAMEWORK.RenderPicture = function () {
     }
 };
 
-NN_FRAMEWORK.CheckSubmit = function () {
-    $("body").on("click", ".btn-payment", function () {
-        var name = $(".field-name").val();
-        var phone = $(".field-phone").val();
-        var email = $(".field-email").val();
-        var address = $(".field-address").val();
+// NN_FRAMEWORK.CheckSubmit = function () {
+//     $("body").on("click", ".btn-payment", function () {
+//         var name = $(".field-name").val();
+//         var phone = $(".field-phone").val();
+//         var email = $(".field-email").val();
+//         var address = $(".field-address").val();
 
-        if (name == "") {
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Bạn chưa nhập họ tên!!!",
-            });
-        }
-        elseif(phone == "");
-        {
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Bạn chưa nhập số điện thoại!!!",
-            });
-        }
-        elseif(email == "");
-        {
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Bạn chưa nhập email!!!",
-            });
-        }
-        elseif(address == "");
-        {
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Bạn chưa nhập địa chỉ!!!",
-            });
-        }
-    });
-};
+//         if (name == "") {
+//             Swal.fire({
+//                 icon: "error",
+//                 title: "Oops...",
+//                 text: "Bạn chưa nhập họ tên!!!",
+//             });
+//         }
+//         elseif(phone == "");
+//         {
+//             Swal.fire({
+//                 icon: "error",
+//                 title: "Oops...",
+//                 text: "Bạn chưa nhập số điện thoại!!!",
+//             });
+//         }
+//         elseif(email == "");
+//         {
+//             Swal.fire({
+//                 icon: "error",
+//                 title: "Oops...",
+//                 text: "Bạn chưa nhập email!!!",
+//             });
+//         }
+//         elseif(address == "");
+//         {
+//             Swal.fire({
+//                 icon: "error",
+//                 title: "Oops...",
+//                 text: "Bạn chưa nhập địa chỉ!!!",
+//             });
+//         }
+//     });
+// };
 
 NN_FRAMEWORK.ShowPassword = function () {
     /* Show old password */
@@ -775,6 +775,19 @@ NN_FRAMEWORK.Disable = function () {
     
 };
 
+NN_FRAMEWORK.ChangeAction = function(){
+     $('.payment-method').change(function() {
+        var selectedPaymentMethod = $(this).val();
+
+        if (selectedPaymentMethod === 'cod') {
+            $('#form-cart').attr('action', window.location.protocol + '//' + window.location.host + '/order');
+        } else if (selectedPaymentMethod === 'vnpay') {
+            $('#form-cart').attr('action', window.location.protocol + '//' + window.location.host + '/payment-vnpay');
+        }
+    });
+}
+
+
 /* Ready */
 $(document).ready(function () {
     NN_FRAMEWORK.Menu();
@@ -789,4 +802,5 @@ $(document).ready(function () {
     NN_FRAMEWORK.Filter();
     NN_FRAMEWORK.Choose();
     //NN_FRAMEWORK.Disable();
+    NN_FRAMEWORK.ChangeAction();
 });
