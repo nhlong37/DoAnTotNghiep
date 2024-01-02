@@ -15,7 +15,7 @@ class TableOrderDetail extends Model
 
     public function foreignKey_products()
     {
-        return $this->hasMany(related:Product::class,foreignKey:'id_product',localKey:'id');
+        return $this->hasMany(related:TableProduct::class,foreignKey:'id_product',localKey:'id');
     }
 
     public function foreignKey_color()
