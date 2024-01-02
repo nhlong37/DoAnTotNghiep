@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\TableColor;
+use App\Models\TableVariantsPCS;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
@@ -10,10 +12,12 @@ use App\Http\Requests\xlDangNhapRequest;
 use App\Models\TableUser;
 use App\Models\TableOrder;
 use App\Models\TableOrderDetail;
+use App\Models\TableSize;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendMail;
+use Illuminate\Database\Eloquent\Builder;
 
 class LoginCotroller extends Controller
 {
@@ -135,29 +139,52 @@ class LoginCotroller extends Controller
     }
     public function GetPurchaseHistory(Request $req)
     {
+        $limit = 5;
+        $id = (int)$req->id;
+        $iduser = TableOrder::where('id_user', $req->id)->select('id_user')->firstOrFail();
+        //dd($iduser);
+        //dd(Auth::guard('user')->user()->id);
         $limit = 10;
-        $dsOrder = TableOrder::latest()->paginate($limit);
+        $dsOrder = TableOrder::where('id_user', $req->id)->orderBy('created_at','DESC')->latest()->paginate($limit);
+
+        
+        $current = $dsOrder->currentPage();
+        // lấy số thứ tự đầu tiên nhưng theo dạng mảng (là số 0)
+        $perSerial = $limit * ($current - 1);
+        $serial = $perSerial + 1;
+        return view('.user.login.purchase_history',compact('dsOrder'));
+    }
+    public function GetPurchaseHistoryDetail(Request $req,$id)
+    {
+        $limit = 10;
+        //$id_order = (int)$req->id;
+        $infoOrder = TableOrder::find($id);
+        //dd($infoOrder);
+        $detail_order = TableOrderDetail::find($id);
+        $namecolor_orderdetail = TableColor::join('table_order_detail','table_color.id','table_order_detail.id_color')->select('name')->get();
+        $id_color_orderdetail = TableColor::join('table_order_detail','table_color.id','table_order_detail.id_color')->select('id_color')->get();
+        $idcolor = TableColor::where('id',$detail_order->id_color)->get('name');
+        $idsize = TableSize::where('id',$detail_order->id_size)->get('name');
+        //dd($idcolor);
+        //dd($namecolor_orderdetail);
+        $id_size_orderdetail = TableSize::join('table_order_detail','table_size.id','=','table_order_detail.id_size')->select('name')->get();
+       
+
+        //$id_color = TableColor::join('table_order_detail','table_color.id','=','table_order_detail.id_color')->select('id_color')->first();
+        //$id_size = TableSize::join('table_order_detail','table_size.id','=','table_order_detail.id_size')->select('id_size')->first();
+        $dsOrderDetail = TableOrderDetail::where('id_order', $infoOrder->id)->latest()->paginate($limit);
+        $dsOrder = TableOrder::where('id',$infoOrder->id)->latest()->paginate($limit);
+        //dd($dsOrder);
+        $id_order = TableOrder::where('id', $detail_order->id)->select('code','fullname','phone','address','created_at')->get();
+        
+        //dd($id_order);
         // lấy trang hiện tại
         $current = $dsOrder->currentPage();
         // lấy số thứ tự đầu tiên nhưng theo dạng mảng (là số 0)
         $perSerial = $limit * ($current - 1);
         $serial = $perSerial + 1;
-        return view('.user.login.purchase_history',compact('dsOrder','serial'));
-    }
-    public function GetPurchaseHistoryDetail($id)
-    {
-        $limit = 10;
-        $infoOrder = TableOrder::find($id);
-        $dsOrderDetail = TableOrderDetail::where('id_order', $infoOrder->id)->latest()->paginate($limit);
-        // $color = TableColor::where('id',$dsOrderDetail->id_color)->first();
-        // $size = TableColor::where('id',$dsOrderDetail->id_size)->first();
 
-        // lấy trang hiện tại
-        $current = $dsOrderDetail->currentPage();
-        // lấy số thứ tự đầu tiên nhưng theo dạng mảng (là số 0)
-        $perSerial = $limit * ($current - 1);
-        $serial = $perSerial + 1;
-        return view('.user.login.purchase_history_detail', ['orderDetail' => $infoOrder], compact('dsOrderDetail', 'serial'));
+        return view('.user.login.purchase_history_detail', ['orderDetail' => $infoOrder], compact('dsOrderDetail','dsOrder','namecolor_orderdetail','idsize','idcolor','id_order','id_color_orderdetail','id_size_orderdetail'));
     }
 
     function xlLoginUser(Request $req)

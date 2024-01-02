@@ -12,5 +12,5 @@ class TableColor extends Model
     // use SoftDeletes;
     protected $table='table_color';
     protected $primaryKey='id';
-    protected  $guarded=[];
+    protected  $fillable=['code','name'];
 }
