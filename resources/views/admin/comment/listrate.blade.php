@@ -50,23 +50,10 @@
                                 </th> --}}
 
                                 <th class="align-middle text-center" width="10%">STT</th>
-                                <!-- 
-                                    <th class="align-middle">Hình</th>
 
-                                    {{-- <th class="align-middle">Hình 2</th> --}} -->
+                                <th class="align-middle text-center">Tên Sản Phẩm</th>
 
-                                <th class="align-middle text-center" >ID Sản Phẩm</th>
-
-                                <th class="align-middle text-center" >Số sao</th>
-
-                                <!-- <th class="align-middle">Trả lời</th>
-
-                                <th class="align-middle text-center">Ngày gửi</th>
-
-                                <th class="align-middle text-center">Trạng thái</th>
-
-                                <th class="align-middle text-center">Chức năng</th>
- -->
+                                <th class="align-middle text-center">Số sao</th>
 
                             </tr>
                         </thead>
@@ -92,18 +79,22 @@
                                                 </a>
                                             </td> -->
 
+                                @foreach($data_id_product as $k => $namepr)
+                                @if($item->id_product == $namepr->id)
                                 <td class="align-middle text-center">
                                     <!-- <a class="text-dark text-break"
                                         href="{{ route('sua-doi-san-pham-admin', ['id' => $item->id]) }}"
                                         title="{{ $item->name }}"></a> -->
-                                        {{ $item->id_product }}
+                                    {{ $namepr-> name }}
                                 </td>
+                                @endif
+                                @endforeach
 
                                 <td class="align-middle text-center">
                                     <!-- <a class="text-dark text-break"
                                         href="{{ route('sua-doi-san-pham-admin', ['id' => $item->id]) }}"
                                         title="{{ $item->name }}"></a> -->
-                                        {{ $item->rating }}
+                                    {{ $item->rating }}
                                 </td>
                             </tr>
                         </tbody>

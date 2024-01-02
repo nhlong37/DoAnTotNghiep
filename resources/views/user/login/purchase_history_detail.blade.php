@@ -59,7 +59,6 @@
                                     }}</span>
                             </td>
 
-
                             <td class="align-middle text-center">
                                 <a class="text-dark text-break" title="Tống giá trị Hoá Đơn">{{
                                     formatMoney($item->total_price) }}</a>
@@ -142,17 +141,21 @@
                                 style="" />
                         </a>
                     </td>
-                    @foreach($idcolor as $c)
+                    @foreach($data_id_color as $c)
+                    @if($item->id_color == $c->id)
                     <td class="align-middle text-center">
                         <a class="text-dark text-break" title="{{ $c->name }}">{{ $c->name
                             }}</a>
                     </td>
+                    @endif
                     @endforeach
-                    @foreach($idsize as $s)
+                    @foreach($data_id_size as $s)
+                    @if($item->id_size == $s->id)
                     <td class="align-middle text-center">
                         <a class="text-dark text-break" title="{{ $s->name }}">{{ $s->name
                             }}</a>
                     </td>
+                    @endif
                     @endforeach
                     <td class="align-middle text-center">
                         <a class="text-dark text-break" title="{{ $item->name_product }}">{{ $item->name_product

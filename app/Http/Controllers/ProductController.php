@@ -584,18 +584,27 @@ class ProductController extends Controller
         $limit = 10;
         //latest() = orderBy('created_at','desc')
         //$id_pr = TableProduct::get('id_product');
-        $id_product_rating = TableRating::get('id');
-        $id_product = TableProduct::get('id');
-        
-        //dd($id_product);
+        //$id_product_rating = TableRating::get('id_product');
+        //$id_product = TableRating::where('id_product',$id_product_rating->id)->get();
+        $data = [];
+        $data_id_rating= TableRating::get('id_product');
+        $data_id_product=TableProduct::whereIn('id',$data_id_rating)->find($data_id_rating);
+        //$idproduct = TableProduct::join('table_rating','table_product.id','table_rating.id_product')->get();
+        //$data=$req->all();
+        //dd($data_id_product);
         $dsRating = TableRating::latest()->paginate($limit);
+        //dd($dsRating);
+        //lay 3 sp da dc danh gia
+        //$data_nameproduct = TableProduct::get('name',$data_id_product['name']);
+        //dd($data_id_product);
+        
         //dd($dsRating);
         // lấy trang hiện tại
         $current = $dsRating->currentPage();
         // lấy số thứ tự đầu tiên nhưng theo dạng mảng (là số 0)
         $perSerial = $limit * ($current - 1);
         $serial = $perSerial + 1;
-        return view('.admin.comment.listrate', compact('dsRating', 'serial'));
+        return view('.admin.comment.listrate', compact('dsRating', 'serial','data_id_product'));
     }
 
 
