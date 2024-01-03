@@ -1,11 +1,11 @@
 @extends('user.index')
 @section('body')
     <div class="wap_1200 layout-cart">
-        <form class="form-cart validation-cart" action="{{ route('thanh-toan') }}" method="POST" id="form-cart"
-            enctype="multipart/form-data">
-            @csrf
-            <div class="wrap-cart">
-                @if (session('cart'))
+        <div class="wrap-cart">
+        @if (session('cart'))
+            <form class="form-cart validation-cart" action="{{ route('dat-hang') }}" method="POST" id="form-cart"
+                enctype="multipart/form-data">
+                @csrf
                     <div class="row">
                         <div class="top-cart col-12 col-lg-7">
                             <p class="title-cart">Giỏ hàng của bạn:</p>
@@ -26,14 +26,14 @@
                                         $color = $details['id_color'] ? $details['id_color'] : 0;
                                         $size = $details['id_size'] ? $details['id_size'] : 0;
                                         $code = $details['code'] ? $details['code'] : '';
-                                        
+
                                         $proinfo = getProductInfo($pid);
                                         $pro_price = $proinfo['price_regular']; //Giá 1 sp
                                         $pro_price_new = $proinfo['sale_price']; //Giá mới 1 sp
-                                        
+
                                         $pro_price_qty = $pro_price * $quantity; //Giá sau khi nhân số lượng
                                         $pro_price_new_qty = $pro_price_new * $quantity; //Giá mới sau khi nhân số lượng
-                                        
+
                                         $nameColor = $colors->where('id', '=', $color)->first();
                                         $nameSize = $sizes->where('id', '=', $size)->first();
                                     @endphp
@@ -108,32 +108,51 @@
                                 <p class="title-cart">Hình thức thanh toán:</p>
                                 <div class="information-cart">
 
-                                    <div class="payments-cart custom-control custom-radio">
-                                        <input type="radio" class="custom-control-input" id="payments" name="payments"
-                                            value="1" checked />
+                                    {{-- <div class="payments-cart custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input payment-method" name="payments"
+                                            value="1"  />
                                         <label class="payments-label custom-control-label" for="payments">Thanh toán khi
                                             nhận hàng</label>
+
+                                        
                                     </div>
+
+                                    <div class="payments-cart custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input payment-method" name="payments"
+                                            value="1" />
+                                        <label class="payments-label custom-control-label" for="payments">Thanh toán qua VNPay</label>
+
+                                        
+                                    </div> --}}
+
+                                    <label>
+                                        <input type="radio" name="paymentmethod" class="payment-method" value="cod" checked> <span>Thanh toán khi nhận hàng</span>
+                                    </label>
+                            
+                                    <label>
+                                        <input type="radio" name="paymentmethod" class="payment-method" value="vnpay"> <span>Thanh toán qua VNPay</span>
+                                    </label>
 
                                 </div>
                                 <p class="title-cart">Thông tin giao hàng:</p>
                                 <div class="information-cart">
+                                    <input type="hidden" id="code" name="code" value="{{ 'HD' . Str::random(3) }}">
                                     <div class="form-row">
                                         <div class="input-cart col-md-6">
                                             <input type="text" class="form-control text-sm field-name" id="fullname"
                                                 name="fullname" placeholder="Họ tên"
-                                                value="{{ !empty(Auth::guard('user')->user()->id) ? Auth::guard('user')->user()->username : '' }}" />
+                                                value="{{ !empty(Auth::guard('user')->user()->id) ? Auth::guard('user')->user()->username : '' }}"  readonly />
                                         </div>
                                         <div class="input-cart col-md-6">
                                             <input type="number" class="form-control text-sm field-phone" id="phone"
                                                 name="phone" placeholder="Số điện thoại"
-                                                value="{{ !empty(Auth::guard('user')->user()->id) ? Auth::guard('user')->user()->phone : '' }}" />
+                                                value="{{ !empty(Auth::guard('user')->user()->id) ? Auth::guard('user')->user()->phone : '' }}" readonly />
                                         </div>
                                     </div>
                                     <div class="input-cart">
                                         <input type="email" class="form-control text-sm field-email" id="email"
                                             name="email" placeholder="Email"
-                                            value="{{ !empty(Auth::guard('user')->user()->id) ? Auth::guard('user')->user()->email : '' }}" />
+                                            value="{{ !empty(Auth::guard('user')->user()->id) ? Auth::guard('user')->user()->email : '' }}" readonly />
                                     </div>
                                     <div class="input-cart">
                                         <input type="text" class="form-control text-sm field-address" id="address"
@@ -144,24 +163,26 @@
                                         <textarea class="form-control text-sm" id="requirements" name="requirements" placeholder="Yêu cầu khác"></textarea>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-dark btn-payment w-100" name="thanhtoan">Đặt hàng</button>
+                                <button type="submit" class="btn btn-dark btn-order w-100" name="thanhtoan">Đặt
+                                    hàng</button>
                             </div>
                         </div>
                     </div>
-                @else
-                    <div class="wrap-empty">
-                        <a href="{{ route('trang-chu-user') }}" class="empty-cart text-decoration-none w-100">
-                            <img src="{{ asset('assets/user/images/empty.png') }}">
-                            <p>Không tồn tại sản phẩm nào trong giỏ hàng!!!</p>
-                            <span class="btn btn-dark btn-sm">Về trang chủ</span>
-                        </a>
-                    </div>
-                @endif
+            </form>
+            {{-- <form action="{{ url('/payment_vnpay') }}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-dark btn-payment w-100" name="thanhtoanvnpay">Thanh toán bằng
+                    VNPay</button>
+            </form> --}}
+        @else
+            <div class="wrap-empty">
+                <a href="{{ route('trang-chu-user') }}" class="empty-cart text-decoration-none w-100">
+                    <img src="{{ asset('assets/user/images/empty.png') }}">
+                    <p>Không tồn tại sản phẩm nào trong giỏ hàng!!!</p>
+                    <span class="btn btn-dark btn-sm">Về trang chủ</span>
+                </a>
             </div>
-        </form>
-        <form action="{{ url('/payment_vnpay') }}" method="POST">
-            @csrf
-            <button type="submit" class="btn btn-dark btn-payment w-100" name="thanhtoanvnpay">Thanh toán bằng VNPay</button>
-        </form>
+        @endif
+        </div>
     </div>
 @endsection

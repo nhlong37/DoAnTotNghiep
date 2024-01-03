@@ -43,7 +43,7 @@
             infinite: true,
             accessibility: true,
             vertical: false,
-            slidesToShow: 2,
+            slidesToShow: 4,
             slidesToScroll: 1,
             autoplay: true,
             autoplaySpeed: 3000,
@@ -141,8 +141,9 @@
     });
 </script>
 
+
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         load_comment();
         //alert(product_id);
         function load_comment() {
@@ -151,97 +152,115 @@
             var status = $('.status').val();
             var _token = $('input[name="_token"]').val();
             $.ajax({
-                url: "{{url('/load-comment')}}",
+                url: "{{ url('/load-comment') }}",
                 method: "POST",
-                data: { status:status,id_product: id_product,id_user:id_user, _token: _token },
-                success: function (data) {
+                data: {
+                    status: status,
+                    id_product: id_product,
+                    id_user: id_user,
+                    _token: _token
+                },
+                success: function(data) {
                     $("#comment_show").html(data);
                 }
             })
         }
-        $('.send-comment').click(function () {
+        $('.send-comment').click(function() {
             var id_product = $('.id_product').val();
             var id_user = $('.id_user').val();
             //var comment_name=$('.comment_name').val('');
             var content = $('.content').val();
             var _token = $('input[name="_token"]').val();
             $.ajax({
-                url: "{{url('/send-comment')}}",
+                url: "{{ url('/send-comment') }}",
                 method: "POST",
-                data: { id_user:id_user,id_product: id_product, content: content, _token: _token, },
-                success: function (data) {
-                    if(data=='Bình luận thành công')
-                    {
-                    $(".notify_comment").html('<span class="text text-success">Thêm bình luận thành công, vui lòng chờ xét duyệt</span>');
-                    load_comment();
-                    $(".notify_comment").fadeOut(4000);
-                    //$('.comment_name').val('');
-                    $('.content').val('');
-                    }
-                    else
-                    {
-                        alert("Vui lòng đăng nhập để gửi bình luận !");
+                data: {
+                    id_user: id_user,
+                    id_product: id_product,
+                    content: content,
+                    _token: _token,
+                },
+                success: function(data) {
+                    if (data == 'Bình luận thành công') {
+                        $(".notify_comment").html(
+                            '<span class="text text-success">Thêm bình luận thành công, vui lòng chờ xét duyệt</span>'
+                        );
+                        load_comment();
+                        $(".notify_comment").fadeOut(4000);
+                        //$('.comment_name').val('');
+                        $('.content').val('');
+                    } else {
+                        //alert("Vui lòng đăng nhập để gửi bình luận !");
+                        Swal.fire({
+                            icon: "warning",
+                            title: "Thông Báo",
+                            text: "Vui lòng đăng nhập để gửi bình luận !",
+                        });
                     }
                 }
             })
         });
-        function remove_background(product_id)
-        {
-            for(var count=1;count<=5;count++)
-            {
-                $('#'+product_id+'-'+count).css('color','#ccc');
+
+        function remove_background(product_id) {
+            for (var count = 1; count <= 5; count++) {
+                $('#' + product_id + '-' + count).css('color', '#ccc');
             }
         }
         //hover tang sao
-        $(document).on('mouseenter','.rating',function(){
-            var index=$(this).data("index");
-            var product_id=$(this).data('product_id');
+        $(document).on('mouseenter', '.rating', function() {
+            var index = $(this).data("index");
+            var product_id = $(this).data('product_id');
             // alert(index);
             // alert(product_id);
             remove_background(product_id);
-            for(var count=1;count<=index;count++)
-            {
-                $('#'+product_id+'-'+count).css('color','#ffcc00');
+            for (var count = 1; count <= index; count++) {
+                $('#' + product_id + '-' + count).css('color', '#ffcc00');
             }
         });
 
         //nha chuot giam
-        $(document).on('mouseleave','.rating',function(){
-            var index=$(this).data("index");
-            var product_id=$(this).data('product_id');
-            var rating=$(this).data("rating");
+        $(document).on('mouseleave', '.rating', function() {
+            var index = $(this).data("index");
+            var product_id = $(this).data('product_id');
+            var rating = $(this).data("rating");
             // alert(index);
             // alert(product_id);
             remove_background(product_id);
-            for(var count=1;count<=rating;count++)
-            {
-                $('#'+product_id+'-'+count).css('color','#ffcc00');
+            for (var count = 1; count <= rating; count++) {
+                $('#' + product_id + '-' + count).css('color', '#ffcc00');
             }
         });
 
-        $(document).on('click','.rating',function(){
-            var index=$(this).data("index");
-            var product_id=$(this).data('product_id');
-            var _token=$('input[name="_token"]').val();
+        $(document).on('click', '.rating', function() {
+            var index = $(this).data("index");
+            var product_id = $(this).data('product_id');
+            var _token = $('input[name="_token"]').val();
             // alert(index);
             // alert(product_id);
             $.ajax({
-                url: "{{url('/insert-rating')}}",
+                url: "{{ url('/insert-rating') }}",
                 method: "POST",
-                data: { index: index, product_id: product_id, _token: _token},
-                success: function (data) {
-                   if(data=='Đánh giá thành công')
-                   {
-                    alert("Bạn đã đánh giá "+index+" trên 5 sao");
-                   }
-                   else
-                   {
-                    alert("Lỗi đánh giá. Vui lòng đăng nhập để đánh giá sản phẩm!");
-                   }
+                data: {
+                    index: index,
+                    product_id: product_id,
+                    _token: _token
+                },
+                success: function(data) {
+                    if (data == 'Đánh giá thành công') {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Thông Báo",
+                            text: "Bạn đã đánh giá" + index + " trên 5 sao",
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "warning",
+                            title: "Thông Báo",
+                            text: "Lỗi đánh giá. Vui lòng đăng nhập để đánh giá sản phẩm!!!",
+                        });
+                    }
                 }
-            });
-           
+            })
         });
     });
-
 </script>

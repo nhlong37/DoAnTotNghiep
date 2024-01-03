@@ -54,8 +54,7 @@
                 <img src="{{ asset('assets/user/images/banner.jpg') }}"alt="">
             </a>
             <a class="hotline-header">
-                <div>091 2345 678</div>
-                <div>092 3456 789</div>
+                <div>0362.243.977</div>
             </a>
         </div>
     </div>

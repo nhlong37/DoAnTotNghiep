@@ -130,7 +130,6 @@ Route::get('/', [ProductController::class, 'GetProductIndex'])->name('trang-chu-
 Route::get('/product', [ProductController::class, 'GetProductPage'])->name('lay-ds-product');
 Route::get('/search/{keyword}', [ProductController::class, 'SearchProduct'])->name('tim-kiem');
 Route::get('/detail/{id}', [ProductController::class, 'GetDetailProduct'])->name('chi-tiet-product');
-Route::post('/detail/{id}', [ProductController::class, 'GetSlProduct'])->name('so-luong-product');
 Route::get('/cart', [ProductController::class, 'viewCart'])->name('lay-gio-hang');
 Route::get('/addcart', [ProductController::class, 'addToCart'])->name('xl-them-giohang');
 Route::get('/updatecart', [ProductController::class, 'updateCart'])->name('xl-update-giohang');
@@ -156,9 +155,9 @@ Route::group(['middleware' => ['checkauth:user']], function () {
     Route::get('/update-info/user/{id}', [LoginCotroller::class, 'index_update_user'])->name('suadoi-thongtin-user');
     Route::post('/update-info/user/{id}', [LoginCotroller::class, 'xl_update_info_user'])->name('xl-suadoi-thongtin-user');
 
-    Route::post('/payment', [ProductController::class, 'Payment'])->name('thanh-toan');
-
-    Route::post('/payment_vnpay',[PaymentController::class,'VNPay_Payment'])->name('thanh-toan-vnpay');
+    Route::post('/order', [ProductController::class, 'OrderProduct'])->name('dat-hang');
+    Route::post('/payment-vnpay',[PaymentController::class,'VNPay_Payment'])->name('thanh-toan-vnpay');
+    Route::get('/return-vnpay/{fullname}/{phone}/{email}/{address}/{requirements}/{paymentmethod}',[PaymentController::class,'returnVNPay'])->name('luu-thanh-toan-vnpay');
 
     Route::get('/purchase-history/user', [LoginCotroller::class, 'GetPurchaseHistory'])->name('lichsu-muahang-user');
     Route::get('/purchase-history-detail/{id}', [LoginCotroller::class, 'GetPurchaseHistoryDetail'])->name('chitiet-lichsu-muahang-user');
@@ -172,3 +171,4 @@ Route::post('/forgot-password', [LoginCotroller::class, 'xl_ForgotPassword'])->n
 
 Route::get('/register', [LoginCotroller::class, 'GetRegisterIndex'])->name('trang-dang-ky');
 Route::post('/register', [LoginCotroller::class, 'addRegister'])->name('xl-dang-ky-nguoi-dung');
+

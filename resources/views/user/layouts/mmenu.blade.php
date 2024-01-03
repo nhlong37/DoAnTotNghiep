@@ -1,6 +1,6 @@
 <div class="menu_mobi_add">
     <a class="logo-mb" href="">
-        <img src="{{ asset('assets/images/logo.png') }}"alt="">
+        <img src="{{ asset('assets/user/images/logo.png') }}"alt="">
     </a>
     
     <div class="load-menu"></div>
@@ -16,7 +16,4 @@
             <p ><i class="fa fa-search"></i></p>
         </div>
     </div>
-    <?php /* ?><a href="" class="home_mobi"><i class="fa fa-home" aria-hidden="true"></i></a> */?>
 </div>
-{{-- onclick="onSearch('keyword2');" --}}
-{{-- onkeypress="doEnter(event,'keyword2');" --}}
