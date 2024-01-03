@@ -18,6 +18,13 @@ function formatMoney($price = 0, $unit = ' VNĐ', $html = false)
     return $str;
 }
 
+function formatPhone($number, $dash = ' ')
+{
+    if (preg_match('/^(\d{4})(\d{3})(\d{3})$/', $number, $matches) || preg_match('/^(\d{3})(\d{4})(\d{4})$/', $number, $matches)) {
+        return $matches[1] . $dash . $matches[2] . $dash . $matches[3];
+    }
+}
+
 function getOrderTotal()
 {
     $sum = 0;
