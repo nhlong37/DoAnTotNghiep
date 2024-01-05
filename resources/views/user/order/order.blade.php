@@ -160,10 +160,10 @@
                                             value="{{ !empty(Auth::guard('user')->user()->id) ? Auth::guard('user')->user()->address : '' }}" />
                                     </div>
                                     <div class="input-cart">
-                                        <textarea class="form-control text-sm" id="requirements" name="requirements" placeholder="Yêu cầu khác"></textarea>
+                                        <textarea class="form-control text-sm" id="requirements" name="requirements" placeholder="Ghi chú"></textarea>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-dark btn-order w-100" name="thanhtoan">Đặt
+                                <button type="submit" class="btn btn-dark btn-order w-100" name="dathang">Đặt
                                     hàng</button>
                             </div>
                         </div>

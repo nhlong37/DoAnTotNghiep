@@ -1,4 +1,4 @@
-@extends('user.index')
+{{-- @extends('user.index')
 @section('body')
 <div class="wap_1200">
     @foreach($introduce_new as $k=>$item)
@@ -26,4 +26,4 @@
    
     </div>
 <p></p>
-@endsection
+@endsection --}}

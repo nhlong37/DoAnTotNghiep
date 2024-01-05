@@ -129,6 +129,7 @@ Route::group(['middleware' => ['checkauth:admin']], function () {
 
 Route::get('/', [ProductController::class, 'GetProductIndex'])->name('trang-chu-user');
 Route::get('/product', [ProductController::class, 'GetProductPage'])->name('lay-ds-product');
+Route::get('/news', [ArticleCotroller::class, 'GetNewsPage'])->name('lay-ds-news');
 Route::get('/search/{keyword}', [ProductController::class, 'SearchProduct'])->name('tim-kiem');
 Route::get('/detail/{id}', [ProductController::class, 'GetDetailProduct'])->name('chi-tiet-product');
 Route::get('/cart', [ProductController::class, 'viewCart'])->name('lay-gio-hang');
@@ -158,7 +159,7 @@ Route::group(['middleware' => ['checkauth:user']], function () {
 
     Route::post('/order', [ProductController::class, 'OrderProduct'])->name('dat-hang');
     Route::post('/payment-vnpay',[PaymentController::class,'VNPay_Payment'])->name('thanh-toan-vnpay');
-    Route::get('/return-vnpay/{fullname}/{phone}/{email}/{address}/{requirements}/{paymentmethod}',[PaymentController::class,'returnVNPay'])->name('luu-thanh-toan-vnpay');
+    Route::get('/return-vnpay/{fullname}/{phone}/{email}/{address}/{requirements}/{paymentmethod}/{id_user}',[PaymentController::class,'returnVNPay'])->name('luu-thanh-toan-vnpay');
 
     Route::get('/purchase-history/user', [LoginCotroller::class, 'GetPurchaseHistory'])->name('lichsu-muahang-user');
     Route::get('/purchase-history-detail/{id}', [LoginCotroller::class, 'GetPurchaseHistoryDetail'])->name('chitiet-lichsu-muahang-user');

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\TableOrder;
 use App\Models\TableOrderDetail;
+use App\Models\TableVariantsPCS;
+use App\Models\TableProduct;
 use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
@@ -16,11 +18,11 @@ class PaymentController extends Controller
         $email = $req->email;
         $phone = $req->phone;
         $address = $req->address;
-        $requirements = $req->requirements;
+        $requirements = (!empty($req->requirements)) ? $req->requirements : "Đã thanh toán";
         $method = $req->paymentmethod;
         $id_user = Auth::guard('user')->user()->id;
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "http://localhost:8000/return-vnpay/".$name."/".$phone."/".$email."/".$address."/".$requirements."/".$method;
+        $vnp_Returnurl = "http://localhost:8000/return-vnpay/".$name."/".$phone."/".$email."/".$address."/".$requirements."/".$method."/".$id_user;
         $vnp_TmnCode = "IZ97NBEN";//Mã website tại VNPAY 
         $vnp_HashSecret = "JGUDYSDIZFBSTYQOXERJXFZURDMZFUZC"; //Chuỗi bí mật
         
@@ -78,40 +80,34 @@ class PaymentController extends Controller
             $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret);//  
             $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
         }
-        // $returnData = array('code' => '00'
-        //     , 'message' => 'success'
-        //     , 'data' => $vnp_Url);
-        //     if (isset($_POST['redirect'])) {
-        //         header('Location: ' . $vnp_Url);
-        //         die();
-        //     } else {
-        //         echo json_encode($returnData);
-        //     }
+        $returnData = array('code' => '00'
+            , 'message' => 'success'
+            , 'data' => $vnp_Url);
+            if (isset($_POST['redirect'])) {
+                header('Location: ' . $vnp_Url);
+                die();
+            } else {
+                echo json_encode($returnData);
+            }
 
             // vui lòng tham khảo thêm tại code demo
-        $cart = session()->get('cart');
-        session()->put('cart_tam', $cart);
-        //dd(session()->get('cart_tam'));
-        //return redirect($vnp_Url);
-        header('Location: ' . $vnp_Url);
-        die();
+       
     }
 
     public function returnVNPay (Request $req) {
-        $cart = session()->get('cart_tam');
-        dd($cart);
         $infoOrder = new TableOrder();
         $infoOrder->code = $req->vnp_TxnRef;
         $infoOrder->id_user = $req->id_user;
-        $infoOrder->fullname = $req->vnp_Inv_Customer;
-        $infoOrder->phone = $req->vnp_Inv_Phone;
+        $infoOrder->fullname = $req->fullname;
+        $infoOrder->phone = $req->phone;
         $infoOrder->address = $req->address;
         $infoOrder->email = $req->email;
+        $infoOrder->content = $req->requirements;
         $infoOrder->payment = $req->paymentmethod;
         $infoOrder->status = 'dathanhtoan';
-        $infoOrder->total_price = getOrderTotal();
+        $infoOrder->total_price = $req->vnp_Amount/100;
         $infoOrder->save();
-       
+        $cart = session()->get('cart');
         foreach ($cart as $key => $value) {
             $detailOrder = new TableOrderDetail();
             $detailOrder->id_order = $infoOrder->id;
@@ -125,10 +121,13 @@ class PaymentController extends Controller
             $detailOrder->quantity = $value['quantity'];
             $detailOrder->save();
 
-            // $miniusQuantity = TableProduct::find($value['id_product']);
-
-            // $miniusQuantity->quantity = $miniusQuantity->quantity - $value['quantity'];
-            // $miniusQuantity->save();
+            $miniusQuantity = TableVariantsPCS::where([
+                ['id_product', '=', $detailOrder->id_product],
+                ['id_size', '=', $detailOrder->id_size],
+                ['id_color', '=', $detailOrder->id_color],
+            ])->firstOrFail();
+            $miniusQuantity->quantity = $miniusQuantity->quantity - $value['quantity'];
+            $miniusQuantity->save();
         }
         if (session()->has('cart')) {
             session()->forget('cart');

@@ -30,6 +30,8 @@
                                     <i class="fas fa-search"></i>
                                 </button>
                             </div>
+                            <a class="btn btn-sm bg-gradient-danger text-white ml-1" href="{{ route('loai-admin') }}"
+                            title="Huỷ tìm kiếm"><i class="fas fa-times mr-1"></i>Huỷ tìm kiếm</a>
                         </div>
 
                     </div>
