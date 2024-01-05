@@ -56,7 +56,7 @@
     <div class="wap_1200">
         <div class="wap_gioithieu">
             <div class="wap_left">
-                <a class="pic-gioithieu" href="gioi-thieu" target="_blank">
+                <a class="pic-gioithieu" href="" target="_blank">
                     <div class="scale-img"><img src="{{ asset('assets/user/images/pic-gt1.png') }}" /></div>
                 </a>
             </div>
@@ -74,11 +74,11 @@
                     hàng thể thao. Hiện đơn vị đang tọa lạc tại địa chỉ Đường Số 1, Trường Thọ, TP Thủ Đức.
                 </div>
                 <div class="btn-xemthem">
-                    <a href="{{route('gioi-thieu')}}" class="text-decoration-none">Xem thêm</a>
+                    <a href="" class="text-decoration-none">Xem thêm</a>
                 </div>
             </div>
             <div class="wap_right">
-                <a class="pic-gioithieu" href="gioi-thieu" target="_blank">
+                <a class="pic-gioithieu" href="" target="_blank">
                     <div class="scale-img"><img src="{{ asset('assets/user/images/pic-gt2.png') }}" /></div>
                 </a>
             </div>

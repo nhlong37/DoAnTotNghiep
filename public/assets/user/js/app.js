@@ -776,16 +776,22 @@ NN_FRAMEWORK.Disable = function () {
 };
 
 NN_FRAMEWORK.ChangeAction = function(){
-     $('.payment-method').change(function() {
-        var selectedPaymentMethod = $(this).val();
+    $('.payment-method').change(function() {
+       var selectedPaymentMethod = $(this).val();
 
-        if (selectedPaymentMethod === 'cod') {
-            $('#form-cart').attr('action', window.location.protocol + '//' + window.location.host + '/order');
-        } else if (selectedPaymentMethod === 'vnpay') {
-            $('#form-cart').attr('action', window.location.protocol + '//' + window.location.host + '/payment-vnpay');
-        }
-    });
+       if (selectedPaymentMethod === 'cod') {
+           $('#form-cart').attr('action', window.location.protocol + '//' + window.location.host + '/order');
+           $('.btn-order').attr('name','dathang');
+           $('.btn-order').text('Đặt hàng');
+
+       } else if (selectedPaymentMethod === 'vnpay') {
+           $('#form-cart').attr('action', window.location.protocol + '//' + window.location.host + '/payment-vnpay');
+           $('.btn-order').attr('name','redirect');
+           $('.btn-order').text('Thanh toán');
+       }
+   });
 }
+
 
 
 /* Ready */
