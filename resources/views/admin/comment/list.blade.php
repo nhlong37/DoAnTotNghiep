@@ -56,11 +56,9 @@
 
                                     {{-- <th class="align-middle">Hình 2</th> --}} -->
 
-                                <th class="align-middle text-center">Tên người bình luận</th>
+                                <th class="align-middle text-center" width="10%">Tên người bình luận</th>
 
-                                <th class="align-middle ">Nội dung</th>
-
-                                <th class="align-middle">Trả lời</th>
+                                <th class="align-middle text-center">Trả lời</th>
 
                                 <th class="align-middle text-center">Ngày gửi</th>
 
@@ -83,21 +81,21 @@
                                     <input type="number" class="form-control form-control-mini m-auto update-numb"
                                         min="0" value="{{ $serial++ }}" data-id="" data-table="comment" readonly>
                                 </td>
-                                <!-- <td class="align-middle">
-                                                <a href="{{ route('sua-doi-san-pham-admin', ['id' => $item->id]) }}"
-                                                    title="{{ $item->name }}">
-                                                    <img class="rounded img-preview"
-                                                        src="{{ asset('upload/product/' . $item->photo) }}"
-                                                        onerror="src='{{ asset('assets/admin/images/noimage.png') }}'"
-                                                        alt="Alt Photo" style="" />
-                                                </a>
-                                            </td> -->
+                              
                                 <td class="align-middle text-center">
+                                @foreach($data_id_user as $user)
+                                @if($item->id_user == $user->id)
                                     <!-- <a class="text-dark text-break"
                                         href="{{ route('sua-doi-san-pham-admin', ['id' => $item->id]) }}"
                                         title="{{ $item->name }}"></a> -->
-                                    {{ $item->comment_name }}
+                                    {{ $user->name }}
+                                    @endif
+                                @endforeach
+                                <p></p>
+                                {{ $item->comment_name }}
                                 </td>
+                              
+
                                 <td class="align-middle "  width="20%">
                                     <!-- <a class="text-dark text-break"
                                         href="{{ route('sua-doi-san-pham-admin', ['id' => $item->id]) }}"
@@ -145,14 +143,14 @@
                                         id="{{$item->id_product}}" class="btn btn-warning btn-xs comment_duyet_btn"
                                         value="Chưa Duyệt" />
                                     @endif
-                                </td>
-                                <td class="align-middle text-center text-md text-nowrap">
-                                    <!-- <a class="text-primary mr-2 modify-item"
-                                        href="{{ route('sua-doi-san-pham-admin', ['id' => $item->id]) }}"
-                                        title="Chỉnh sửa"><i class="fas fa-edit"></i></a> -->
-                                    <a class="text-danger delete-item" data-href="comment" data-id="{{ $item->id }}"
+                                    <p></p>
+                                    <p>
+                                    <a class="text-danger delete-item" href="{{ route('xl-xoa-bo-binh-luan-admin', ['id' => $item->id]) }}" 
+                                        data-href="comment" data-id="{{ $item->id }}"
                                         title="Xóa"><i class="fas fa-trash-alt"></i></a>
+                                </p>
                                 </td>
+
                             </tr>
                         </tbody>
                         @endforeach
