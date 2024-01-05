@@ -11,6 +11,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TypeArticleCotroller;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\IndexController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -171,4 +172,4 @@ Route::post('/forgot-password', [LoginCotroller::class, 'xl_ForgotPassword'])->n
 
 Route::get('/register', [LoginCotroller::class, 'GetRegisterIndex'])->name('trang-dang-ky');
 Route::post('/register', [LoginCotroller::class, 'addRegister'])->name('xl-dang-ky-nguoi-dung');
-
+Route::get('/introduce', [IndexController::class, 'GetIntroduce'])->name('gioi-thieu');

@@ -170,8 +170,12 @@
                         <form>
                             @csrf
                             <div id="comment_show"></div>
-                            <input type="hidden" class="id_product" data-status="0" name="id_product"
+                            <input type="hidden" class="id_product" data-status="0" name="id_product" 
                                 value="{{ $rowDetail->id }}" />
+                                <input type="hidden" class="id_user" name="id_user" 
+                                value="{{ Auth::guard('user')->user()->id }}" />
+                                <input type="hidden" class="avatar" name="avatar" 
+                                value="{{ Auth::guard('user')->user()->avatar }}" />
                             <!-- <div class="row  style_comment" style="background-color: #F0FFFF">
                                     <div class="col-sm-2">
                                         <input type="hidden" class="comment_product_id" name="comment_product_id"
@@ -214,6 +218,7 @@
                                                     id="{{ $rowDetail->id }}-{{ $count }}"
                                                     data-index="{{ $count }}"
                                                     data-product_id="{{ $rowDetail->id }}"
+                                                    data-id_user="{{Auth::guard('user')->user()->id}}"
                                                     style="cursor:pointer; {{ $color }}; font-size:30px;"
                                                     data-rating="{{ $rating }}" class="rating">
                                                     &#9733;

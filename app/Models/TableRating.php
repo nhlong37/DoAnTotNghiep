@@ -12,6 +12,6 @@ class TableRating extends Model
     protected $table='table_rating';
     protected $primaryKey='id';
     protected  $fillable=[
-        'id_product','rating'
+        'id_user','id_product','rating'
     ];
 }
