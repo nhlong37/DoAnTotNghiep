@@ -4,7 +4,7 @@
             <li><a class="transition {{ $name == '' || $name == 'trang-chu-user' ? 'active' : '' }}"
                     href="{{ route('trang-chu-user') }}" title="Trang chủ">Trang chủ</a></li>
             <li class="menu-line"></li>
-            <li><a class="transition" href="" title="Giới thiệu">Giới thiệu</a></li>
+            <li><a class="transition" href="{{route('gioi-thieu')}}" title="Giới thiệu">Giới thiệu</a></li>
             <li class="menu-line"></li>
             <li>
                 <a class="transition {{ $name == 'lay-ds-product' ? 'active' : '' }}"

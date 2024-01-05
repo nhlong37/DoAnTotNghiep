@@ -16,6 +16,7 @@ use App\Models\TableBrand;
 use App\Models\TableProductType;
 use App\Models\TableColor;
 use App\Models\TableSize;
+use App\Models\TableUser;
 use App\Models\TableAlbum;
 use App\Models\TableArticle;
 use App\Models\TableVariantsPCS;
@@ -30,7 +31,7 @@ class ProductController extends Controller
     // Sản phẩm //
     public function index_product(Request $req)
     {
-        $limit =  10;
+        $limit = 10;
         //latest() = orderBy('created_at','desc')
         $dsProduct = TableProduct::latest()->paginate($limit);
 
@@ -117,7 +118,7 @@ class ProductController extends Controller
                 $destinationPath = public_path('upload/album/');
                 $filename = 'pictureProduct-' . $randomNew . '.' . $image->getClientOriginalExtension();
                 $image->move($destinationPath, $filename);
-                $picture->id_product  = $itemproduct->id;
+                $picture->id_product = $itemproduct->id;
                 $picture->photo = $filename;
                 $picture->save();
             }
@@ -155,7 +156,7 @@ class ProductController extends Controller
             ->get()
             ->toArray();
 
-        return view('.admin.product.main.modify', ['detailSP'  => $product], compact('level1', 'level2', 'dsColor', 'dsSize', 'arrIdColor', 'arrIdSize', 'dsGallery', 'list_advanted'));
+        return view('.admin.product.main.modify', ['detailSP' => $product], compact('level1', 'level2', 'dsColor', 'dsSize', 'arrIdColor', 'arrIdSize', 'dsGallery', 'list_advanted'));
     }
 
     public function modifyproducts(xlAddRequestProduct $req, $id)
@@ -207,11 +208,13 @@ class ProductController extends Controller
                 $arr_color = $req->color;
                 $count_color = count($req->color);
                 for ($j = 0; $j < $count_color; $j++) {
-                    if (TableVariantsPCS::where([
-                        ['id_product', '=', $id],
-                        ['id_size', '=', $arr_size[$i]],
-                        ['id_color', '=', $arr_color[$j]],
-                    ])->get()->toArray() == NULL) {
+                    if (
+                        TableVariantsPCS::where([
+                            ['id_product', '=', $id],
+                            ['id_size', '=', $arr_size[$i]],
+                            ['id_color', '=', $arr_color[$j]],
+                        ])->get()->toArray() == NULL
+                    ) {
                         $pro_color = new TableVariantsPCS();
                         $pro_color->id_product = $itemproduct->id;
                         $pro_color->id_size = $arr_size[$i];
@@ -230,7 +233,7 @@ class ProductController extends Controller
                     ['id_product', '=', $id],
                     ['id', '=', $req->id_adv[$i]],
                 ])->firstOrFail();
-                $add_quantity->quantity =  ($req->quantity[$i]) ? $req->quantity[$i] : 0;
+                $add_quantity->quantity = ($req->quantity[$i]) ? $req->quantity[$i] : 0;
                 $add_quantity->save();
             }
         }
@@ -252,7 +255,7 @@ class ProductController extends Controller
                 $destinationPath = public_path('upload/album/');
                 $filename = 'pictureProduct-' . $randomNew . '.' . $image->getClientOriginalExtension();
                 $image->move($destinationPath, $filename);
-                $picture->id_product  = $itemproduct->id;
+                $picture->id_product = $itemproduct->id;
                 $picture->photo = $filename;
                 $picture->save();
             }
@@ -302,7 +305,7 @@ class ProductController extends Controller
     // Danh mục thương hiệu //
     public function index_brand(Request $req)
     {
-        $limit =  10;
+        $limit = 10;
         $dslevel1 = TableBrand::latest()->paginate($limit);
         //kiểm tra xem nhập keyword chưa
 
@@ -332,7 +335,7 @@ class ProductController extends Controller
     public function index_modifybrand($id)
     {
         $level1 = TableBrand::find($id);
-        return view('.admin.product.brand.modify', ['detailLV1'  => $level1]);
+        return view('.admin.product.brand.modify', ['detailLV1' => $level1]);
     }
 
     public function modifylevel1(xlAddRequestDmucLevel $req, $id)
@@ -363,7 +366,7 @@ class ProductController extends Controller
     // Danh mục loại //
     public function index_type(Request $req)
     {
-        $limit =  10;
+        $limit = 10;
         $dslevel2 = TableProductType::latest()->paginate($limit);
         //kiểm tra xem nhập keyword chưa
         // lấy trang hiện tại
@@ -393,7 +396,7 @@ class ProductController extends Controller
     {
         $level2 = TableProductType::find($id);
 
-        return view('.admin.product.type.modify', ['detailLV2'  => $level2]);
+        return view('.admin.product.type.modify', ['detailLV2' => $level2]);
     }
 
     public function modifylevel2(xlAddRequestDmucLevel $req, $id)
@@ -494,7 +497,7 @@ class ProductController extends Controller
 
     public function loadOrder()
     {
-        $limit =  10;
+        $limit = 10;
         $dsOrder = TableOrder::latest()->paginate($limit);
         // lấy trang hiện tại
         $current = $dsOrder->currentPage();
@@ -506,7 +509,7 @@ class ProductController extends Controller
 
     public function loadOrderDetail($id)
     {
-        $limit =  10;
+        $limit = 10;
         $infoOrder = TableOrder::find($id);
         $dsOrderDetail = TableOrderDetail::where('id_order', $infoOrder->id)->latest()->paginate($limit);
 
@@ -549,7 +552,12 @@ class ProductController extends Controller
     public function loadComment(Request $req)
     {
         $limit = 10;
-        //$id=TableComment::find($id);
+
+        //$data_id_user=Auth::guard('user')->user()->id;
+        // $id_user = TableComment::get('id_user');
+        // $id = TableComment::whereIn('id_user', $id_user)->find($id_user);
+        $data_id_comment = TableComment::get('id_user');
+        $data_id_user = TableUser::whereIn('id', $data_id_comment)->find($data_id_comment);
         //dd($id);
         //latest() = orderBy('created_at','desc')
         $dsComment = TableComment::latest()->paginate($limit);
@@ -559,7 +567,7 @@ class ProductController extends Controller
         // lấy số thứ tự đầu tiên nhưng theo dạng mảng (là số 0)
         $perSerial = $limit * ($current - 1);
         $serial = $perSerial + 1;
-        return view('.admin.comment.list', compact('dsComment', 'serial', 'comment_rep'));
+        return view('.admin.comment.list', compact('dsComment', 'serial', 'comment_rep', 'data_id_user'));
     }
 
     public function deletecomment(Request $req)
@@ -586,6 +594,8 @@ class ProductController extends Controller
         //$id_pr = TableProduct::get('id_product');
         $id_product_rating = TableRating::get('id');
         $id_product = TableProduct::get('id');
+        $data_id_rating = TableRating::get('id_product');
+        $data_id_product = TableProduct::whereIn('id', $data_id_rating)->find($data_id_rating);
 
         //dd($id_product);
         $dsRating = TableRating::latest()->paginate($limit);
@@ -595,7 +605,7 @@ class ProductController extends Controller
         // lấy số thứ tự đầu tiên nhưng theo dạng mảng (là số 0)
         $perSerial = $limit * ($current - 1);
         $serial = $perSerial + 1;
-        return view('.admin.comment.listrate', compact('dsRating', 'serial'));
+        return view('.admin.comment.listrate', compact('dsRating', 'serial', 'data_id_product'));
     }
 
 
@@ -606,9 +616,9 @@ class ProductController extends Controller
     {
         // lấy sản phẩm
         $dsProductNew = TableProduct::where('deleted_at', null)->limit(8)->get();
-        $dsProductOutsanding = TableProduct::where('deleted_at', null)->where('view','>=',50)->get();
-        $dsNewsOutsanding = TableArticle::where('deleted_at', null)->where('view','>=',20)->where('type','tin-tuc')->get();
-        return view('.user.home.home', compact('dsProductNew', 'dsProductOutsanding','dsNewsOutsanding'));
+        $dsProductOutsanding = TableProduct::where('deleted_at', null)->where('view', '>=', 50)->get();
+        $dsNewsOutsanding = TableArticle::where('deleted_at', null)->where('view', '>=', 20)->where('type', 'tin-tuc')->get();
+        return view('.user.home.home', compact('dsProductNew', 'dsProductOutsanding', 'dsNewsOutsanding'));
     }
 
     public function GetProductPage(Request $req)
@@ -650,6 +660,20 @@ class ProductController extends Controller
 
     public function GetDetailProduct(Request $req, $id)
     {
+        // $data_avatar_comment = TableComment::get('avatar');
+        // $data_id_user = TableUser::whereIn('avatar', $data_avatar_comment->avatar)->find($data_avatar_comment->avatar);
+        // dd($data_avatar_comment);
+        // $user=Auth::guard('user')->user()->avatar;
+        // dd($user);
+        // $data_id_comment = TableComment::get('id_user');
+        // $data_id_user = TableUser::whereIn('id', $data_id_comment)->find($data_id_comment);
+        // $data_avatar = TableUser::get($data_id_user);
+        //$data_avatar = TableComment::find($data_id_user)->get('avatar');
+        //dd($data_avatar);
+        //dd($id_product_order);
+        //$id_product = TableOrderDetail::where('id_product', $id)->where('id_user', Auth::guard('user')->user()->id)->get('id_product');
+        // $id_pro = TableProduct::whereIn('id',$id_product)->get('id');
+        //dd($id_product);
         $detailProduct = TableProduct::where('deleted_at', null)->where('id', $id)->first();
         $view = $detailProduct->view;
         $view++;
@@ -673,17 +697,17 @@ class ProductController extends Controller
             ->select('table_variants_pcs.quantity')
             ->first();
 
-        $rowColor  = TableColor::whereIn('id', $arrIdColor)->get();
-        $rowSize  = TableSize::whereIn('id', $arrIdSize)->get();
+        $rowColor = TableColor::whereIn('id', $arrIdColor)->get();
+        $rowSize = TableSize::whereIn('id', $arrIdSize)->get();
         $rating = TableRating::where('id_product', $id)->avg('rating');
         $rating = round($rating);
         if ($req->ajax()) {
             return Response($dsSoLuong);
         } else {
             return view('.user.product.detail', ['rowDetail' => $detailProduct], compact('rowColor', 'rowSize', 'dsGallery', 'rating'));
-           
+
         }
-        
+
     }
 
     public function viewCart()
@@ -826,12 +850,14 @@ class ProductController extends Controller
                 $detailOrder = new TableOrderDetail();
                 $detailOrder->id_order = $infoOrder->id;
                 $detailOrder->id_product = $value['id_product'];
-                $detailOrder->id_color    = $value['id_color'];
+                $detailOrder->id_color = $value['id_color'];
                 $detailOrder->id_size = $value['id_size'];
                 $detailOrder->name_product = $value['name'];
                 $detailOrder->photo_product = $value['image'];
-                if ($value['price_sale'] > 0) $detailOrder->price = $value['price_sale'];
-                else $detailOrder->price = $value['price_regular'];
+                if ($value['price_sale'] > 0)
+                    $detailOrder->price = $value['price_sale'];
+                else
+                    $detailOrder->price = $value['price_regular'];
                 $detailOrder->quantity = $value['quantity'];
                 $detailOrder->save();
 
@@ -847,29 +873,55 @@ class ProductController extends Controller
             return redirect()->route('trang-chu-user');
         }
     }
-    
+
     public function send_comment(Request $req)
     {
+        // $data_id_order_product = TableOrderDetail::get('id_product','id_user');
+        // $data_id_order_user = TableOrderDetail::get('id_user');
+        // $data_id_product = TableProduct::whereIn('id', $data_id_order_product)->find($data_id_order_product);
+        // $data_id_user = TableUser::whereIn('id', $data_id_order_user)->find($data_id_order_user);
+        //$id_product_order=TableOrderDetail::get('id_product');
+        // $data_id_order_product = TableOrderDetail::get('id_product');
+        // $data_id_product = TableProduct::whereIn('id', $data_id_order_product)->find($data_id_order_product);
+        //$data_order = TableOrderDetail::whereIn('id_product', $data_id_product->id)->whereIn('id_user', $data_id_user->id)->find();
+        $id_product = TableOrderDetail::where('id_product', $req->id_product)->where('id_user', Auth::guard('user')->user()->id)->get();
+        $id_u = TableOrderDetail::where('id_product', $req->id_product)->where('id_user', Auth::guard('user')->user()->id)->get('id_user');
+        // $id_pro = TableProduct::whereIn('id',$id_product)->get('id');
+        $user=Auth::guard('user')->user()->id;
         if (Auth::guard('user')->check()) {
-            $id_user = Auth::guard('user')->user()->id;
+
+            $id_user = $req->id_user;
             $product_id = $req->id_product;
             $content = $req->content;
-            $comment = new TableComment();
-            $id_user = Auth::guard('user')->user()->id;
-            $comment->id_product = $product_id;
-            $comment->content = $content;
-            $comment->content_parent_comment = 0;
-            $comment->save();
-            echo 'Bình luận thành công';
+            $avatar = $req->avatar;
+            foreach ($id_product as $k => $product_user) {
+                if (($id_user == $product_user->id_user) || ($product_id == $product_user->porduct)) {
+                    $comment = new TableComment();
+                    $comment->id_user = Auth::guard('user')->user()->id;
+                    $comment->id_product = $product_id;
+                    $comment->content = $content;
+                    $comment->avatar = $avatar;
+                    $comment->content_parent_comment = 0;
+                    $comment->save();
+                    echo 'Bình luận thành công';
+                }
+            }
         } else {
-            echo 'Vui lòng đăng nhập để gửi bình luận !';
+            echo 'Vui lòng đăng nhập hoặc mua hàng để gửi bình luận !';
         }
     }
     public function load_comment(Request $req)
     {
         $output = '';
-        $product_id = $req->id_product;
+        $data_id_comment = TableComment::get('id_user');
+        $data_id_user = TableUser::whereIn('id', $data_id_comment)->find($data_id_comment);
+        // $data_avatar_comment = TableComment::get('avatar');
+        // $data_id_user = TableUser::whereIn('avatar', $data_avatar_comment)->find($data_avatar_comment);
         $id_user = $req->id_user;
+        //dd($data_id_user);
+        $product_id = $req->id_product;
+        //$id_user = $req->id_user;
+        $avatar = $req->avatar;
         $status = $req->status;
         $dsComment = TableComment::where('id_product', $product_id)->where('content_parent_comment', '=', 0)->where('status', 1)->get();
         $comment_rep = TableComment::where('content_parent_comment', '>', 0)->get();
@@ -882,42 +934,51 @@ class ProductController extends Controller
         // $id_user_name = $id_user_comment->name;
         //$dsCommentUser=TableComment::where('id_user',$data[''])
         foreach ($dsComment as $k => $comment) {
-            $output .= '<div class="d-flex mb-3" id="style_comment">
+            foreach ($data_id_user as $k => $user) {
+                if ($comment->id_user == $user->id) {
+                    $output .=
+                        '<div class="d-flex mb-3" id="style_comment">
             <div class="col-sm-1" id="img-avatar">
-                <img width="100%" src="' . url('/upload/avatar/user.jpg') . '"
+                <img width="100%" src="' . url('/upload/avatar/'.$comment->avatar) . '"
                     class="img-avatar" />
             </div>
             <div class="col-sm-11" id="content">
-                <span style="color: green">' . $comment->$id_user . '<span></span>
-                ' . $comment->created_at->format('d-m-Y h:m') . '
+                
+                <span style="color: green">' . $user->name .
+                        '</span>
+                <span>
+                ' . $comment->created_at->format('h:m d/m/Y ') . '
                 </span>
                 <p>
-                
                 ' . $comment->content . '
                 </p>
             </div>
         </div> ';
+                }
+            }
             foreach ($comment_rep as $k => $reply_comment) {
                 if ($reply_comment->content_parent_comment == $comment->id) {
                     $output .= '<div class="row " id="style_comment" style="margin: 5px 40px; background-color:#FFCC99">
             <div class="col-sm-1" id="img-avatar">
-                <img width="60%" src="' . url('/upload/avatar/avatar5.png') . '"
+                <img width="60%" src="' . url('/upload/avatar/'.Auth::guard('admin')->user()->avatar) . '"
                     class="img-avatar" />
             </div>
             <div class="col-sm-11" id="content">
-                <span style="color: blue">HL Shoes Store<span></span>
-                ' . $reply_comment->created_at->format('d-m-Y h:m') . '
+                <span style="color: blue">HL Shoes Store trả lời <span></span>
+                ' . $reply_comment->created_at->format('h:m d/m/Y ') . '
                 </span>
                 <p>
                 ' . $reply_comment->content . '
                 </p>
             </div>
         </div>        
-        ';
+        
+        <p></p>';
                 }
             }
         }
         echo $output;
+        //return view('.user.product.detail',compact('dsComment'));
     }
     // public function get_comment_status(Request $req)
     // {
@@ -937,16 +998,20 @@ class ProductController extends Controller
     }
     public function insert_rating(Request $req)
     {
+        $id_product = TableOrderDetail::where('id_product', $req->product_id)->where('id_user', Auth::guard('user')->user()->id)->get();
         if (Auth::guard('user')->check()) {
-            $data = $req->all();
-            $rating = new TableRating();
-            $rating->id_product = $data['product_id'];
-            $rating->rating = $data['index'];
-            $rating->save();
-            echo 'Đánh giá thành công';
-        } else {
-            echo 'Vui lòng đăng nhập để đánh giá sản phẩm!';
-        }
+            foreach ($id_product as $k => $product_user) {
+                if (($req->id_user == $product_user->id_user) || ($req->id_product == $product_user->id_product)) {
+                    $data = $req->all();
+                    $rating = new TableRating();
+                    $rating->id_user = $data['id_user'];
+                    $rating->id_product = $data['product_id'];
+                    $rating->rating = $data['index'];
+                    $rating->save();
+                    echo 'Đánh giá thành công';
+                }
+            }
+        } 
     }
 
     // ---------------- USER ---------------- //    

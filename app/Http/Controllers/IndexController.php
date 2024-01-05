@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\TableProduct;
 use App\Models\TableOrder;
+use App\Models\TableArticle;
 use Carbon\Carbon;
 
 class IndexController extends Controller
@@ -89,5 +90,10 @@ class IndexController extends Controller
         $data_month_chart = json_encode($data_m_total);  
 
         return view('.admin.home.home', compact('data_month_chart'));
+    }
+    public function GetIntroduce()
+    {
+        $introduce_new = TableArticle::all();
+        return view('.user.home.introduce', compact('introduce_new'));
     }
 }

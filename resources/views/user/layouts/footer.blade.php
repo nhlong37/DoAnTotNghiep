@@ -21,7 +21,7 @@
                     </ul>
                 </div>
                 <div class="footer-news">
-                    <img src="{{ asset('assets/user/images/facebook.png') }}" alt="">
+                   
                 </div>
         </div>
     </div>

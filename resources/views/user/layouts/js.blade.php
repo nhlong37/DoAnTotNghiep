@@ -149,6 +149,7 @@
         function load_comment() {
             var id_product = $('.id_product').val();
             var id_user = $('.id_user').val();
+            var avatar= $('.avatar').val();
             var status = $('.status').val();
             var _token = $('input[name="_token"]').val();
             $.ajax({
@@ -158,6 +159,7 @@
                     status: status,
                     id_product: id_product,
                     id_user: id_user,
+                    avatar:avatar,
                     _token: _token
                 },
                 success: function(data) {
@@ -166,9 +168,9 @@
             })
         }
         $('.send-comment').click(function() {
-            var id_product = $('.id_product').val();
             var id_user = $('.id_user').val();
-            //var comment_name=$('.comment_name').val('');
+            var id_product = $('.id_product').val();
+            var avatar=$('.avatar').val();
             var content = $('.content').val();
             var _token = $('input[name="_token"]').val();
             $.ajax({
@@ -176,15 +178,18 @@
                 method: "POST",
                 data: {
                     id_user: id_user,
+                    avatar:avatar,
                     id_product: id_product,
                     content: content,
                     _token: _token,
                 },
                 success: function(data) {
                     if (data == 'Bình luận thành công') {
-                        $(".notify_comment").html(
-                            '<span class="text text-success">Thêm bình luận thành công, vui lòng chờ xét duyệt</span>'
-                        );
+                        Swal.fire({
+                            icon: "success",
+                            title: "Thành công",
+                            text: "Gửi bình luận thành công, vui lòng chờ xét duyệt !",
+                        });
                         load_comment();
                         $(".notify_comment").fadeOut(4000);
                         //$('.comment_name').val('');
@@ -194,7 +199,7 @@
                         Swal.fire({
                             icon: "warning",
                             title: "Thông Báo",
-                            text: "Vui lòng đăng nhập để gửi bình luận !",
+                            text: "Vui lòng đăng nhập hoặc mua hàng để gửi bình luận !",
                         });
                     }
                 }
@@ -210,6 +215,7 @@
         $(document).on('mouseenter', '.rating', function() {
             var index = $(this).data("index");
             var product_id = $(this).data('product_id');
+            var id_user = $(this).data('id_user');
             // alert(index);
             // alert(product_id);
             remove_background(product_id);
@@ -222,6 +228,7 @@
         $(document).on('mouseleave', '.rating', function() {
             var index = $(this).data("index");
             var product_id = $(this).data('product_id');
+            var id_user = $(this).data('id_user');
             var rating = $(this).data("rating");
             // alert(index);
             // alert(product_id);
@@ -234,6 +241,7 @@
         $(document).on('click', '.rating', function() {
             var index = $(this).data("index");
             var product_id = $(this).data('product_id');
+            var id_user = $(this).data('id_user');
             var _token = $('input[name="_token"]').val();
             // alert(index);
             // alert(product_id);
@@ -242,6 +250,7 @@
                 method: "POST",
                 data: {
                     index: index,
+                    id_user:id_user,
                     product_id: product_id,
                     _token: _token
                 },
@@ -252,13 +261,7 @@
                             title: "Thông Báo",
                             text: "Bạn đã đánh giá" + index + " trên 5 sao",
                         });
-                    } else {
-                        Swal.fire({
-                            icon: "warning",
-                            title: "Thông Báo",
-                            text: "Lỗi đánh giá. Vui lòng đăng nhập để đánh giá sản phẩm!!!",
-                        });
-                    }
+                    } 
                 }
             })
         });

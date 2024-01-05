@@ -95,7 +95,7 @@
         </div>
     </div>
     <div class="card-header">
-        <h6 class="card-title " style="text-align:center"><b></b> Danh sách mặt hàng
+        <h6 class="card-title " style="text-align:center"><b>DANH SÁCH MẶT HÀNG</b> 
         </h6>
     </div>
     <div class="card-body table-responsive p-0">

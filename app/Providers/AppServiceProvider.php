@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use App\Models\TableProduct;
 use App\Models\TableBrand;
 use App\Models\TableRating;
+use App\Models\TableComment;
 use Illuminate\Support\Facades\View;
 
 
