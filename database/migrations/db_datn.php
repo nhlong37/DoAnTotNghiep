@@ -74,16 +74,6 @@ return new class extends Migration
             $table->softDeletes();
         });
 
-        // tạo bảng đánh giá sao của sản phẩm
-        Schema::create('table_rating', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('id_product')->nullable();
-            $table->foreign('id_product')->references('id')->on('table_product')->onDelete('set null');
-            $table->integer('rating')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
-        });
-
         // tạo bảng phụ cho bảng sản phẩm và bảng màu sắc và bảng kích thước
         Schema::create('table_variants_pcs', function (Blueprint $table) {
             $table->id();
@@ -121,6 +111,33 @@ return new class extends Migration
             $table->string('username')->nullable();
             $table->string('password')->nullable();
             $table->string('remember_token')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        // tạo bảng comment
+        Schema::create('table_comment', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('id_user')->nullable();
+            $table->foreign('id_user')->references('id')->on('table_user')->onDelete('set null');
+            $table->unsignedBigInteger('id_product')->nullable();
+            $table->foreign('id_product')->references('id')->on('table_product')->onDelete('set null');
+            $table->mediumText('content')->nullable();
+            $table->string('avatar')->nullable();
+            $table->string('comment_name')->nullable();
+            $table->integer('content_parent_comment')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        // tạo bảng đánh giá sao của sản phẩm
+        Schema::create('table_rating', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('id_product')->nullable();
+            $table->foreign('id_product')->references('id')->on('table_product')->onDelete('set null');
+            $table->unsignedBigInteger('id_user')->nullable();
+            $table->foreign('id_user')->references('id')->on('table_user')->onDelete('set null');
+            $table->integer('rating')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -196,21 +213,6 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-        Schema::create('table_comment', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('id_user')->nullable();
-            $table->foreign('id_user')->references('id')->on('table_user')->onDelete('set null');
-            $table->unsignedBigInteger('id_product')->nullable();
-            $table->foreign('id_product')->references('id')->on('table_product')->onDelete('set null');
-            $table->mediumText('content')->nullable();
-            $table->string('avatar')->nullable();
-            $table->string('comment_name')->nullable();
-            $table->integer('content_parent_comment')->nullable();
-            $table->tinyInteger('status')->default(0);
-            $table->timestamps();
-            $table->softDeletes();
-        });
-    
     }
 
     /**
@@ -220,7 +222,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('table_rating');
+        
         Schema::dropIfExists('table_variants_pcs');
         Schema::dropIfExists('table_album');
         Schema::dropIfExists('table_product');
@@ -230,6 +232,8 @@ return new class extends Migration
         Schema::dropIfExists('table_size');
         Schema::dropIfExists('table_role');
         Schema::dropIfExists('table_user');
+        Schema::dropIfExists('table_comment');
+        Schema::dropIfExists('table_rating');
         Schema::dropIfExists('table_order');
         Schema::dropIfExists('table_order_detail');
         Schema::dropIfExists('table_article');

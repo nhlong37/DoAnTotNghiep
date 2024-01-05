@@ -1224,12 +1224,6 @@ img:not([src]) {
     top: 0px !important;
     left: 0px !important;
 }
-
-/* Popup */
-#popup .modal-body {
-    padding: 0px;
-}
-
 /* Text Hide */
 .text-split {
     overflow: hidden;
@@ -1544,7 +1538,7 @@ div.social-footer {}
 
 /* bai viet */
 .news {
-    width: calc(50% - 20px);
+    width: calc(25% - 20px);
     margin: 0 10px;
     margin-bottom: 25px;
     display: block;
@@ -1555,27 +1549,29 @@ div.social-footer {}
 .news:nth-child(2n + 1) {}
 
 .pic-news {
-    float: left;
-    margin-right: 4%;
-    width: 36%;
+    width: 100%;
 }
 
 .pic-news img {
     width: 100%;
+    height: 208px;
+    object-fit: cover;
 }
 
 .info-news {
-    float: left;
-    width: 60%;
+    /* float: left; */
+    width: 100%;
 }
 
 .name-news {
-    color: #333;
     font-size: 16px;
+    color: var(--yellow-color);
+    font-family: nunitosan-b;
+    text-align: center;
+    text-transform: uppercase;
     display: block;
     line-height: normal;
     margin-bottom: 5px;
-    font-family: nunitosan-b;
 }
 
 .name-news:hover {
@@ -1588,12 +1584,24 @@ div.social-footer {}
 }
 
 .desc-news {
-    color: #333333;
     margin-top: 5px;
     line-height: 22px;
-    font-family: 'nunitosan-r';
+    text-align: center;
+    color: #333;
+    font-family: nunitosan-r;
 }
 
+.xemchitiet {
+    padding: 8px 0;
+    border-top: 1px solid var(--yellow-color);
+    border-bottom: 1px solid var(--yellow-color);
+    text-align: center;
+    margin-top: 10px;
+}
+.xemchitiet span{
+    color: var(--yellow-color);
+    font-size: 13px;
+}
 .view-news {}
 
 .view-news:hover {}

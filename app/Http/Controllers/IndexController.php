@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TableProduct;
-use App\Models\TableOrder;
 use App\Models\TableArticle;
+use App\Models\TableOrder;
 use Carbon\Carbon;
 
 class IndexController extends Controller

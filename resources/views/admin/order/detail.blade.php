@@ -8,7 +8,8 @@
                         <li class="breadcrumb-item"><a href="{{ route('trang-chu-admin') }}" title="Bảng điều khiển">Bảng điều
                                 khiển</a></li>
 
-                        <li class="breadcrumb-item"><a href="{{ route('san-pham-admin') }}" title="Quản lý hoá đơn">Quản lý hoá đơn</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('san-pham-admin') }}" title="Quản lý hoá đơn">Quản lý
+                                hoá đơn</a></li>
 
                     </ol>
                 </div>
@@ -66,23 +67,30 @@
                                     <div class="form-group title col-md-4 col-sm-6">
                                         <label for="name-product">Ngày đặt</label>
                                         <input type="text" class="form-control check-valid text-sm" name="date"
-                                            id="date" placeholder="Ngày đặt" value="{{ $orderDetail->created_at}}"
+                                            id="date" placeholder="Ngày đặt" value="{{ $orderDetail->created_at }}"
                                             readonly>
                                     </div>
 
                                     <div class="form-group title col-md-12 col-sm-12">
                                         <label for="name-product">Phương thức thanh toán</label>
                                         <input type="text" class="form-control check-valid text-sm" name="payment"
-                                            id="payment" placeholder="Email" value="Thanh toán khi nhận hàng" readonly>
+                                            id="payment"
+                                            value="{{ $orderDetail->payment == 'vnpay' ? 'Thanh toán qua VNPay' : 'Thanh toán khi nhận hàng' }}"
+                                            readonly>
                                     </div>
 
                                     <div class="form-group title col-md-12 col-sm-12">
                                         <label for="name-product">Trạng thái đơn hàng</label>
-                                        <select id="select-status" name="status" class="form-control select2">
-                                            <option value="moidat" {{ ($orderDetail->status=='moidat')? "selected" : "" }}>Mới Đặt</option>
-                                            <option value="daxacnhan"{{ ($orderDetail->status=='daxacnhan')? "selected" : "" }}>Đã Xác Nhận</option>
-                                            <option value="danggiao"{{ ($orderDetail->status=='danggiao')? "selected" : "" }}>Đang giao</option>
-                                            <option value="dagiao"{{ ($orderDetail->status=='dagiao')? "selected" : "" }}>Đã Giao</option>
+                                        <select id="select-status" name="status" class="form-control select2"
+                                            {{ $orderDetail->status == 'dathanhtoan' ? 'disabled' : '' }}>
+                                            <option value="moidat" {{ $orderDetail->status == 'moidat' ? 'selected' : '' }}>
+                                                Mới Đặt</option>
+                                            <option
+                                                value="daxacnhan"{{ $orderDetail->status == 'daxacnhan' ? 'selected' : '' }}>
+                                                Đã Xác Nhận</option>
+                                            <option
+                                                value="dathanhtoan"{{ $orderDetail->status == 'dathanhtoan' ? 'selected' : '' }}>
+                                                Đã Thanh toán</option>
                                         </select>
                                     </div>
                                 </div>
@@ -103,13 +111,13 @@
 
                                                 <th class="align-middle" style="width:30%">Tên sản phẩm</th>
 
-                                                {{-- <th class="align-middle text-center">Màu sắc</th>
+                                                <th class="align-middle text-center">Màu sắc</th>
 
-                                                <th class="align-middle text-center">Size</th> --}}
+                                                <th class="align-middle text-center">Size</th>
 
                                                 <th class="align-middle">Đơn Giá</th>
 
-                                                <th class="align-middle">Số lượng</th>
+                                                <th class="align-middle text-center">Số lượng</th>
                                             </tr>
                                         </thead>
                                         @if (count($dsOrderDetail))
@@ -123,8 +131,8 @@
                                                         <td class="align-middle">
                                                             <input type="number"
                                                                 class="form-control form-control-mini m-auto update-numb"
-                                                                min="0" value="{{ $serial++ }}" data-id=""
-                                                                data-table="product" readonly>
+                                                                min="0" value="{{ $serial++ }}"
+                                                                data-id="" data-table="product" readonly>
                                                         </td>
                                                         <td class="align-middle">
                                                             <a title="{{ $item->name }}">
@@ -137,25 +145,33 @@
 
                                                         <td class="align-middle">
                                                             <a class="text-dark text-break"
+                                                                href="{{ route('sua-doi-san-pham-admin', ['id' => $item->id_product]) }}"
                                                                 title="{{ $item->name_product }}">{{ $item->name_product }}</a>
                                                         </td>
 
-                                                        {{-- <td class="align-middle">
-                                                            <a class="text-dark text-break"
-                                                                title="{{ $size->name }}">{{ $size->name }}</a>
-                                                        </td>
-
-                                                        <td class="align-middle">
-                                                            <a class="text-dark text-break"
-                                                                title="{{ $color->name }}">{{ $color->name }}</a>
-                                                        </td> --}}
+                                                        @foreach ($dsIDC as $c)
+                                                            @if ($item->id_color == $c->id)
+                                                                <td class="align-middle text-center">
+                                                                    <a class="text-dark text-break"
+                                                                        title="{{ $c->name }}">{{ $c->name }}</a>
+                                                                </td>
+                                                            @endif
+                                                        @endforeach
+                                                        @foreach ($dsIDS as $s)
+                                                            @if ($item->id_size == $s->id)
+                                                                <td class="align-middle text-center">
+                                                                    <a class="text-dark text-break"
+                                                                        title="{{ $s->name }}">{{ $s->name }}</a>
+                                                                </td>
+                                                            @endif
+                                                        @endforeach
 
                                                         <td class="align-middle">
                                                             <a class="text-dark text-break"
                                                                 title="{{ $item->name_product }}">{{ formatMoney($item->price) }}</a>
                                                         </td>
 
-                                                        <td class="align-middle">
+                                                        <td class="align-middle text-center">
                                                             <a class="text-dark text-break"
                                                                 title="{{ $item->name_product }}">{{ $item->quantity }}</a>
                                                         </td>

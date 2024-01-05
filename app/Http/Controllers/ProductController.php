@@ -513,15 +513,18 @@ class ProductController extends Controller
         $infoOrder = TableOrder::find($id);
         $dsOrderDetail = TableOrderDetail::where('id_order', $infoOrder->id)->latest()->paginate($limit);
 
-        // $color = TableColor::where('id',$dsOrderDetail->id_color)->first();
-        // $size = TableColor::where('id',$dsOrderDetail->id_size)->first();
+        $data_id_orderdetail_color = TableOrderDetail::get('id_color');
+        $dsIDC =TableColor::whereIn('id',$data_id_orderdetail_color)->find($data_id_orderdetail_color);
+        // dd($name_color);
+        $data_id_orderdetail_size = TableOrderDetail::get('id_size');
+        $dsIDS =TableSize::whereIn('id',$data_id_orderdetail_size)->find($data_id_orderdetail_size);
 
         // lấy trang hiện tại
         $current = $dsOrderDetail->currentPage();
         // lấy số thứ tự đầu tiên nhưng theo dạng mảng (là số 0)
         $perSerial = $limit * ($current - 1);
         $serial = $perSerial + 1;
-        return view('.admin.order.detail', ['orderDetail' => $infoOrder], compact('dsOrderDetail', 'serial'));
+        return view('.admin.order.detail', ['orderDetail' => $infoOrder], compact('dsOrderDetail', 'serial', 'dsIDC', 'dsIDS'));
     }
 
     public function modifyorders(xlAddRequestOrder $req, $id)

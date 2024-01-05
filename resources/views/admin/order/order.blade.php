@@ -27,8 +27,7 @@
                                 <option value="chondanhmuc">Chọn danh mục</option>
                                 <option value="moidat">Mới Đặt</option>
                                 <option value="daxacnhan">Đã Xác Nhận</option>
-                                <option value="danggiao">Đang giao</option>
-                                <option value="dagiao">Đã Giao</option>
+                                <option value="dathanhtoan">Đã thanh toán</option>
                             </select>
                         </div>
                         <div class="form-group col-md-3 col-sm-3">
@@ -110,10 +109,8 @@
                                                         Mới đặt
                                                     @elseif($item->status == 'daxacnhan')
                                                         Đã Xác Nhận
-                                                    @elseif($item->status == 'danggiao')
-                                                        Đang giao
-                                                    @elseif($item->status == 'dagiao')
-                                                        Đã giao
+                                                    @elseif($item->status == 'dathanhtoan')
+                                                        Đã thanh toán
                                                     @else
                                                         Đã Huỷ
                                                     @endif
