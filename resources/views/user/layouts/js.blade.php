@@ -128,7 +128,7 @@
             min: {{ $min_price_range }},
             max: {{ $max_price_range }},
             values: [{{ $min_price }}, {{ $max_price }}],
-            step: 500000,
+            step: 200000,
             slide: function(event, ui) {
                 $("#amount").val(ui.values[0] + " đ" + " - " + ui.values[1] + " đ");
 
@@ -259,7 +259,7 @@
                         Swal.fire({
                             icon: "success",
                             title: "Thông Báo",
-                            text: "Bạn đã đánh giá" + index + " trên 5 sao",
+                            text: "Bạn đã đánh giá " + index + " trên 5 sao",
                         });
                     } 
                 }
