@@ -203,7 +203,7 @@
                     $name == 'chinh-sach-admin' ||
                     $name == 'them-moi-chinh-sach-admin' ||
                     $name == 'sua-doi-chinh-sach-admin' ||
-                     $name == 'tim-kiem-chinh-sach'
+                    $name == 'tim-kiem-chinh-sach'
                         ? 'menu-open'
                         : '' }}">
                     <a
@@ -254,13 +254,13 @@
                             </a>
                         </li>
                     </ul>
-                    
+
                 </li>
 
                 <li
-                    class="nav-item {{ $name == 'slide-admin' || $name == 'them-moi-slide-admin' || $name == 'sua-doi-slide-admin' ? 'menu-open' : '' }}">
+                    class="nav-item {{ $name == 'photo-admin' || $name == 'loadaddphoto-admin' || $name == 'handleaddphoto-admin' || $name == 'loadupdatphoto-admin' || $name == 'handleupdatphoto-admin' ? 'menu-open' : '' }}">
                     <a
-                        class="nav-link {{ $name == 'slide-admin' || $name == 'them-moi-slide-admin' || $name == 'sua-doi-slide-admin' ? 'active' : '' }} ">
+                        class="nav-link {{ $name == 'photo-admin' || $name == 'loadaddphoto-admin' || $name == 'handleaddphoto-admin' || $name == 'loadupdatphoto-admin' || $name == 'handleupdatphoto-admin' ? 'active' : '' }} ">
                         <i class="nav-icon fas fa-duotone fa-image"></i>
                         <p>
                             Quản lý Hình Ảnh
@@ -269,18 +269,23 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('slide-admin') }}"
-                                class="nav-link {{ $name == 'slide-admin' || $name == 'them-moi-slide-admin' || $name == 'sua-doi-slide-admin' ? 'active' : '' }}">
+                            <a href="{{ route('photo-admin',['type' => 'slide','cate' => 'man']) }}"
+                                class="nav-link">
                                 <i class="nav-icon-small fas fa-circle fa-2xs"></i>
-                                <p>Danh sách hình ảnh</p>
+                                <p>Danh sách slideshow</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('photo-admin',['type' => 'logo','cate' => 'static']) }}"
+                                class="nav-link">
+                                <i class="nav-icon-small fas fa-circle fa-2xs"></i>
+                                <p>Logo</p>
                             </a>
                         </li>
                     </ul>
-
                 </li>
 
-                <li
-                    class="nav-item {{ $name == 'binh-luan-admin' || $name == 'danh-gia-admin' ? 'menu-open' : '' }}">
+                <li class="nav-item {{ $name == 'binh-luan-admin' || $name == 'danh-gia-admin' ? 'menu-open' : '' }}">
                     <a
                         class="nav-link {{ $name == 'binh-luan-admin' || $name == 'danh-gia-admin' ? 'active' : '' }} ">
                         <i class="nav-icon fas fa-duotone fa-comment"></i>
@@ -308,8 +313,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('thong-ke') }}"
-                        class="nav-link {{ $name == 'thong-ke' ? 'active' : '' }}">
+                    <a href="{{ route('thong-ke') }}" class="nav-link {{ $name == 'thong-ke' ? 'active' : '' }}">
                         <i class="nav-icon fas fa-chart-simple"></i>
                         <p>Thống kê</p>
                     </a>

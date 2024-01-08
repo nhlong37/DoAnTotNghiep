@@ -251,6 +251,14 @@ class ArticleCotroller extends Controller
     }
     // Chính sách //
 
+    // User //
+    public function GetNewsPage(Request $req)
+    {
+        $limit = 8;
 
+        $dsNews = TableArticle::where('deleted_at', null)->where('type','tin-tuc')->latest()->paginate($limit);
+       
+        return view('.user.news.news', compact('dsNews'));
+    }
 
 }

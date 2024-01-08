@@ -87,7 +87,7 @@
                                                     href="{{ route('sua-doi-chinh-sach-admin', ['id' => $item->id]) }}"
                                                     title="Chỉnh sửa"><i class="fas fa-edit"></i></a>
 
-                                                <a class="text-danger delete-item" data-href="article"
+                                                <a class="text-danger delete-item2" data-href="chinh-sach"
                                                     data-id="{{ $item->id }}" title="Xóa"><i
                                                         class="fas fa-trash-alt"></i></a>
                                             </td>

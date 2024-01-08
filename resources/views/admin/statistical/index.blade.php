@@ -18,9 +18,9 @@
             <div class="container-fluid">
                 <div class="flex_statistical">
                     <div class="item_statistical btn btn-sm bg-gradient-primary">
-                        <a href="{{ route('loadstatistical',['type' => 'products']) }}">
+                        <a href="{{ route('loadstatistical',['type' => 'order']) }}">
                             <div class="content_statistical">
-                                <p class="text-white">Xuất file excel danh sách sản phẩm</p>
+                                <p class="text-white">Xuất file excel danh sách hoá đơn</p>
                             </div>
                             <div class="img_statistical">
                             <ion-icon name="download-outline"></ion-icon>
