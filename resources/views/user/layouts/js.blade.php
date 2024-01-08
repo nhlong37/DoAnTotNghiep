@@ -11,7 +11,7 @@
 <script src="{{ asset('assets/user/sweetalert/sweetalert2.all.min.js') }}"></script>
 <script src="{{ asset('assets/user/select2/select2.full.js') }}"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-
+<script async src="https://static.addtoany.com/menu/page.js"></script>
 
 <script>
     $(document).ready(function() {

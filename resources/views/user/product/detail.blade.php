@@ -46,9 +46,6 @@
                             <label class="attr-label-pro-detail">Mã:</label>
                             <div class="attr-content-pro-detail">{{ $rowDetail->code }}</div>
                         </li>
-                        {{-- <li class="w-clear d-none">
-                            <div class="attr-content-pro-detail">{{ $rowDetail->view++ }}</div>
-                        </li> --}}
                         <li class="w-clear">
                             <label class="attr-label-pro-detail">Giá:</label>
                             <div class="attr-content-pro-detail">

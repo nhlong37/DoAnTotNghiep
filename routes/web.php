@@ -141,13 +141,14 @@ Route::group(['middleware' => ['checkauth:admin']], function () {
 
 Route::get('/', [ReturnTpl::class, 'GetProductIndex'])->name('trang-chu-user');
 Route::get('/product', [ProductController::class, 'GetProductPage'])->name('lay-ds-product');
-Route::get('/news', [ArticleCotroller::class, 'GetNewsPage'])->name('lay-ds-news');
 Route::get('/search/{keyword}', [ProductController::class, 'SearchProduct'])->name('tim-kiem');
 Route::get('/detail/{id}', [ProductController::class, 'GetDetailProduct'])->name('chi-tiet-product');
 Route::get('/cart', [ProductController::class, 'viewCart'])->name('lay-gio-hang');
 Route::get('/addcart', [ProductController::class, 'addToCart'])->name('xl-them-giohang');
 Route::get('/updatecart', [ProductController::class, 'updateCart'])->name('xl-update-giohang');
 Route::get('/remove', [ProductController::class, 'removeFromCart'])->name('xl-xoa-giohang');
+Route::get('/news', [ArticleCotroller::class, 'GetNewsPage'])->name('lay-ds-news');
+Route::get('/detail-news/{id}', [ArticleCotroller::class, 'GetNewsDetail'])->name('chi-tiet-news');
 
 Route::get('/login-user', [LoginCotroller::class, 'index_login_user'])->name('dang-nhap-user');
 Route::post('/login-user', [LoginCotroller::class, 'xlLoginUser'])->name('xl-dang-nhap-user');

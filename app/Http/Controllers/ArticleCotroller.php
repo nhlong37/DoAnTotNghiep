@@ -7,6 +7,7 @@ use App\Models\TableArticle;
 use App\Models\TableTypeArticle;
 use Illuminate\Support\Str;
 use App\Http\Requests\xlAddRequestNew;
+use PhpParser\Node\Expr\FuncCall;
 
 class ArticleCotroller extends Controller
 {
@@ -14,7 +15,7 @@ class ArticleCotroller extends Controller
     public function getnews(Request $req)
     {
         $limit =  10;
-        $dsNew = TableArticle::where('type','tin-tuc')->latest()->paginate($limit);
+        $dsNew = TableArticle::where('type', 'tin-tuc')->latest()->paginate($limit);
         // lấy trang hiện tại
         $current = $dsNew->currentPage();
         // lấy số thứ tự đầu tiên nhưng theo dạng mảng (là số 0)
@@ -97,7 +98,7 @@ class ArticleCotroller extends Controller
                 return "Định dạng ảnh không đúng. Định dạng cho phép (.jpg|.png|.jpeg)";
             }
         }
-        
+
         $itemnew->save();
 
         return redirect()->route('tin-tuc-admin');
@@ -126,16 +127,16 @@ class ArticleCotroller extends Controller
             $perSerial = $limit * ($current - 1);
             $serial = $perSerial + 1;
         }
-        return view('.admin.article.news.list', compact('dsNew','serial'));
+        return view('.admin.article.news.list', compact('dsNew', 'serial'));
     }
-    
+
     // Chính sách //
 
     public function getpolicies(Request $req)
     {
         $limit =  10;
         //latest() = orderBy('created_at','desc')
-        $dsNew = TableArticle::where('type','chinh-sach')->latest()->paginate($limit);
+        $dsNew = TableArticle::where('type', 'chinh-sach')->latest()->paginate($limit);
         // lấy trang hiện tại
         $current = $dsNew->currentPage();
         // lấy số thứ tự đầu tiên nhưng theo dạng mảng (là số 0)
@@ -218,7 +219,7 @@ class ArticleCotroller extends Controller
                 return "Định dạng ảnh không đúng. Định dạng cho phép (.jpg|.png|.jpeg)";
             }
         }
-        
+
         $itemnew->save();
 
         return redirect()->route('chinh-sach-admin');
@@ -247,7 +248,7 @@ class ArticleCotroller extends Controller
             $perSerial = $limit * ($current - 1);
             $serial = $perSerial + 1;
         }
-        return view('.admin.article.policies.list', compact('dsNew','serial'));
+        return view('.admin.article.policies.list', compact('dsNew', 'serial'));
     }
     // Chính sách //
 
@@ -256,9 +257,17 @@ class ArticleCotroller extends Controller
     {
         $limit = 8;
 
-        $dsNews = TableArticle::where('deleted_at', null)->where('type','tin-tuc')->latest()->paginate($limit);
-       
+        $dsNews = TableArticle::where('deleted_at', null)->where('type', 'tin-tuc')->latest()->paginate($limit);
+
         return view('.user.news.news', compact('dsNews'));
     }
 
+    public function GetNewsDetail($id)
+    {
+        $detailArticle = TableArticle::where('deleted_at', null)->where('id', $id)->first();
+
+        $detailArticle->view++;
+        $detailArticle->save();
+        return view('.user.news.detail', ['rowDetail' => $detailArticle]);
+    }
 }
