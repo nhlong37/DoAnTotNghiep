@@ -1,0 +1,275 @@
+@font-face {
+    font-family: 'ro-r';
+    src: url("../fonts/Roboto-Regular.ttf");
+    font-style: normal;
+    font-display: block;
+}
+
+@font-face {
+    font-family: 'ro-b';
+    src: url("../fonts/Roboto-Bold.ttf");
+    font-style: normal;
+    font-display: block;
+}
+
+@font-face {
+    font-family: 'svn-poppin-sb';
+    src: url("../fonts/SVN-Poppins-SemiBold.ttf");
+    font-style: normal;
+    font-display: block;
+}
+
+@font-face {
+    font-family: 'svn-poppin-r';
+    src: url("../fonts/SVN-Poppins-Regular.ttf");
+    font-style: normal;
+    font-display: block;
+}
+
+@font-face {
+    font-family: 'utm-auro';
+    src: url("../fonts/UTM-Aurora.ttf");
+    font-style: normal;
+    font-display: block;
+}
+
+.wrap-invoice {
+    position: relative;
+    padding: 30px 0;
+}
+
+.layout-invoice {}
+
+.title-receive {
+    margin-bottom: 8px;
+}
+
+.title-receive span {
+    color: #000;
+    font-size: 25px;
+    font-family: 'ro-b';
+    text-transform: uppercase;
+    padding-left: 8px;
+}
+
+.slogan-receive {
+    color: #000;
+    font-size: 15px;
+    font-family: 'ro-r';
+    margin-bottom: 5px;
+}
+
+.slogan-receive .slogan-receive__code {
+    font-family: 'ro-b';
+}
+
+.slogan-receive .slogan-receive__link {
+    color: #000;
+    position: relative;
+}
+
+.slogan-receive .slogan-receive__link::before {
+    content: "";
+    background-color: #000;
+    width: 100%;
+    height: 1px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    transform-origin: 100%;
+    transform: scaleX(0);
+    transition: transform .3s cubic-bezier(0.24, 0, 0.76, 1);
+}
+
+.slogan-receive .slogan-receive__link:hover::before {
+    transform-origin: 0%;
+    transform: scaleX(1);
+}
+
+.top-invoice {}
+
+.top-invoice .info-receive .heading-receive {
+    display: flex;
+    align-items: center;
+    padding-bottom: 10px;
+    padding-top: 8px;
+    padding-left: 16px;
+    padding-right: 16px;
+    border-bottom: 2px solid #bcbcbc;
+}
+
+.top-invoice .info-receive .heading-receive span {
+    font-size: 25px;
+    text-transform: uppercase;
+    padding-left: 10px;
+    font-family: 'ro-b';
+    padding-top: 2px;
+    color: #000;
+}
+
+.all-receive {}
+
+.all-receive .item-receive {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 24px 20px 24px 20px;
+    border-bottom: 2px solid #bcbcbc;
+    justify-content: space-between;
+}
+
+.all-receive .item-receive .item-receive__left {
+    width: 70%;
+    display: flex;
+    align-items: flex-start;
+}
+
+.all-receive .item-receive .item-receive__image {
+    border: 1px solid #bcbcbc;
+    position: relative;
+}
+
+.all-receive .item-receive .item-receive__info {
+    width: calc(100% - 135px);
+    padding-left: 15px;
+}
+
+.all-receive .item-receive .item-receive__info p {
+    margin-bottom: 0;
+    font-size: 20px;
+}
+
+.all-receive .item-receive .item-receive__info p:nth-child(1) {
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.all-receive .item-receive .item-receive__info p span {
+    font-family: 'ro-b';
+}
+
+.all-receive .item-receive .item-receive__right {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.all-receive .item-receive .item-receive__price {
+    font-size: 20px
+}
+
+.all-receive .item-receive .item-receive__price span {
+    font-size: 20px
+}
+
+.all-receive .item-receive .item-receive__price span.price-old {
+    font-size: 18px;
+}
+
+.all-receive .item-receive .item-receive__quantity {
+    font-size: 20px;
+}
+
+.money-procart {
+    margin-top: 0;
+}
+
+.total-procart {
+    font-family: 'ro-b';
+}
+
+.middle-invoice {}
+
+.middle-invoice .heading-receive {
+    padding-bottom: 10px;
+}
+
+.middle-invoice .heading-receive span {
+    font-size: 25px;
+    text-transform: uppercase;
+    padding-left: 10px;
+    font-family: 'ro-b';
+    padding-top: 2px;
+    color: #000;
+}
+
+.middle-invoice .table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    background: #eee;
+    padding: 7px 10px;
+    border: 1px solid #dddfe2;
+}
+
+.middle-invoice table th {
+    color: #000000;
+    font-size: 20px;
+    font-family: 'ro-r';
+    padding: 0.5rem 1.5rem;
+    width: 20%;
+}
+
+.middle-invoice table td {
+    color: #58595b;
+    font-family: 'svn-poppin-r';
+    font-size: 20px;
+    padding: 0.5rem 1.5rem;
+}
+
+.back-home span {
+    color: #000;
+    font-family: 'ro-r';
+    font-size: 24px;
+    padding-left: 8px;
+}
+
+.heading-receive img {
+    width: 28px;
+    height: 28px;
+}
+
+.middle-invoice .heading-receive img,
+.bottom-invoice .heading-receive img {
+    margin-top: 5px;
+}
+
+.bottom-invoice {
+    margin-bottom: 1rem;
+}
+
+.bottom-invoice .heading-receive {
+    padding-bottom: 10px;
+}
+
+.bottom-invoice .heading-receive span {
+    font-size: 25px;
+    text-transform: uppercase;
+    padding-left: 10px;
+    font-family: 'ro-b';
+    padding-top: 2px;
+    color: #000;
+}
+
+.bottom-invoice .layout-payment {
+    width: 100%;
+    background: #eee;
+    padding: 7px 10px;
+    border: 1px solid #dddfe2;
+
+}
+
+.bottom-invoice .layout-payment .name-payment {
+    color: #000000;
+    font-size: 20px;
+    font-family: 'ro-r';
+    padding: 0.5rem 1.5rem;
+}
+
+.total-procart p {
+    font-size: 20px;
+}
+
+.total-procart p.load-price-total {
+    color: #ba152a;
+}

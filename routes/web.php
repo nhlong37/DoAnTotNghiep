@@ -44,44 +44,44 @@ Route::group(['middleware' => ['checkauth:admin']], function () {
 
     Route::get('/admin/product/', [ProductController::class, 'index_product'])->name('san-pham-admin');
     Route::get('/admin/product/search/{keyword}', [ProductController::class, 'searchProductAdmin'])->name('tim-kiem-product');
-    Route::get('/admin/product/add-product', [ProductController::class, 'index_addpro'])->name('them-moi-san-pham-admin');
-    Route::post('/admin/product/add-product', [ProductController::class, 'addproducts'])->name('xl-them-moi-san-pham-admin');
-    Route::get('/admin/product/modify-product/{id}', [ProductController::class, 'index_modifypro'])->name('sua-doi-san-pham-admin');
-    Route::post('/admin/product/modify-product/{id}', [ProductController::class, 'modifyproducts'])->name('xl-sua-doi-san-pham-admin');
-    Route::get('/admin/product/delete-product', [ProductController::class, 'deleteproducts'])->name('xl-xoa-bo-san-pham-admin');
+    Route::get('/admin/product/add', [ProductController::class, 'index_addpro'])->name('them-moi-san-pham-admin');
+    Route::post('/admin/product/add', [ProductController::class, 'addproducts'])->name('xl-them-moi-san-pham-admin');
+    Route::get('/admin/product/modify/{id}', [ProductController::class, 'index_modifypro'])->name('sua-doi-san-pham-admin');
+    Route::post('/admin/product/modify/{id}', [ProductController::class, 'modifyproducts'])->name('xl-sua-doi-san-pham-admin');
+    Route::get('/admin/product/delete', [ProductController::class, 'deleteproducts'])->name('xl-xoa-bo-san-pham-admin');
     Route::get('/admin/remove', [ProductController::class, 'removeFormGallery'])->name('xl-xoa-hinhcon-admin');
 
     Route::get('/admin/brand', [ProductController::class, 'index_brand'])->name('thuong-hieu-admin');
     Route::get('/admin/brand/search/{keyword}', [ProductController::class, 'searchBrandAdmin'])->name('tim-kiem-brand');
-    Route::get('/admin/brand/add-brand', [ProductController::class, 'index_addbrand'])->name('themmoi-thuong-hieu-admin');
-    Route::post('/admin/brand/add-brand', [ProductController::class, 'addlevel1'])->name('xl-themmoi-thuong-hieu-admin');
-    Route::get('/admin/brand/modify-brand/{id}', [ProductController::class, 'index_modifybrand'])->name('suadoi-thuong-hieu-admin');
-    Route::post('/admin/brand/modify-brand/{id}', [ProductController::class, 'modifylevel1'])->name('xl-suadoi-thuong-hieu-admin');
-    Route::get('/admin/brand/delete-brand', [ProductController::class, 'deletelevel1'])->name('xl-xoabo-thuong-hieu-admin');
+    Route::get('/admin/brand/add', [ProductController::class, 'index_addbrand'])->name('themmoi-thuong-hieu-admin');
+    Route::post('/admin/brand/add', [ProductController::class, 'addlevel1'])->name('xl-themmoi-thuong-hieu-admin');
+    Route::get('/admin/brand/modify/{id}', [ProductController::class, 'index_modifybrand'])->name('suadoi-thuong-hieu-admin');
+    Route::post('/admin/brand/modify/{id}', [ProductController::class, 'modifylevel1'])->name('xl-suadoi-thuong-hieu-admin');
+    Route::get('/admin/brand/delete', [ProductController::class, 'deletelevel1'])->name('xl-xoabo-thuong-hieu-admin');
 
     Route::get('/admin/type', [ProductController::class, 'index_type'])->name('loai-admin');
     Route::get('/admin/type/search/{keyword}', [ProductController::class, 'searchTypeAdmin'])->name('tim-kiem-type');
-    Route::get('/admin/type/add-type', [ProductController::class, 'index_addtype'])->name('themmoi-loai-admin');
-    Route::post('/admin/type/add-type', [ProductController::class, 'addlevel2'])->name('xl-themmoi-loai-admin');
-    Route::get('/admin/type/modify-type/{id}', [ProductController::class, 'index_modifytype'])->name('suadoi-loai-admin');
-    Route::post('/admin/type/modify-type/{id}', [ProductController::class, 'modifylevel2'])->name('xl-suadoi-loai-admin');
-    Route::get('/admin/type/delete-type', [ProductController::class, 'deletelevel2'])->name('xl-xoabo-loai-admin');
+    Route::get('/admin/type/add', [ProductController::class, 'index_addtype'])->name('themmoi-loai-admin');
+    Route::post('/admin/type/add', [ProductController::class, 'addlevel2'])->name('xl-themmoi-loai-admin');
+    Route::get('/admin/type/modify/{id}', [ProductController::class, 'index_modifytype'])->name('suadoi-loai-admin');
+    Route::post('/admin/type/modify/{id}', [ProductController::class, 'modifylevel2'])->name('xl-suadoi-loai-admin');
+    Route::get('/admin/type/delete', [ProductController::class, 'deletelevel2'])->name('xl-xoabo-loai-admin');
 
     Route::get('/admin/color', [ColorController::class, 'getcolors'])->name('mau-sac-admin');
     Route::get('/admin/color/search/{keyword}', [ColorController::class, 'searchColorAdmin'])->name('tim-kiem-color');
-    Route::get('/admin/color/add-color', [ColorController::class, 'Return_tpladm_addcolor'])->name('them-moi-mau-sac-admin');
-    Route::post('/admin/color/add-color', [ColorController::class, 'addColor'])->name('xl-them-moi-mau-sac-admin');
-    Route::get('/admin/color/modify-color/{id}', [ColorController::class, 'Return_tpladm_modifycolor'])->name('sua-doi-mau-sac-admin');
-    Route::post('/admin/color/modify-color/{id}', [ColorController::class, 'modifyColor'])->name('xl-sua-doi-mau-sac-admin');
-    Route::get('/admin/color/delete-color', [ColorController::class, 'deleteColor'])->name('xl-xoa-bo-mau-sac-admin');
+    Route::get('/admin/color/add', [ColorController::class, 'Return_tpladm_addcolor'])->name('them-moi-mau-sac-admin');
+    Route::post('/admin/color/add', [ColorController::class, 'addColor'])->name('xl-them-moi-mau-sac-admin');
+    Route::get('/admin/color/modify/{id}', [ColorController::class, 'Return_tpladm_modifycolor'])->name('sua-doi-mau-sac-admin');
+    Route::post('/admin/color/modify/{id}', [ColorController::class, 'modifyColor'])->name('xl-sua-doi-mau-sac-admin');
+    Route::get('/admin/color/delete', [ColorController::class, 'deleteColor'])->name('xl-xoa-bo-mau-sac-admin');
 
     Route::get('/admin/size', [ColorController::class, 'getsizes'])->name('kich-thuoc-admin');
     Route::get('/admin/size/search/{keyword}', [ColorController::class, 'searchSizeAdmin'])->name('tim-kiem-size');
-    Route::get('/admin/size/add-size', [ColorController::class, 'Return_tpladm_addsize'])->name('them-moi-kich-thuoc-admin');
-    Route::post('/admin/size/add-size', [ColorController::class, 'addSize'])->name('xl-them-moi-kich-thuoc-admin');
-    Route::get('/admin/size/modify-size/{id}', [ColorController::class, 'Return_tpladm_modifysize'])->name('sua-doi-kich-thuoc-admin');
-    Route::post('/admin/size/modify-size/{id}', [ColorController::class, 'modifySize'])->name('xl-sua-doi-kich-thuoc-admin');
-    Route::get('/admin/size/delete-size', [ColorController::class, 'deleteSize'])->name('xl-xoa-bo-kich-thuoc-admin');
+    Route::get('/admin/size/add', [ColorController::class, 'Return_tpladm_addsize'])->name('them-moi-kich-thuoc-admin');
+    Route::post('/admin/size/add', [ColorController::class, 'addSize'])->name('xl-them-moi-kich-thuoc-admin');
+    Route::get('/admin/size/modify/{id}', [ColorController::class, 'Return_tpladm_modifysize'])->name('sua-doi-kich-thuoc-admin');
+    Route::post('/admin/size/modify/{id}', [ColorController::class, 'modifySize'])->name('xl-sua-doi-kich-thuoc-admin');
+    Route::get('/admin/size/delete', [ColorController::class, 'deleteSize'])->name('xl-xoa-bo-kich-thuoc-admin');
 
     Route::get('/admin/article/tin-tuc', [ArticleCotroller::class, 'getnews'])->name('tin-tuc-admin');
     Route::get('/admin/article/tin-tuc/search/{keyword}', [ArticleCotroller::class, 'searchNewsAdmin'])->name('tim-kiem-tin-tuc');
@@ -99,12 +99,23 @@ Route::group(['middleware' => ['checkauth:admin']], function () {
     Route::post('/admin/article/chinh-sach/modify/{id}', [ArticleCotroller::class, 'modifypolicies'])->name('xl-sua-doi-chinh-sach-admin');
     Route::get('/admin/article/chinh-sach/delete', [ArticleCotroller::class, 'deletepolicies'])->name('xl-xoa-bo-chinh-sach-admin');
 
-    Route::get('/admin/photo/slide', [PhotoController::class, 'getphoto'])->name('slide-admin');
-    Route::get('/admin/photo/add-photo/slide', [PhotoController::class, 'index_addphoto'])->name('them-moi-slide-admin');
-    Route::post('/admin/photo/add-photo/slide', [PhotoController::class, 'addphoto'])->name('xl-them-moi-slide-admin');
-    Route::get('/admin/photo/modify-photo/slide/{id}', [PhotoController::class, 'index_modifyphoto'])->name('sua-doi-slide-admin');
-    Route::post('/admin/photo/modify-photo/slide/{id}', [PhotoController::class, 'modifyphoto'])->name('xl-sua-doi-slide-admin');
-    Route::get('/admin/photo/delete-photo/slide', [PhotoController::class, 'deletephoto'])->name('xl-xoa-bo-slide-admin');
+    // Route::get('/admin/photo/slide', [PhotoController::class, 'getphoto'])->name('slide-admin');
+    // Route::get('/admin/photo/slide/add', [PhotoController::class, 'index_addphoto'])->name('them-moi-slide-admin');
+    // Route::post('/admin/photo/slide/add', [PhotoController::class, 'addphoto'])->name('xl-them-moi-slide-admin');
+    // Route::get('/admin/photo/slide/modify/{id}', [PhotoController::class, 'index_modifyphoto'])->name('sua-doi-slide-admin');
+    // Route::post('/admin/photo/slide/modify/{id}', [PhotoController::class, 'modifyphoto'])->name('xl-sua-doi-slide-admin');
+    // Route::get('/admin/photo/slide/delete', [PhotoController::class, 'deletephoto'])->name('xl-xoa-bo-slide-admin');
+
+    // Route::get('/admin/photo/logo', [PhotoController::class, 'getlogo'])->name('logo-admin');
+    // //Route::get('/admin/photo/logo/add', [PhotoController::class, 'index_addphoto'])->name('them-moi-logo-admin');
+    // Route::post('/admin/photo/logo/add', [PhotoController::class, 'savephoto'])->name('xl-them-moi-logo-admin');
+
+    Route::get('/admin/photo/{type}/{cate}', [PhotoController::class,'index'])->name('photo-admin');
+    Route::get('/admin/photo/add/{type}/{cate}', [PhotoController::class,'loadAddPhoto'])->name('loadaddphoto-admin');
+    Route::post('/admin/photo/add/{type}/{cate}', [PhotoController::class,'handleAddPhoto'])->name('handleaddphoto-admin');
+    Route::get('/admin/photo/update/{id}/{type}/{cate}', [PhotoController::class,'loadUpdatPhoto'])->name('loadupdatphoto-admin');
+    Route::post('/admin/photo/update/{id}/{type}/{cate}', [PhotoController::class,'handleUpdatPhoto'])->name('handleupdatphoto-admin');
+    Route::get('/admin/photo/delete/{id}/{type}/{cate}', [PhotoController::class,'deletPhoto'])->name('deletphoto-admin');
 
     Route::get('/admin/user', [UserController::class, 'getsusers'])->name('nguoi-dung-admin');
     Route::get('/admin/user/delete-user', [UserController::class, 'deleteuser'])->name('xl-xoa-bo-nguoi-dung-admin');
@@ -112,8 +123,9 @@ Route::group(['middleware' => ['checkauth:admin']], function () {
     // Route::get('/admin/status', [ProductController::class, 'setStatus'])->name('set-trang-thai-sp');
 
     Route::get('/admin/invoice', [ProductController::class, 'loadOrder'])->name('don-hang');
-    Route::get('/admin/invoice/{id}', [ProductController::class, 'loadOrderDetail'])->name('chi-tiet-don-hang');
-    Route::post('/admin/invoice/{id}', [ProductController::class, 'modifyorders'])->name('xl-don-hang');
+    Route::get('/admin/invoice/detail/{id}', [ProductController::class, 'loadOrderDetail'])->name('chi-tiet-don-hang');
+    Route::post('/admin/invoice/detail/{id}', [ProductController::class, 'modifyorders'])->name('xl-don-hang');
+    Route::get('/admin/invoice/search', [ProductController::class, 'filterOrder'])->name('loc-don-hang');
 
     Route::get('/admin/comment', [ProductController::class, 'loadComment'])->name('binh-luan-admin');
     Route::get('/admin/rating', [ProductController::class, 'loadRating'])->name('danh-gia-admin');
@@ -127,15 +139,16 @@ Route::group(['middleware' => ['checkauth:admin']], function () {
     Route::get('/admin/statistical/{type}', [StaticticalController::class, 'loadStatistical'])->name('loadstatistical');
 });
 
-Route::get('/', [ProductController::class, 'GetProductIndex'])->name('trang-chu-user');
+Route::get('/', [ReturnTpl::class, 'GetProductIndex'])->name('trang-chu-user');
 Route::get('/product', [ProductController::class, 'GetProductPage'])->name('lay-ds-product');
-Route::get('/news', [ArticleCotroller::class, 'GetNewsPage'])->name('lay-ds-news');
 Route::get('/search/{keyword}', [ProductController::class, 'SearchProduct'])->name('tim-kiem');
 Route::get('/detail/{id}', [ProductController::class, 'GetDetailProduct'])->name('chi-tiet-product');
 Route::get('/cart', [ProductController::class, 'viewCart'])->name('lay-gio-hang');
 Route::get('/addcart', [ProductController::class, 'addToCart'])->name('xl-them-giohang');
 Route::get('/updatecart', [ProductController::class, 'updateCart'])->name('xl-update-giohang');
 Route::get('/remove', [ProductController::class, 'removeFromCart'])->name('xl-xoa-giohang');
+Route::get('/news', [ArticleCotroller::class, 'GetNewsPage'])->name('lay-ds-news');
+Route::get('/detail-news/{id}', [ArticleCotroller::class, 'GetNewsDetail'])->name('chi-tiet-news');
 
 Route::get('/login-user', [LoginCotroller::class, 'index_login_user'])->name('dang-nhap-user');
 Route::post('/login-user', [LoginCotroller::class, 'xlLoginUser'])->name('xl-dang-nhap-user');
@@ -158,18 +171,18 @@ Route::group(['middleware' => ['checkauth:user']], function () {
     Route::post('/update-info/user/{id}', [LoginCotroller::class, 'xl_update_info_user'])->name('xl-suadoi-thongtin-user');
 
     Route::post('/order', [ProductController::class, 'OrderProduct'])->name('dat-hang');
-    Route::post('/payment-vnpay',[PaymentController::class,'VNPay_Payment'])->name('thanh-toan-vnpay');
-    Route::get('/return-vnpay/{fullname}/{phone}/{email}/{address}/{requirements}/{paymentmethod}/{id_user}',[PaymentController::class,'returnVNPay'])->name('luu-thanh-toan-vnpay');
+    Route::post('/payment-vnpay', [PaymentController::class, 'VNPay_Payment'])->name('thanh-toan-vnpay');
+    Route::get('/return-vnpay/{fullname}/{phone}/{email}/{address}/{requirements}/{paymentmethod}/{id_user}', [PaymentController::class, 'returnVNPay'])->name('luu-thanh-toan-vnpay');
 
     Route::get('/purchase-history/user', [LoginCotroller::class, 'GetPurchaseHistory'])->name('lichsu-muahang-user');
     Route::get('/purchase-history-detail/{id}', [LoginCotroller::class, 'GetPurchaseHistoryDetail'])->name('chitiet-lichsu-muahang-user');
-    
+
+    Route::get('/notify/{id}', [ReturnTpl::class, 'index_invoice'])->name('thong-bao');
 });
 Route::get('/mail', [LoginCotroller::class, 'SendMail'])->name('trang-gui-mail');
 Route::post('/mail', [LoginCotroller::class, 'xl_SendMail'])->name('xl-gui-mail');
 Route::get('/forgot-password/{email}', [LoginCotroller::class, 'GetForgotPasswordIndex'])->name('trang-forgot');
 Route::post('/forgot-password', [LoginCotroller::class, 'xl_ForgotPassword'])->name('xl-trang-forgot');
-
 
 Route::get('/register', [LoginCotroller::class, 'GetRegisterIndex'])->name('trang-dang-ky');
 Route::post('/register', [LoginCotroller::class, 'addRegister'])->name('xl-dang-ky-nguoi-dung');

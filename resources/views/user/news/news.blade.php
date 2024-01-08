@@ -15,7 +15,7 @@
                                 <div class="info-news">
                                     <h3 class="name-news">{{ $item->name }}</h3>
                                     <div class="desc-news text-split">{!! htmlspecialchars_decode($item->content) !!}</div>
-                                    <div class="xemchitiet"><a href="" title="{{ $item->name }}"><span>Xem chi tiết
+                                    <div class="xemchitiet"><a href="{{ route('chi-tiet-news', ['id'=>$item->id]) }}" title="{{ $item->name }}"><span>Xem chi tiết
                                                 <i class="fas fa-arrow-right"></i></span></a></div>
                                 </div>
                             </div>

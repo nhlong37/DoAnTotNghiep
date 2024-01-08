@@ -20,32 +20,35 @@
                     <div class="card-header">
                         <h3 class="card-title">Tìm kiếm đơn hàng</h3>
                     </div>
-                    <div class="card-body row">
-                        <div class="form-group col-md-3 col-sm-3">
-                            <label>Tình trạng:</label>
-                            <select id="select-status" name="status" class="form-control select2">
-                                <option value="chondanhmuc">Chọn danh mục</option>
-                                <option value="moidat">Mới Đặt</option>
-                                <option value="daxacnhan">Đã Xác Nhận</option>
-                                <option value="dathanhtoan">Đã thanh toán</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-3 col-sm-3">
-                            <label>Ngày đặt:</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
-                                </div>
-                                <input type="date" class="form-control float-right text-sm" name="order_date"
-                                    id="order_date" value="">
+                    <div class="card-body">
+                        <form action="{{ route('loc-don-hang') }}" method="GET" id="form-order" class="row">
+                            <div class="form-group col-md-3 col-sm-3">
+                                <label>Tình trạng:</label>
+                                <select id="select-status" name="select_status_order" class="form-control select2">
+                                    <option value="chondanhmuc">Chọn danh mục</option>
+                                    <option value="moidat">Mới Đặt</option>
+                                    <option value="daxacnhan">Đã Xác Nhận</option>
+                                    <option value="dathanhtoan">Đã thanh toán</option>
+                                </select>
                             </div>
-                        </div>
-                        <div class="form-group text-center mt-2 mb-0 col-12">
-                            <a class="btn btn-sm bg-gradient-success text-white" title="Tìm kiếm"><i
-                                    class="fas fa-search mr-1"></i>Tìm kiếm</a>
-                            <a class="btn btn-sm bg-gradient-danger text-white ml-1" title="Hủy lọc"><i
-                                    class="fas fa-times mr-1"></i>Hủy lọc</a>
-                        </div>
+                            <div class="form-group col-md-3 col-sm-3">
+                                <label>Ngày đặt:</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                    </div>
+                                    <input type="date" class="form-control float-right text-sm" name="order_date"
+                                        id="order_date" value="">
+                                </div>
+                            </div>
+                            <div class="form-group text-center mt-2 mb-0 col-12">
+                                <button type="submit" class="btn btn-sm bg-gradient-success text-white btn-search-order" title="Tìm kiếm"><i
+                                        class="fas fa-search mr-1"></i>Tìm kiếm</button>
+                                <a class="btn btn-sm bg-gradient-danger text-white ml-1" title="Hủy lọc" href="{{ route('don-hang') }}"><i
+                                        class="fas fa-times mr-1"></i>Hủy lọc</a>
+                            </div>
+                        </form>
+                       
                     </div>
                 </div>
 
