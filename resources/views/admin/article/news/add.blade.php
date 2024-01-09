@@ -25,31 +25,6 @@
                         <a class="btn btn-sm bg-gradient-danger" href="{{ route('tin-tuc-admin') }}" title="Thoát"><i
                                 class="fas fa-sign-out-alt mr-2"></i>Thoát</a>
                     </div>
-                    {{-- <div class="card card-primary card-outline text-sm">
-                        <div class="card-header">
-                            <h3 class="card-title">Danh mục bài viết</h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
-                                        class="fas fa-minus"></i></button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group-category row">
-
-                                <div class="form-group col-xl-6 col-sm-4">
-                                    <label class="d-block" for="id_list">Danh mục loại bài viết</label>
-                                    <select id="select-newtype" name="type" class="form-control select2 ">
-                                        <option value="0">Chọn Danh mục</option>
-                                        @foreach ($dsType as $k => $value)
-                                            <option value="{{ $value->id }}">{{ $value->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-
-                            </div>
-                        </div>
-                    </div> --}}
                     <div class="row">
                         <div class="col-xl-8">
                             <div class="card card-default color-palette-box card-primary card-outline text-sm">

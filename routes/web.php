@@ -99,23 +99,17 @@ Route::group(['middleware' => ['checkauth:admin']], function () {
     Route::post('/admin/article/chinh-sach/modify/{id}', [ArticleCotroller::class, 'modifypolicies'])->name('xl-sua-doi-chinh-sach-admin');
     Route::get('/admin/article/chinh-sach/delete', [ArticleCotroller::class, 'deletepolicies'])->name('xl-xoa-bo-chinh-sach-admin');
 
-    // Route::get('/admin/photo/slide', [PhotoController::class, 'getphoto'])->name('slide-admin');
-    // Route::get('/admin/photo/slide/add', [PhotoController::class, 'index_addphoto'])->name('them-moi-slide-admin');
-    // Route::post('/admin/photo/slide/add', [PhotoController::class, 'addphoto'])->name('xl-them-moi-slide-admin');
-    // Route::get('/admin/photo/slide/modify/{id}', [PhotoController::class, 'index_modifyphoto'])->name('sua-doi-slide-admin');
-    // Route::post('/admin/photo/slide/modify/{id}', [PhotoController::class, 'modifyphoto'])->name('xl-sua-doi-slide-admin');
-    // Route::get('/admin/photo/slide/delete', [PhotoController::class, 'deletephoto'])->name('xl-xoa-bo-slide-admin');
+    Route::get('/admin/article/gioi-thieu', [ArticleCotroller::class, 'return_tpladm_addabout'])->name('add-gioi-thieu-admin');
+    Route::post('/admin/article/gioi-thieu', [ArticleCotroller::class, 'addabout'])->name('xl-them-gioi-thieu-admin');
+    Route::get('/admin/article/gioi-thieu/{id}', [ArticleCotroller::class, 'return_tpladm_modifyabout'])->name('modify-gioi-thieu-admin');
+    Route::put('/admin/article/gioi-thieu/{id}', [ArticleCotroller::class, 'modifyabout'])->name('xl-sua-gioi-thieu-admin');
 
-    // Route::get('/admin/photo/logo', [PhotoController::class, 'getlogo'])->name('logo-admin');
-    // //Route::get('/admin/photo/logo/add', [PhotoController::class, 'index_addphoto'])->name('them-moi-logo-admin');
-    // Route::post('/admin/photo/logo/add', [PhotoController::class, 'savephoto'])->name('xl-them-moi-logo-admin');
-
-    Route::get('/admin/photo/{type}/{cate}', [PhotoController::class,'index'])->name('photo-admin');
-    Route::get('/admin/photo/add/{type}/{cate}', [PhotoController::class,'loadAddPhoto'])->name('loadaddphoto-admin');
-    Route::post('/admin/photo/add/{type}/{cate}', [PhotoController::class,'handleAddPhoto'])->name('handleaddphoto-admin');
-    Route::get('/admin/photo/update/{id}/{type}/{cate}', [PhotoController::class,'loadUpdatPhoto'])->name('loadupdatphoto-admin');
-    Route::post('/admin/photo/update/{id}/{type}/{cate}', [PhotoController::class,'handleUpdatPhoto'])->name('handleupdatphoto-admin');
-    Route::get('/admin/photo/delete/{id}/{type}/{cate}', [PhotoController::class,'deletPhoto'])->name('deletphoto-admin');
+    Route::get('/admin/photo/{type}/{cate}', [PhotoController::class, 'index'])->name('photo-admin');
+    Route::get('/admin/photo/add/{type}/{cate}', [PhotoController::class, 'loadAddPhoto'])->name('loadaddphoto-admin');
+    Route::post('/admin/photo/add/{type}/{cate}', [PhotoController::class, 'handleAddPhoto'])->name('handleaddphoto-admin');
+    Route::get('/admin/photo/update/{id}/{type}/{cate}', [PhotoController::class, 'loadUpdatPhoto'])->name('loadupdatphoto-admin');
+    Route::post('/admin/photo/update/{id}/{type}/{cate}', [PhotoController::class, 'handleUpdatPhoto'])->name('handleupdatphoto-admin');
+    Route::get('/admin/photo/delete/{id}/{type}/{cate}', [PhotoController::class, 'deletPhoto'])->name('deletphoto-admin');
 
     Route::get('/admin/user', [UserController::class, 'getsusers'])->name('nguoi-dung-admin');
     Route::get('/admin/user/delete-user', [UserController::class, 'deleteuser'])->name('xl-xoa-bo-nguoi-dung-admin');
@@ -186,4 +180,3 @@ Route::post('/forgot-password', [LoginCotroller::class, 'xl_ForgotPassword'])->n
 
 Route::get('/register', [LoginCotroller::class, 'GetRegisterIndex'])->name('trang-dang-ky');
 Route::post('/register', [LoginCotroller::class, 'addRegister'])->name('xl-dang-ky-nguoi-dung');
-Route::get('/introduce', [IndexController::class, 'GetIntroduce'])->name('gioi-thieu');

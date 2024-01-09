@@ -35,21 +35,16 @@
                         </div>
                         <div class="card-body">
                             <div class="box_photo_man mb-3">
-                                {{-- @if ($convert_photo != null)
-                                <div class="box_delete">
-                                    <a href="{{ route('deletphoto',['id' => $convert_photo['id'],'type' => $type_man, 'cate' => 'static']) }}"><span><ion-icon name="trash-outline"></ion-icon></span></a>
-                                </div>
-                                @endif --}}
                                 <div class="box_img mb-3">
                                     @if ($convert_photo != null)
                                         @if ($convert_photo['photo'] != null)
                                             <img src="{{ asset('upload/photo/' . $convert_photo['photo']) }}"
                                                 alt="" style="max-width: 300px" />
                                         @else
-                                            <img src="{{ asset('adminate/images/noimg.jpg') }}" alt="" style="max-width: 300px"/>
+                                            <img src="{{ asset('assets/admin/images/noimage.png') }}" alt="" style="max-width: 300px"/>
                                         @endif
                                     @else
-                                        <img src="{{ asset('adminate/images/noimg.jpg') }}" alt="" style="max-width: 300px" />
+                                        <img src="{{ asset('assets/admin/images/noimage.png') }}" alt="" style="max-width: 300px" />
                                     @endif
                                 </div>
                                 <div class="input-group mb-3">

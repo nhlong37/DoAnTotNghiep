@@ -18,10 +18,10 @@ use App\Models\TableColor;
 use App\Models\TableSize;
 use App\Models\TableUser;
 use App\Models\TableAlbum;
-
+use App\Models\TableArticle;
 use App\Models\TableVariantsPCS;
 use App\Models\TableOrderDetail;
-use Illuminate\Support\Facades\Storage;
+use App\Models\TablePhoto;
 use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
@@ -511,7 +511,7 @@ class ProductController extends Controller
     {
         $limit = 10;
         
-        $dsOrder = TableOrder::where('status', $req->select_status_order)->latest()->paginate($limit);
+        $dsOrder = TableOrder::where('status', $req->select_status_order)->whereDate('created_at', $req->order_date)->latest()->paginate($limit);
         
         // lấy trang hiện tại
         $current = $dsOrder->currentPage();
@@ -648,7 +648,10 @@ class ProductController extends Controller
         } else {
             $dsProduct = TableProduct::where('deleted_at', null)->latest()->paginate($limit);
         }
-        return view('.user.product.product', compact('dsProduct', 'dsBrand', 'min_price', 'max_price', 'max_price_range', 'min_price_range'));
+        $dsPolicies = TableArticle::where('deleted_at', null)->where('type', 'chinh-sach')->get();
+        $logo = TablePhoto::where('deleted_at', null)->where('type', 'logo')->FirstOrFail();
+        $banner = TablePhoto::where('deleted_at', null)->where('type', 'banner')->FirstOrFail();
+        return view('.user.product.product', compact('dsProduct', 'dsBrand', 'min_price', 'max_price', 'max_price_range', 'min_price_range', 'dsPolicies'), ['logo' => $logo, 'banner' => $banner]);
     }
 
 
@@ -704,12 +707,15 @@ class ProductController extends Controller
         $rowSize = TableSize::whereIn('id', $arrIdSize)->get();
         $rating = TableRating::where('id_product', $id)->avg('rating');
         $rating = round($rating);
+        $dsPolicies = TableArticle::where('deleted_at', null)->where('type', 'chinh-sach')->get();
+        $logo = TablePhoto::where('deleted_at', null)->where('type', 'logo')->FirstOrFail();
+        $banner = TablePhoto::where('deleted_at', null)->where('type', 'banner')->FirstOrFail();
         if ($req->ajax()) {
             return Response($dsSoLuong);
         } else {
             $detailProduct->view++;
             $detailProduct->save();
-            return view('.user.product.detail', ['rowDetail' => $detailProduct], compact('rowColor', 'rowSize', 'dsGallery', 'rating'));
+            return view('.user.product.detail', ['rowDetail' => $detailProduct], compact('rowColor', 'rowSize', 'dsGallery', 'rating', 'dsPolicies'), ['logo' => $logo, 'banner' => $banner]);
         }
     }
 
@@ -717,8 +723,11 @@ class ProductController extends Controller
     {
         $colors = TableColor::all();
         $sizes = TableSize::all();
+        $logo = TablePhoto::where('deleted_at', null)->where('type', 'logo')->FirstOrFail();
+        $banner = TablePhoto::where('deleted_at', null)->where('type', 'banner')->FirstOrFail();
+        $dsPolicies = TableArticle::where('deleted_at', null)->where('type', 'chinh-sach')->get();
 
-        return view('.user.order.order', compact('colors', 'sizes'));
+        return view('.user.order.order', compact('colors', 'sizes', 'dsPolicies') , ['logo' => $logo, 'banner' => $banner]);
     }
 
     private function productExists($code_order = '', $q = 1)

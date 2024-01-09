@@ -1475,7 +1475,7 @@ div.wap_footer {
 div.wap_copy {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 div.wap_copy .copyright,
