@@ -12,7 +12,7 @@
 <script src="{{ asset('assets/user/select2/select2.full.js') }}"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script async src="https://static.addtoany.com/menu/page.js"></script>
-
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v18.0" nonce="8q1l5DaM"></script>
 <script>
     $(document).ready(function() {
         $('.chay-sp').slick({

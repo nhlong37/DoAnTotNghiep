@@ -25,8 +25,7 @@ class ExportFile implements FromCollection,WithHeadings,WithMapping,ShouldAutoSi
         // $dsProduct = TableProduct::all();
         // $dsBrand = TableBrand::where('id',$dsProduct->id_brand);
         $dsHoaDon = TableOrder::where('status', 'dathanhtoan')->get();
-      
-        //$sumDoanhThu = TableOrder::where('status', 'dathanhtoan');
+               
         return $dsHoaDon;
     }
 
@@ -44,12 +43,12 @@ class ExportFile implements FromCollection,WithHeadings,WithMapping,ShouldAutoSi
     {
         return [
             AfterSheet::class => function (AfterSheet $event) {
-                $event->sheet->getDelegate()->mergeCells('J2:J');
+                $lastRow = $event->sheet->getDelegate()->getHighestRow(); // Lấy số hàng cuối cùng
+
+                // Merge từ ô A1 đến ô vô cùng của hàng 1
+                $event->sheet->getDelegate()->mergeCells("J2:J{$lastRow}");
             },
-            // AfterSheet::class => function (AfterSheet $event) {
-            //     // Tính tổng cho cột B, bắt đầu từ hàng 2 (index 1)
-            //     $event->sheet->setCellValue('H'.($event->sheet->getDelegate()->getHighestRow() + 1), '=SUM(H2:H'.$event->sheet->getDelegate()->getHighestRow().')');
-            // },
+           
         ];
 
     }
@@ -70,6 +69,11 @@ class ExportFile implements FromCollection,WithHeadings,WithMapping,ShouldAutoSi
     }
 
     public function map($order): array {
+        $tong = TableOrder::where('status', 'dathanhtoan')->get();
+        $tam = 0 ;
+        foreach ($tong as $key => $value) {
+            $tam += $value->total_price;
+        }
         return [
             $order->code,
             $order->fullname,
@@ -79,8 +83,8 @@ class ExportFile implements FromCollection,WithHeadings,WithMapping,ShouldAutoSi
             $order->content,
             $order->payment,
             $order->total_price,
-            $order->created_at,
-
+            $order->created_at->format('d/m/Y'),
+            $tam,
         ];
     }
 }

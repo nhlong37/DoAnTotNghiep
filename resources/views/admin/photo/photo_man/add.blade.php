@@ -44,11 +44,11 @@
                                             <img src="{{ asset('upload/photo/' . $update['photo']) }}" alt=""
                                                 style="max-width: 300px" />
                                         @else
-                                            <img src="{{ asset('adminate/images/noimg.jpg') }}" alt=""
+                                            <img src="{{ asset('assets/admin/images/noimage.png') }}" alt=""
                                                 style="max-width: 300px" />
                                         @endif
                                     @else
-                                        <img src="{{ asset('adminate/images/noimg.jpg') }}" alt=""
+                                        <img src="{{ asset('assets/admin/images/noimage.png') }}" alt=""
                                             style="max-width: 300px" />
                                     @endif
                                 </div>

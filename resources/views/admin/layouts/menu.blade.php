@@ -203,7 +203,8 @@
                     $name == 'chinh-sach-admin' ||
                     $name == 'them-moi-chinh-sach-admin' ||
                     $name == 'sua-doi-chinh-sach-admin' ||
-                    $name == 'tim-kiem-chinh-sach'
+                    $name == 'tim-kiem-chinh-sach' ||
+                    $name == 'add-gioi-thieu-admin'
                         ? 'menu-open'
                         : '' }}">
                     <a
@@ -217,7 +218,8 @@
                         $name == 'chinh-sach-admin' ||
                         $name == 'them-moi-chinh-sach-admin' ||
                         $name == 'sua-doi-chinh-sach-admin' ||
-                        $name == 'tim-kiem-chinh-sach'
+                        $name == 'tim-kiem-chinh-sach' ||
+                        $name == 'add-gioi-thieu-admin'
                             ? 'active'
                             : '' }} ">
                         <i class="nav-icon fas fa-duotone fa-clipboard"></i>
@@ -254,7 +256,16 @@
                             </a>
                         </li>
                     </ul>
-
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('add-gioi-thieu-admin') }}"
+                                class="nav-link {{ $name == 'add-gioi-thieu-admin' ? 'active'
+                                    : '' }}">
+                                <i class="nav-icon-small fas fa-circle fa-2xs"></i>
+                                <p>Giới thiệu</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
                 <li
@@ -280,6 +291,13 @@
                                 class="nav-link">
                                 <i class="nav-icon-small fas fa-circle fa-2xs"></i>
                                 <p>Logo</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('photo-admin',['type' => 'banner','cate' => 'static']) }}"
+                                class="nav-link">
+                                <i class="nav-icon-small fas fa-circle fa-2xs"></i>
+                                <p>Banner</p>
                             </a>
                         </li>
                     </ul>

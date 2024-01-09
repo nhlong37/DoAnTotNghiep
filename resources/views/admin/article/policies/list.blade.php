@@ -48,7 +48,7 @@
 
                                     <th class="align-middle text-center" width="10%">STT</th>
 
-                                    <th class="align-middle">Hình</th>
+                                    {{-- <th class="align-middle">Hình</th> --}}
 
                                     <th class="align-middle" style="width:30%">Tên</th>
 
@@ -66,7 +66,7 @@
                                                     value="{{ $serial++ }}" data-id="" data-table="new" readonly>
                                             </td>
 
-                                            <td class="align-middle">
+                                            {{-- <td class="align-middle">
                                                 <a href="{{ route('sua-doi-chinh-sach-admin', ['id' => $item->id]) }}"
                                                     title="{{ $item->name }}">
                                                     <img class="rounded img-preview"
@@ -74,7 +74,7 @@
                                                         onerror="src='{{ asset('assets/admin/images/noimage.png') }}'"
                                                         alt="Alt Photo" style="" />
                                                 </a>
-                                            </td>
+                                            </td> --}}
 
                                             <td class="align-middle">
                                                 <a class="text-dark text-break"
