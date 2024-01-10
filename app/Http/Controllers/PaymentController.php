@@ -14,7 +14,7 @@ class PaymentController extends Controller
     public function VNPay_Payment(Request $req)
     {
 
-
+        
         $name = $req->fullname;
         $email = $req->email;
         $phone = $req->phone;
@@ -95,34 +95,32 @@ class PaymentController extends Controller
 
     }
 
-    public function returnVNPay(Request $req)
-    {
-        if (!empty(Auth::guard('user')->user()->id)) {
-            $infoOrder = new TableOrder();
-            $infoOrder->code = $req->vnp_TxnRef;
-            $infoOrder->id_user = $req->id_user;
-            $infoOrder->fullname = $req->fullname;
-            $infoOrder->phone = $req->phone;
-            $infoOrder->address = $req->address;
-            $infoOrder->email = $req->email;
-            $infoOrder->content = $req->requirements;
-            $infoOrder->payment = $req->paymentmethod;
-            $infoOrder->status = 'dathanhtoan';
-            $infoOrder->total_price = $req->vnp_Amount / 100;
-            $infoOrder->save();
-            $cart = session()->get('cart');
-            foreach ($cart as $key => $value) {
-                $detailOrder = new TableOrderDetail();
-                $detailOrder->id_order = $infoOrder->id;
-                $detailOrder->id_product = $value['id_product'];
-                $detailOrder->id_color    = $value['id_color'];
-                $detailOrder->id_size = $value['id_size'];
-                $detailOrder->name_product = $value['name'];
-                $detailOrder->photo_product = $value['image'];
-                if ($value['price_sale'] > 0) $detailOrder->price = $value['price_sale'];
-                else $detailOrder->price = $value['price_regular'];
-                $detailOrder->quantity = $value['quantity'];
-                $detailOrder->save();
+    public function returnVNPay (Request $req) {
+        $infoOrder = new TableOrder();
+        $infoOrder->code = $req->vnp_TxnRef;
+        $infoOrder->id_user = $req->id_user;
+        $infoOrder->fullname = $req->fullname;
+        $infoOrder->phone = $req->phone;
+        $infoOrder->address = $req->address;
+        $infoOrder->email = $req->email;
+        $infoOrder->content = $req->requirements;
+        $infoOrder->payment = $req->paymentmethod;
+        $infoOrder->status = 'dathanhtoan';
+        $infoOrder->total_price = $req->vnp_Amount/100;
+        $infoOrder->save();
+        $cart = session()->get('cart');
+        foreach ($cart as $key => $value) {
+            $detailOrder = new TableOrderDetail();
+            $detailOrder->id_order = $infoOrder->id;
+            $detailOrder->id_product = $value['id_product'];
+            $detailOrder->id_color    = $value['id_color'];
+            $detailOrder->id_size = $value['id_size'];
+            $detailOrder->name_product = $value['name'];
+            $detailOrder->photo_product = $value['image'];
+            if ($value['price_sale'] > 0) $detailOrder->price = $value['price_sale'];
+            else $detailOrder->price = $value['price_regular'];
+            $detailOrder->quantity = $value['quantity'];
+            $detailOrder->save();
 
                 $miniusQuantity = TableVariantsPCS::where([
                     ['id_product', '=', $detailOrder->id_product],
@@ -139,4 +137,4 @@ class PaymentController extends Controller
             return redirect()->route('trang-chu-user');
         }
     }
-}
+

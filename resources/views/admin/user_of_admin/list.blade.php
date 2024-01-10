@@ -7,7 +7,7 @@
                     <ol class="breadcrumb float-sm-left pl-3">
                         <li class="breadcrumb-item"><a href="{{ route('trang-chu-admin') }}" title="Bảng điều khiển">Bảng điều
                                 khiển</a></li>
-                        <li class="breadcrumb-item active">Quản lý sản phẩm</li>
+                        <li class="breadcrumb-item active">Quản lý người dùng</li>
                     </ol>
                 </div>
             </div>
