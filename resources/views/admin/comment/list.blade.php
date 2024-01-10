@@ -120,6 +120,7 @@
                                     <textarea class="form-control reply_comment_{{$item->id}}"></textarea>
                                     <p></p>
                                     <p><button class="btn btn-default btn-xs btn-reply-comment" type="button"
+                                            data-id_user="Auth::guard('admin')->user()->id" data-avatar="Auth::guard('admin')->user()->avatar"
                                             data-comment_id="{{$item->id}}" data-id="{{$item->id_product}}">Trả lời bình
                                             luận</button></p>
                                 </td>

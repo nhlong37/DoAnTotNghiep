@@ -8,10 +8,9 @@ use App\Http\Controllers\ColorController;
 use App\Http\Controllers\LoginCotroller;
 use App\Http\Controllers\ArticleCotroller;
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\TypeArticleCotroller;
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\IndexController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -99,10 +98,10 @@ Route::group(['middleware' => ['checkauth:admin']], function () {
     Route::post('/admin/article/chinh-sach/modify/{id}', [ArticleCotroller::class, 'modifypolicies'])->name('xl-sua-doi-chinh-sach-admin');
     Route::get('/admin/article/chinh-sach/delete', [ArticleCotroller::class, 'deletepolicies'])->name('xl-xoa-bo-chinh-sach-admin');
 
-    Route::get('/admin/article/gioi-thieu', [ArticleCotroller::class, 'return_tpladm_addabout'])->name('add-gioi-thieu-admin');
-    Route::post('/admin/article/gioi-thieu', [ArticleCotroller::class, 'addabout'])->name('xl-them-gioi-thieu-admin');
-    Route::get('/admin/article/gioi-thieu/{id}', [ArticleCotroller::class, 'return_tpladm_modifyabout'])->name('modify-gioi-thieu-admin');
-    Route::put('/admin/article/gioi-thieu/{id}', [ArticleCotroller::class, 'modifyabout'])->name('xl-sua-gioi-thieu-admin');
+    // Route::get('/admin/article/gioi-thieu', [ArticleCotroller::class, 'return_tpladm_addabout'])->name('add-gioi-thieu-admin');
+    // Route::post('/admin/article/gioi-thieu', [ArticleCotroller::class, 'addabout'])->name('xl-them-gioi-thieu-admin');
+    // Route::get('/admin/article/gioi-thieu/{id}', [ArticleCotroller::class, 'return_tpladm_modifyabout'])->name('modify-gioi-thieu-admin');
+    // Route::put('/admin/article/gioi-thieu/{id}', [ArticleCotroller::class, 'modifyabout'])->name('xl-sua-gioi-thieu-admin');
 
     Route::get('/admin/photo/{type}/{cate}', [PhotoController::class, 'index'])->name('photo-admin');
     Route::get('/admin/photo/add/{type}/{cate}', [PhotoController::class, 'loadAddPhoto'])->name('loadaddphoto-admin');
@@ -143,6 +142,7 @@ Route::get('/updatecart', [ProductController::class, 'updateCart'])->name('xl-up
 Route::get('/remove', [ProductController::class, 'removeFromCart'])->name('xl-xoa-giohang');
 Route::get('/news', [ArticleCotroller::class, 'GetNewsPage'])->name('lay-ds-news');
 Route::get('/detail-news/{id}', [ArticleCotroller::class, 'GetNewsDetail'])->name('chi-tiet-news');
+Route::get('/about-us', [AboutController::class, 'loadabout'])->name('gioi-thieu-chi-tiet');
 
 Route::get('/login-user', [LoginCotroller::class, 'index_login_user'])->name('dang-nhap-user');
 Route::post('/login-user', [LoginCotroller::class, 'xlLoginUser'])->name('xl-dang-nhap-user');
@@ -175,8 +175,9 @@ Route::group(['middleware' => ['checkauth:user']], function () {
 });
 Route::get('/mail', [LoginCotroller::class, 'SendMail'])->name('trang-gui-mail');
 Route::post('/mail', [LoginCotroller::class, 'xl_SendMail'])->name('xl-gui-mail');
-Route::get('/forgot-password/{email}', [LoginCotroller::class, 'GetForgotPasswordIndex'])->name('trang-forgot');
-Route::post('/forgot-password', [LoginCotroller::class, 'xl_ForgotPassword'])->name('xl-trang-forgot');
+
+Route::get('/forgot-password/{id}', [LoginCotroller::class, 'GetForgotPasswordIndex'])->name('trang-forgot');
+Route::post('/forgot-password/{id}', [LoginCotroller::class, 'xl_ForgotPassword'])->name('xl-trang-forgot');
 
 Route::get('/register', [LoginCotroller::class, 'GetRegisterIndex'])->name('trang-dang-ky');
 Route::post('/register', [LoginCotroller::class, 'addRegister'])->name('xl-dang-ky-nguoi-dung');

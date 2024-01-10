@@ -126,6 +126,7 @@ return new class extends Migration
             $table->string('avatar')->nullable();
             $table->string('comment_name')->nullable();
             $table->integer('content_parent_comment')->nullable();
+            $table->integer('status')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -165,6 +166,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('id_order')->nullable();
             $table->foreign('id_order')->references('id')->on('table_order')->onDelete('set null');
+            $table->unsignedBigInteger('id_user')->nullable();
+            $table->foreign('id_user')->references('id')->on('table_user')->onDelete('set null');
             $table->unsignedBigInteger('id_product')->nullable();
             $table->foreign('id_product')->references('id')->on('table_product')->onDelete('set null');
             $table->unsignedBigInteger('id_color')->nullable();

@@ -33,7 +33,6 @@
 
                 <form class="email-form validate-form" action="{{ route('xl-gui-mail') }}" method="POST">
                     @csrf
-
                     <div class="wrap-input100 validate-input" data-validate="Bạn chưa nhập email">
                         <input class="input100" type="email" name="email" placeholder="Email của bạn">
                         <span class="focus-input100"></span>
@@ -47,8 +46,6 @@
                             Gửi
                         </button>
                     </div>
-
-                   
                 </form>
             </div>
         </div>

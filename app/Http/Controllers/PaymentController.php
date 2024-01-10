@@ -114,6 +114,7 @@ class PaymentController extends Controller
             foreach ($cart as $key => $value) {
                 $detailOrder = new TableOrderDetail();
                 $detailOrder->id_order = $infoOrder->id;
+                $detailOrder->id_user = $infoOrder->id_user;
                 $detailOrder->id_product = $value['id_product'];
                 $detailOrder->id_color    = $value['id_color'];
                 $detailOrder->id_size = $value['id_size'];

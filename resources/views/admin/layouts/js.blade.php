@@ -49,7 +49,8 @@ $(document).ready(function () {
         var comment_id= $(this).data('comment_id');
         var comment= $('.reply_comment_'+comment_id).val();
         var id_product= $(this).data('id');
-
+        var id_user=$(this).data('id_user');
+        var avatar=$(this).data('avatar');
         //var alert="Tra loi binh luan thanh cong";
         // alert(comment);
         // alert(comment_id);
@@ -58,7 +59,7 @@ $(document).ready(function () {
         $.ajax({
                 url: "{{url('/reply-comment')}}",
                 method: "POST",
-                data: {comment:comment,comment_id:comment_id,id_product:id_product},
+                data: {comment:comment,comment_id:comment_id,id_product:id_product,id_user:id_user,avatar:avatar},
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 success: function (data) {
                     $('.reply_comment').val('');

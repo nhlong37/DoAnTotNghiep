@@ -256,7 +256,7 @@
                             </a>
                         </li>
                     </ul>
-                    <ul class="nav nav-treeview">
+                    {{-- <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{ route('add-gioi-thieu-admin') }}"
                                 class="nav-link {{ $name == 'add-gioi-thieu-admin' ? 'active'
@@ -265,7 +265,7 @@
                                 <p>Giới thiệu</p>
                             </a>
                         </li>
-                    </ul>
+                    </ul> --}}
                 </li>
 
                 <li

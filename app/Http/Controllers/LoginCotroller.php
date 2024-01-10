@@ -13,6 +13,8 @@ use App\Models\TableUser;
 use App\Models\TableOrder;
 use App\Models\TableOrderDetail;
 use App\Models\TableSize;
+use App\Models\TablePhoto;
+use App\Models\TableArticle;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
@@ -75,8 +77,9 @@ class LoginCotroller extends Controller
         if ($req->file != null) {
             // kiểm tra kích thước
             $size = $req->file->getSize();
-            if ($size > 102400) {
-                return "Dung lượng hình ảnh lớn. Dung lượng cho phép <= 100MB ~ 102400KB";
+            $sized = $size / 1024;
+            if ($sized > 5120) {
+                return "Dung lượng hình ảnh lớn. Dung lượng cho phép <= 5MB ~ 5120KB";
             }
             // lọc ra đuôi file
             $extension = $req->file->getClientOriginalExtension();
@@ -146,13 +149,14 @@ class LoginCotroller extends Controller
         //dd(Auth::guard('user')->user()->id);
         $limit = 10;
         $dsOrder = TableOrder::where('id_user', $req->id)->orderBy('created_at','DESC')->latest()->paginate($limit);
-
-        
+        $logo = TablePhoto::where('deleted_at', null)->where('type', 'logo')->FirstOrFail();
+        $banner = TablePhoto::where('deleted_at', null)->where('type', 'banner')->FirstOrFail();
+        $dsPolicies = TableArticle::where('deleted_at', null)->where('type', 'chinh-sach')->get();
         $current = $dsOrder->currentPage();
         // lấy số thứ tự đầu tiên nhưng theo dạng mảng (là số 0)
         $perSerial = $limit * ($current - 1);
         $serial = $perSerial + 1;
-        return view('.user.login.purchase_history',compact('dsOrder'));
+        return view('.user.login.purchase_history',compact('dsOrder','dsPolicies'), ['logo' => $logo, 'banner' => $banner]);
     }
     public function GetPurchaseHistoryDetail(Request $req,$id)
     {
@@ -178,15 +182,16 @@ class LoginCotroller extends Controller
         $dsOrder = TableOrder::where('id',$infoOrder->id)->latest()->paginate($limit);
         //dd($dsOrder);
         //$id_order = TableOrder::where('id', $detail_order->id)->select('code','fullname','phone','address','created_at')->get();
-        
-        //dd($id_order);
+        $logo = TablePhoto::where('deleted_at', null)->where('type', 'logo')->FirstOrFail();
+        $banner = TablePhoto::where('deleted_at', null)->where('type', 'banner')->FirstOrFail();
+        $dsPolicies = TableArticle::where('deleted_at', null)->where('type', 'chinh-sach')->get();
         // lấy trang hiện tại
         $current = $dsOrder->currentPage();
         // lấy số thứ tự đầu tiên nhưng theo dạng mảng (là số 0)
         $perSerial = $limit * ($current - 1);
         $serial = $perSerial + 1;
 
-        return view('.user.login.purchase_history_detail', ['orderDetail' => $infoOrder], compact('dsOrderDetail','data_id_color','data_id_size','dsOrder'));
+        return view('.user.login.purchase_history_detail', ['orderDetail' => $infoOrder, 'logo' => $logo, 'banner' => $banner], compact('dsOrderDetail','data_id_color','data_id_size','dsOrder','dsPolicies'));
     }
 
     function xlLoginUser(Request $req)
@@ -248,12 +253,15 @@ class LoginCotroller extends Controller
         }
 
         $change->save();
-        return redirect()->route('trang-dang-nhap');
+        return redirect()->route('dang-nhap-user');
     }
 
     function index_update_user()
     {
-        return view('.user.login.update_info_user');
+        $logo = TablePhoto::where('deleted_at', null)->where('type', 'logo')->FirstOrFail();
+        $banner = TablePhoto::where('deleted_at', null)->where('type', 'banner')->FirstOrFail();
+        $dsPolicies = TableArticle::where('deleted_at', null)->where('type', 'chinh-sach')->get();
+        return view('.user.login.update_info_user', ['logo' => $logo, 'banner' => $banner] , compact('dsPolicies'));
     }
     function xl_update_info_user(Request $req, $id)
     {
@@ -274,8 +282,9 @@ class LoginCotroller extends Controller
         if ($req->file != null) {
             // kiểm tra kích thước
             $size = $req->file->getSize();
-            if ($size > 102400) {
-                return "Dung lượng hình ảnh lớn. Dung lượng cho phép <= 100MB ~ 102400KB";
+            $sized = $size / 1024;
+            if ($sized > 5120) {
+                return "Dung lượng hình ảnh lớn. Dung lượng cho phép <= 5MB ~ 5120KB";
             }
             // lọc ra đuôi file
             $extension = $req->file->getClientOriginalExtension();
@@ -311,47 +320,43 @@ class LoginCotroller extends Controller
         ], [
             'email.required' => 'Vui lòng nhập địa chỉ Email hợp lệ!'
         ]);
-
-        //$user = TableUser::where('email', $req->email)->first();
-        // $token = Str::random(20);
-        // $user->update(['token' => $token]);
+        $infoUser = TableUser::where('email', $req->email)->FirstOrFail();
+        
         $mailData = [
-            'title' => 'Xin chào ' . $req->name,
+            'title' => 'Xin chào ' . $infoUser->name,
             'body' => 'Xin chào, vui lòng nhấn đường dẫn bên dưới đê tiến hành xác nhận tài khoản của bạn .',
-            'email' => $req->email
+            'email' => $infoUser->email, 
+            'id' => $infoUser->id
         ];
-        Mail::to($req->email)->send(new SendMail($mailData));
+        Mail::to($infoUser->email)->send(new SendMail($mailData));
 
         // $user->update([$status => 1, 'token' => null]);
         return redirect()->route('dang-nhap-user')->with('yes', 'Vui lòng kiểm tra Email để tiến hành thay đổi mật khẩu');
     }
 
-    public function xl_forgot_password(Request $req)
+    public function xl_ForgotPassword(Request $req, $id)
     {
-        // $change = TableUser::find();
+        $change = TableUser::find($id);
 
-        // if ($change == null) {
-        //     return "không tìm thấy người dùng nào có ID = {$id} này";
-        // }
+        if ($change == null) {
+            return "không tìm thấy người dùng nào có ID = {$id} này";
+        }
 
-        // if ($change == $req->oldpassword || !empty($req->oldpassword)) {
-        //     if ($req->newpassword < 6 || $req->renewpassword < 6) {
-        //         return "Mật khẩu mới có độ dài bé hơn 6 ký tự";
-        //     } else {
-        //         if ($req->newpassword != $req->renewpassword) {
-        //             return "Xác nhận mật khẩu mới không trùng khớp";
-        //         } elseif (empty($req->newpassword) || empty($req->renewpassword)) {
-        //             return "Chưa nhập mật khẩu!!!";
-        //         } else {
-        //             $change->password = Hash::make($req->renewpassword);
-        //         }
-        //     }
-        // } else {
-        //     return "Mật khẩu cũ của bạn chưa đúng!!! hoặc bạn chưa nhập mật khẩu cũ";
-        // }
+        if ($req->newpassword < 6 || $req->renewpassword < 6) {
+            dd($req->newpassword);
+            return "Mật khẩu mới có độ dài bé hơn 6 ký tự";
+        } else {
+            if ($req->newpassword != $req->renewpassword) {
+                return "Xác nhận mật khẩu mới không trùng khớp";
+            } elseif (empty($req->newpassword) || empty($req->renewpassword)) {
+                return "Chưa nhập mật khẩu!!!";
+            } else {
+                $change->password = Hash::make($req->renewpassword);
+            }
+        }
 
-        // $change->save();
-        // return redirect()->route('trang-dang-nhap');
+        $change->save();
+        return redirect()->route('dang-nhap-user');
     }
 
     public function GetRegisterIndex()
@@ -379,7 +384,8 @@ class LoginCotroller extends Controller
         if ($req->file != null) {
             // kiểm tra kích thước
             $size = $req->file->getSize();
-            if ($size > 102400) {
+            $sized = $size / 1024;
+            if ($sized > 5120) {
                 return "Dung lượng hình ảnh lớn. Dung lượng cho phép <= 100MB ~ 102400KB";
             }
             // lọc ra đuôi file
