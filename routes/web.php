@@ -143,6 +143,7 @@ Route::get('/remove', [ProductController::class, 'removeFromCart'])->name('xl-xo
 Route::get('/news', [ArticleCotroller::class, 'GetNewsPage'])->name('lay-ds-news');
 Route::get('/detail-news/{id}', [ArticleCotroller::class, 'GetNewsDetail'])->name('chi-tiet-news');
 Route::get('/about-us', [AboutController::class, 'loadabout'])->name('gioi-thieu-chi-tiet');
+Route::get('/detail-policy/{id}', [ArticleCotroller::class, 'GetPolicyDetail'])->name('chi-tiet-policy');
 
 Route::get('/login-user', [LoginCotroller::class, 'index_login_user'])->name('dang-nhap-user');
 Route::post('/login-user', [LoginCotroller::class, 'xlLoginUser'])->name('xl-dang-nhap-user');

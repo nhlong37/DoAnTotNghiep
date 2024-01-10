@@ -13,6 +13,6 @@ class AboutController extends Controller
         $logo = TablePhoto::where('deleted_at', null)->where('type', 'logo')->FirstOrFail();
         $banner = TablePhoto::where('deleted_at', null)->where('type', 'banner')->FirstOrFail();
         $dsPolicies = TableArticle::where('deleted_at', null)->where('type', 'chinh-sach')->get();
-        return view('.user.order.order', compact('colors', 'sizes', 'dsPolicies') , ['logo' => $logo, 'banner' => $banner]);
+        return view('.user.about.detail', compact('dsPolicies') , ['logo' => $logo, 'banner' => $banner]);
     }
 }
