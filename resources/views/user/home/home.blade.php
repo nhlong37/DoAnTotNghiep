@@ -7,7 +7,7 @@
             <div class="title-main"><span>Sản phẩm mới</span></div>
             <div class="deco"></div>
         </div>
-        <div class="chay-sp">
+        <div class="chay-sp1">
             @foreach ($dsProductNew as $item)
             <div class="product">
                 <a href="{{ route('chi-tiet-product', ['id' => $item->id]) }}" class="box-product text-decoration-none">
@@ -54,7 +54,7 @@
             <div class="title-main"><span>Sản phẩm nổi bật</span></div>
             <div class="deco"></div>
         </div>
-        <div class="chay-sp">
+        <div class="chay-sp2">
             @foreach ($dsProductOutsanding as $item)
             <div class="product">
                 <a href="{{ route('chi-tiet-product', ['id' => $item->id]) }}" class="box-product text-decoration-none">
@@ -101,7 +101,7 @@
             <div class="title-main"><span>Sản phẩm khuyến mãi</span></div>
             <div class="deco"></div>
         </div>
-        <div class="chay-sp">
+        <div class="chay-sp3">
             @foreach ($dsProductDiscount as $item)
             <div class="product">
                 <a href="{{ route('chi-tiet-product', ['id' => $item->id]) }}" class="box-product text-decoration-none">
@@ -144,7 +144,6 @@
 
 <div class="box-tintuc-video">
     <div class="wap_1200">
-
         <div class="right-intro" style="width:100%">
             <p class="title-intro"><span>Tin tức mới</span></p>
             <div class="newshome-intro chay-tt w-clear">
