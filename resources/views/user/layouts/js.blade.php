@@ -15,7 +15,7 @@
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v18.0" nonce="8q1l5DaM"></script>
 <script>
     $(document).ready(function() {
-        $('.chay-sp').slick({
+        $('.chay-sp,.chay-sp2,.chay-sp3').slick({
             lazyLoad: 'progressive',
             infinite: true,
             accessibility: true,
