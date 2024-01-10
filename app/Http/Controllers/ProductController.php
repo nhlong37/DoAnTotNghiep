@@ -672,15 +672,12 @@ class ProductController extends Controller
 
     public function GetDetailProduct(Request $req, $id)
     {
-        // $data_avatar_comment = TableComment::get('avatar');
-        // $data_id_user = TableUser::whereIn('avatar', $data_avatar_comment->avatar)->find($data_avatar_comment->avatar);
-        // dd($data_avatar_comment);
-        // $user=Auth::guard('user')->user()->avatar;
-        // dd($user);
-        // $data_id_comment = TableComment::get('id_user');
-        // $data_id_user = TableUser::whereIn('id', $data_id_comment)->find($data_id_comment);
-        // $data_avatar = TableUser::get($data_id_user);
-        //$data_avatar = TableComment::find($data_id_user)->get('avatar');
+        // $id_order_detail=TableOrderDetail::get('id_order');
+        // $status = TableOrder::where('status','dathanhtoan')->find($id_order_detail);
+        // dd($status);
+        // $status = TableOrder::get('id', $id);
+        // $status_order = TableOrder::get('status');
+        // dd($status);
         //dd($data_avatar);
         //dd($id_product_order);
         //$id_product = TableOrderDetail::where('id_product', $id)->where('id_user', Auth::guard('user')->user()->id)->get('id_product');
@@ -889,6 +886,8 @@ class ProductController extends Controller
 
     public function send_comment(Request $req)
     {
+        //$id_order_detail=TableOrderDetail::get('id_order');
+        //$status = TableOrder::where('status','dathanhtoan')->find($id_order_detail);
         // $data_id_order_product = TableOrderDetail::get('id_product','id_user');
         // $data_id_order_user = TableOrderDetail::get('id_user');
         // $data_id_product = TableProduct::whereIn('id', $data_id_order_product)->find($data_id_order_product);
@@ -897,6 +896,7 @@ class ProductController extends Controller
         // $data_id_order_product = TableOrderDetail::get('id_product');
         // $data_id_product = TableProduct::whereIn('id', $data_id_order_product)->find($data_id_order_product);
         //$data_order = TableOrderDetail::whereIn('id_product', $data_id_product->id)->whereIn('id_user', $data_id_user->id)->find();
+        //$status = TableOrder::get('status');
         $id_product = TableOrderDetail::where('id_product', $req->id_product)->where('id_user', Auth::guard('user')->user()->id)->get();
         $id_u = TableOrderDetail::where('id_product', $req->id_product)->where('id_user', Auth::guard('user')->user()->id)->get('id_user');
         // $id_pro = TableProduct::whereIn('id',$id_product)->get('id');
@@ -908,7 +908,7 @@ class ProductController extends Controller
             $content = $req->content;
             $avatar = $req->avatar;
             foreach ($id_product as $k => $product_user) {
-                if (($id_user == $product_user->id_user) || ($product_id == $product_user->porduct)) {
+                if (($id_user == $product_user->id_user)) {
                     $comment = new TableComment();
                     $comment->id_user = Auth::guard('user')->user()->id;
                     $comment->id_product = $product_id;

@@ -14,7 +14,7 @@ class PaymentController extends Controller
     public function VNPay_Payment(Request $req)
     {
 
-
+        
         $name = $req->fullname;
         $email = $req->email;
         $phone = $req->phone;
@@ -140,4 +140,4 @@ class PaymentController extends Controller
             return redirect()->route('trang-chu-user');
         }
     }
-}
+
