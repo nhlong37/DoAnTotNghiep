@@ -15,24 +15,24 @@
                 <div class="footer-news">
                     <p class="footer-title">Chính sách</p>
                     <ul class="footer-ul">
-                        <li><a href="" title="Chính sách bảo mật">Chính sách bảo mật</a></li>   
-                        <li><a href="" title="Chính sách mua bán">Chính sách mua bán</a></li>
-                        <li><a href="" title="Chính sách đổi trả">Chính sách đổi trả</a></li>
+                        @foreach ($dsPolicies as $item)
+                            <li><a href="" title="{{ $item->name }}">{{ $item->name }}</a></li>   
+                        @endforeach
                     </ul>
                 </div>
                 <div class="footer-news">
-                   
+                    <div class="fb-page" data-href="https://www.facebook.com/profile.php?id=61555313947383" data-tabs="timeline" data-width="500" data-height="200" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/profile.php?id=61555313947383" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/profile.php?id=61555313947383">HL Shoe Store</a></blockquote></div>
                 </div>
         </div>
     </div>
     
-    {{-- <div class="footer-powered">
+    <div class="footer-powered">
         <div class="wrap-content">
             <div class="wap_copy">
-                <p class="copyright">© Copyright © 2023 <span>Tên công ty</span></p>
+                <p class="copyright">© Copyright 2024 <span>HL Shoe Store</span></p>
             </div>
         </div>
-    </div> --}}
+    </div>
 </div>
 
 {{-- <a class="btn-map btn-frame text-decoration-none" target="_blank" href="">

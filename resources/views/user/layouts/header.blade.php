@@ -48,7 +48,9 @@
     <div class="header-bottom">
         <div class="wrap-content">
             <a class="logo-header" href="#">
-                <img src="{{ asset('assets/user/images/logo.png') }}"alt="">
+                <img class="rounded" onerror="src='{{ asset('assets/admin/images/noimage.png') }}'"
+                            src="{{ asset('upload/photo/' . $logo->photo) }}" alt="Alt Photo" style=""
+                            alt="{{ $logo->name }}" />
             </a>
             <a class="banner-header" href="#">
                 <img src="{{ asset('assets/user/images/banner.jpg') }}"alt="">
