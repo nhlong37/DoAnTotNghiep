@@ -16,7 +16,7 @@
                     <p class="footer-title">Chính sách</p>
                     <ul class="footer-ul">
                         @foreach ($dsPolicies as $item)
-                            <li><a href="" title="{{ $item->name }}">{{ $item->name }}</a></li>   
+                            <li><a href="{{ route('chi-tiet-policy', ['id'=>$item->id]) }}" title="{{ $item->name }}">{{ $item->name }}</a></li>   
                         @endforeach
                     </ul>
                 </div>

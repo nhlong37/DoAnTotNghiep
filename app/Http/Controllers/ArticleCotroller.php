@@ -323,4 +323,14 @@ class ArticleCotroller extends Controller
         $detailArticle->save();
         return view('.user.news.detail', ['rowDetail' => $detailArticle, 'logo' => $logo, 'banner' => $banner], compact('dsPolicies'));
     }
+    public function GetPolicyDetail($id)
+    {
+        $detailArticle = TableArticle::where('deleted_at', null)->where('id', $id)->first();
+        $dsPolicies = TableArticle::where('deleted_at', null)->where('type', 'chinh-sach')->get();
+        $logo = TablePhoto::where('deleted_at', null)->where('type', 'logo')->FirstOrFail();
+        $banner = TablePhoto::where('deleted_at', null)->where('type', 'banner')->FirstOrFail();
+        // $detailArticle->view++;
+        // $detailArticle->save();
+        return view('.user.article.article', ['rowDetail' => $detailArticle, 'logo' => $logo, 'banner' => $banner], compact('dsPolicies'));
+    }
 }
