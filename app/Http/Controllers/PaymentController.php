@@ -137,4 +137,4 @@ class PaymentController extends Controller
             return redirect()->route('trang-chu-user');
         }
     }
-}
+
