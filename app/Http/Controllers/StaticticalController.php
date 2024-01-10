@@ -13,9 +13,9 @@ class StaticticalController extends Controller
     }
 
     public function loadStatistical($type) {
-        if($type == 'products') {
+        if($type == 'order') {
             $filename = Str::random(5);
-            return Excel::download(new ExportFile, 'products_'.$filename.'.xlsx');
+            return Excel::download(new ExportFile, 'order_'.$filename.'.xlsx');
         } else {
             return view('admin.statistical.index');
         }  

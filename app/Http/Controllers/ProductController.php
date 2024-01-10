@@ -21,7 +21,7 @@ use App\Models\TableAlbum;
 use App\Models\TableArticle;
 use App\Models\TableVariantsPCS;
 use App\Models\TableOrderDetail;
-use Illuminate\Support\Facades\Storage;
+use App\Models\TablePhoto;
 use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
@@ -507,6 +507,20 @@ class ProductController extends Controller
         return view('.admin.order.order', compact('dsOrder', 'serial'));
     }
 
+    public function filterOrder(Request $req)
+    {
+        $limit = 10;
+        
+        $dsOrder = TableOrder::where('status', $req->select_status_order)->whereDate('created_at', $req->order_date)->latest()->paginate($limit);
+        
+        // lấy trang hiện tại
+        $current = $dsOrder->currentPage();
+        // lấy số thứ tự đầu tiên nhưng theo dạng mảng (là số 0)
+        $perSerial = $limit * ($current - 1);
+        $serial = $perSerial + 1;
+        return view('.admin.order.order', compact('dsOrder', 'serial'));
+    }
+
     public function loadOrderDetail($id)
     {
         $limit = 10;
@@ -515,7 +529,6 @@ class ProductController extends Controller
 
         $data_id_orderdetail_color = TableOrderDetail::get('id_color');
         $dsIDC =TableColor::whereIn('id',$data_id_orderdetail_color)->find($data_id_orderdetail_color);
-        // dd($name_color);
         $data_id_orderdetail_size = TableOrderDetail::get('id_size');
         $dsIDS =TableSize::whereIn('id',$data_id_orderdetail_size)->find($data_id_orderdetail_size);
 
@@ -548,10 +561,7 @@ class ProductController extends Controller
         return redirect()->route('don-hang');
     }
 
-    public function filterOrder(Request $req)
-    {
-    }
-
+    
     public function loadComment(Request $req)
     {
         $limit = 10;
@@ -615,15 +625,6 @@ class ProductController extends Controller
     // ---------------- ADMIN ---------------- //
 
     // ---------------- USER ---------------- //
-    public function GetProductIndex(Request $req)
-    {
-        // lấy sản phẩm
-        $dsProductNew = TableProduct::where('deleted_at', null)->limit(8)->get();
-        $dsProductOutsanding = TableProduct::where('deleted_at', null)->where('view', '>=', 50)->get();
-        $dsNewsOutsanding = TableArticle::where('deleted_at', null)->where('view', '>=', 20)->where('type', 'tin-tuc')->get();
-        return view('.user.home.home', compact('dsProductNew', 'dsProductOutsanding', 'dsNewsOutsanding'));
-    }
-
     public function GetProductPage(Request $req)
     {
         $limit = 8;
@@ -647,7 +648,10 @@ class ProductController extends Controller
         } else {
             $dsProduct = TableProduct::where('deleted_at', null)->latest()->paginate($limit);
         }
-        return view('.user.product.product', compact('dsProduct', 'dsBrand', 'min_price', 'max_price', 'max_price_range', 'min_price_range'));
+        $dsPolicies = TableArticle::where('deleted_at', null)->where('type', 'chinh-sach')->get();
+        $logo = TablePhoto::where('deleted_at', null)->where('type', 'logo')->FirstOrFail();
+        $banner = TablePhoto::where('deleted_at', null)->where('type', 'banner')->FirstOrFail();
+        return view('.user.product.product', compact('dsProduct', 'dsBrand', 'min_price', 'max_price', 'max_price_range', 'min_price_range', 'dsPolicies'), ['logo' => $logo, 'banner' => $banner]);
     }
 
 
@@ -678,8 +682,7 @@ class ProductController extends Controller
         // $id_pro = TableProduct::whereIn('id',$id_product)->get('id');
         //dd($id_product);
         $detailProduct = TableProduct::where('deleted_at', null)->where('id', $id)->first();
-        $view = $detailProduct->view;
-        $view++;
+        
         $dsGallery = TableAlbum::where('id_product', $id)->get();
         $listSelectedColor = TableVariantsPCS::where('id_product', $id)->get();
         $listSelectedSize = TableVariantsPCS::where('id_product', $id)->get();
@@ -704,21 +707,27 @@ class ProductController extends Controller
         $rowSize = TableSize::whereIn('id', $arrIdSize)->get();
         $rating = TableRating::where('id_product', $id)->avg('rating');
         $rating = round($rating);
+        $dsPolicies = TableArticle::where('deleted_at', null)->where('type', 'chinh-sach')->get();
+        $logo = TablePhoto::where('deleted_at', null)->where('type', 'logo')->FirstOrFail();
+        $banner = TablePhoto::where('deleted_at', null)->where('type', 'banner')->FirstOrFail();
         if ($req->ajax()) {
             return Response($dsSoLuong);
         } else {
-            return view('.user.product.detail', ['rowDetail' => $detailProduct], compact('rowColor', 'rowSize', 'dsGallery', 'rating'));
-
+            $detailProduct->view++;
+            $detailProduct->save();
+            return view('.user.product.detail', ['rowDetail' => $detailProduct], compact('rowColor', 'rowSize', 'dsGallery', 'rating', 'dsPolicies'), ['logo' => $logo, 'banner' => $banner]);
         }
-
     }
 
     public function viewCart()
     {
         $colors = TableColor::all();
         $sizes = TableSize::all();
+        $logo = TablePhoto::where('deleted_at', null)->where('type', 'logo')->FirstOrFail();
+        $banner = TablePhoto::where('deleted_at', null)->where('type', 'banner')->FirstOrFail();
+        $dsPolicies = TableArticle::where('deleted_at', null)->where('type', 'chinh-sach')->get();
 
-        return view('.user.order.order', compact('colors', 'sizes'));
+        return view('.user.order.order', compact('colors', 'sizes', 'dsPolicies') , ['logo' => $logo, 'banner' => $banner]);
     }
 
     private function productExists($code_order = '', $q = 1)
@@ -863,11 +872,6 @@ class ProductController extends Controller
                     $detailOrder->price = $value['price_regular'];
                 $detailOrder->quantity = $value['quantity'];
                 $detailOrder->save();
-
-                // $miniusQuantity = TableProduct::find($value['id_product']);
-
-                // $miniusQuantity->quantity = $miniusQuantity->quantity - $value['quantity'];
-                // $miniusQuantity->save();
             }
             if (session()->has('cart')) {
                 session()->forget('cart');

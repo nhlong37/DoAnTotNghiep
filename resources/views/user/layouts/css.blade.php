@@ -14,3 +14,4 @@
 <link rel="stylesheet" href="{{asset('assets/user/select2/select2.css')}}">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="{{asset('assets/user/css/comment.css')}}">
+<link rel="stylesheet" href="{{asset('assets/user/css/invoice.css')}}">

@@ -4279,7 +4279,7 @@ $(document).ready(function () {
             if (result.isConfirmed) {
                 $.ajax({
                     type: "GET",
-                    url: "/admin/"+href+"/delete-"+href,
+                    url: "/admin/"+href+"/delete",
                     data: {
                         id: id,
                     },
@@ -4293,7 +4293,7 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-    $(".delete-item").on("click", function () {
+    $(".delete-item2").on("click", function () {
         var href = $(this).data("href");
         var id = $(this).data("id");
         Swal.fire({
@@ -4309,7 +4309,7 @@ $(document).ready(function () {
             if (result.isConfirmed) {
                 $.ajax({
                     type: "GET",
-                    url: "/admin/article/"+href+"/delete-"+href,
+                    url: "/admin/article/"+href+"/delete",
                     data: {
                         id: id,
                     },
@@ -4357,3 +4357,21 @@ $("body").on("click", ".btn-search-article", function () {
             $(".form-control-navbar").val();
     }
 });
+
+// /* Search bài viết */
+// $("body").on("click", ".btn-search-order", function () {
+//     var href = $("#select-status").val();
+//     if ($("#select-status").val() == "") {
+//         Swal.fire({
+//             icon: "error",
+//             title: "Oops...",
+//             text: "Bạn chưa chọn trạng thái!!!",
+//         });
+//     } else {
+//         window.location.href =
+//             "/admin/invoice/" +
+//             $(".btn-search-order").data("href") +
+//             "/search/" +
+//             $(".form-control-navbar").val();
+//     }
+// });
