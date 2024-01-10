@@ -58,11 +58,9 @@
 
                                 <th class="align-middle text-center" width="10%">Tên người bình luận</th>
 
-                                <th class="align-middle text-center">Trả lời</th>
+                                <th class="align-middle text-center" width="30%">Trả lời</th>
 
                                 <th class="align-middle text-center">Ngày gửi</th>
-
-                                <th class="align-middle text-center">Trạng thái</th>
 
                                 <th class="align-middle text-center">Chức năng</th>
 
@@ -96,7 +94,7 @@
                                 </td>
                               
 
-                                <td class="align-middle "  width="20%">
+                                <td class="align-middle text-center"  width="20%">
                                     <!-- <a class="text-dark text-break"
                                         href="{{ route('sua-doi-san-pham-admin', ['id' => $item->id]) }}"
                                         title="{{ $item->name }}"></a> -->
@@ -109,20 +107,14 @@
                                         <li style="color:blue">{{$comment_reply->content}}</li>
                                         @endif
                                         @endforeach
-                                </ol>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <!-- <a class="text-dark text-break"
-                                        href="{{ route('sua-doi-san-pham-admin', ['id' => $item->id]) }}"
-                                        title="{{ $item->name }}">
-                                    </a> -->
-
+                                    </ol>
                                     <textarea class="form-control reply_comment_{{$item->id}}"></textarea>
                                     <p></p>
                                     <p><button class="btn btn-default btn-xs btn-reply-comment" type="button"
                                             data-comment_id="{{$item->id}}" data-id="{{$item->id_product}}">Trả lời bình
                                             luận</button></p>
                                 </td>
+                             
                                 <td class="align-middle text-center">
                                     <!-- <a class="text-dark text-break"
                                         href="{{ route('sua-doi-san-pham-admin', ['id' => $item->id]) }}"

@@ -13,7 +13,6 @@ class PaymentController extends Controller
 {
     public function VNPay_Payment (Request $req) {
 
-        
         $name = $req->fullname;
         $email = $req->email;
         $phone = $req->phone;
@@ -114,6 +113,7 @@ class PaymentController extends Controller
             $detailOrder->id_product = $value['id_product'];
             $detailOrder->id_color    = $value['id_color'];
             $detailOrder->id_size = $value['id_size'];
+            $detailOrder->id_user = $infoOrder->id_user;
             $detailOrder->name_product = $value['name'];
             $detailOrder->photo_product = $value['image'];
             if ($value['price_sale'] > 0) $detailOrder->price = $value['price_sale'];
