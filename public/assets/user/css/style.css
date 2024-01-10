@@ -2043,24 +2043,24 @@ div.box-tintuc-video {
     border: 1px solid #e6e6e6;
 }
 
-div.chay-sp .slick-prev:before,
-div.chay-sp .slick-next:before {
+div.arrow-run .slick-prev:before,
+div.arrow-run .slick-next:before {
     font-size: 0;
 }
 
-div.chay-sp .slick-prev,
-div.chay-sp .slick-next {
+div.arrow-run .slick-prev,
+div.arrow-run .slick-next {
     width: 45px;
     height: 45px;
     top: 40%;
 }
 
-div.chay-sp .slick-prev {
+div.arrow-run .slick-prev {
     background: url(../images/sl-1.png) no-repeat center;
     left: -52px;
 }
 
-div.chay-sp .slick-next {
+div.arrow-run .slick-next {
     background: url(../images/sl-2.png) no-repeat center;
     right: -52px;
 }

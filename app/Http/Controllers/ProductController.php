@@ -73,8 +73,9 @@ class ProductController extends Controller
         if ($req->file != null) {
             // kiểm tra kích thước
             $size = $req->file->getSize();
-            if ($size > 102400) {
-                return "Dung lượng hình ảnh lớn. Dung lượng cho phép <= 100MB ~ 102400KB";
+            $sized = $size / 1024;
+            if ($sized > 5120) {
+                return "Dung lượng hình ảnh lớn. Dung lượng cho phép <= 5MB ~ 5120KB";
             }
             // lọc ra đuôi file
             $extension = $req->file->getClientOriginalExtension();
@@ -180,9 +181,9 @@ class ProductController extends Controller
         if ($req->file != null) {
             // kiểm tra kích thước
             $size = $req->file->getSize();
-            if ($size > 102400) {
-
-                return "Dung lượng hình ảnh lớn. Dung lượng cho phép <= 100MB ~ 102400KB";
+            $sized = $size / 1024;
+            if ($sized > 5120) {
+                return "Dung lượng hình ảnh lớn. Dung lượng cho phép <= 5MB ~ 5120KB";
             }
             // lọc ra đuôi file
             $extension = $req->file->getClientOriginalExtension();
@@ -657,11 +658,15 @@ class ProductController extends Controller
 
     public function SearchProduct(Request $req)
     {
+        $dsPolicies = TableArticle::where('deleted_at', null)->where('type', 'chinh-sach')->get();
+        $logo = TablePhoto::where('deleted_at', null)->where('type', 'logo')->FirstOrFail();
+        $banner = TablePhoto::where('deleted_at', null)->where('type', 'banner')->FirstOrFail();
         if ($req->keyword != null) {
             $limit = 12;
             $dsProduct = TableProduct::where('deleted_at', null)->where('name', 'like', '%' . $req->keyword . '%')->latest()->paginate($limit);
+            
         }
-        return view('.user.product.product', compact('dsProduct'));
+        return view('.user.product.product', compact('dsProduct', 'dsPolicies'), ['logo' => $logo, 'banner' => $banner]);
     }
 
 
@@ -712,7 +717,7 @@ class ProductController extends Controller
         } else {
             $detailProduct->view++;
             $detailProduct->save();
-            return view('.user.product.detail', ['rowDetail' => $detailProduct], compact('rowColor', 'rowSize', 'dsGallery', 'rating', 'dsPolicies'), ['logo' => $logo, 'banner' => $banner]);
+            return view('.user.product.detail', ['rowDetail' => $detailProduct, 'logo' => $logo, 'banner' => $banner], compact('rowColor', 'rowSize', 'dsGallery', 'rating', 'dsPolicies'));
         }
     }
 
@@ -861,6 +866,7 @@ class ProductController extends Controller
                 $detailOrder->id_product = $value['id_product'];
                 $detailOrder->id_color = $value['id_color'];
                 $detailOrder->id_size = $value['id_size'];
+                $detailOrder->id_user=$infoOrder->id_user;
                 $detailOrder->name_product = $value['name'];
                 $detailOrder->photo_product = $value['image'];
                 if ($value['price_sale'] > 0)
@@ -924,10 +930,10 @@ class ProductController extends Controller
         $data_id_user = TableUser::whereIn('id', $data_id_comment)->find($data_id_comment);
         // $data_avatar_comment = TableComment::get('avatar');
         // $data_id_user = TableUser::whereIn('avatar', $data_avatar_comment)->find($data_avatar_comment);
-        $id_user = $req->id_user;
+       // $id_user = $req->id_user;
         //dd($data_id_user);
         $product_id = $req->id_product;
-        //$id_user = $req->id_user;
+        $id_user = $req->id_user;
         $avatar = $req->avatar;
         $status = $req->status;
         $dsComment = TableComment::where('id_product', $product_id)->where('content_parent_comment', '=', 0)->where('status', 1)->get();
@@ -967,7 +973,7 @@ class ProductController extends Controller
                 if ($reply_comment->content_parent_comment == $comment->id) {
                     $output .= '<div class="row " id="style_comment" style="margin: 5px 40px; background-color:#FFCC99">
             <div class="col-sm-1" id="img-avatar">
-                <img width="60%" src="' . url('/upload/avatar/'.Auth::guard('admin')->user()->avatar) . '"
+                <img width="60%" src="'.$reply_comment->avatar.'"
                     class="img-avatar" />
             </div>
             <div class="col-sm-11" id="content">
@@ -997,7 +1003,9 @@ class ProductController extends Controller
         $data = $req->all();
         $comment = new TableComment();
         $comment->content = $data['comment'];
+        $comment->avatar = $data['avatar'];
         $comment->id_product = $data['id_product'];
+        $comment->id_user = Auth::guard('admin')->user()->id;
         $comment->content_parent_comment = $data['comment_id'];
         $comment->status = 1;
         $comment->comment_name = 'HL Shoes Store ';

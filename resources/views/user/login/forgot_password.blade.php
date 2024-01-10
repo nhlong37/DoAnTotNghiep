@@ -27,13 +27,13 @@
     <div class="limiter">
         <div class="container-login100">
             <div class="wrap-email">
-                <div class="login100-pic js-tilt" data-tilt>
+                <div class="login100-pic js-tilt">
                     <img src="{{ asset('assets/user/images/banner-qc.jpg') }}" alt="IMG">
                 </div>
                 <form class="email-form validate-form" action="" method="POST">
                     @csrf
                     <div class="wrap-input100 validate-input" data-validate="Bạn chưa nhập mật khẩu mới">
-                        <input class="input100" type="password" name="new-password" placeholder="Mật khẩu mới">
+                        <input class="input100" type="password" name="newpassword" placeholder="Mật khẩu mới">
                         <span class="focus-input100"></span>
                         <span class="symbol-input100">
                             <i class="fa fa-lock" aria-hidden="true"></i>
@@ -41,7 +41,7 @@
                     </div>
 
                     <div class="wrap-input100 validate-input" data-validate="Bạn chưa nhập mật khẩu mới">
-                        <input class="input100" type="password" name="renew-password" placeholder="Nhập mật khẩu mới">
+                        <input class="input100" type="password" name="renewpassword" placeholder="Nhập mật khẩu mới">
                         <span class="focus-input100"></span>
                         <span class="symbol-input100">
                             <i class="fa fa-lock" aria-hidden="true"></i>

@@ -82,7 +82,7 @@
                                             value="{{ !empty(Auth::guard('user')->user()->birthday) ? Auth::guard('user')->user()->birthday : 'Chưa có thông tin này' }}"
                                             autocomplete="off" required>
                                     </div>
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-12">
                                         <label for="address">Địa chỉ:</label>
                                         <input type="text" class="form-control text-sm" name="address" id="address"
                                             placeholder="Địa chỉ"

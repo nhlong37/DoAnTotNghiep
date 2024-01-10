@@ -45,7 +45,7 @@ class PhotoController extends Controller
         $add = new TablePhoto;
         $data->validate(
             [
-                'photo_man' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'photo_man' => 'image|mimes:jpeg,png,jpg,gif,svg|max:5120',
             ],
             [
                 'photo_man.mimes' => 'Ảnh phải là những định dạng jpeg, png, jpg, gif, svg',
@@ -87,7 +87,7 @@ class PhotoController extends Controller
         $add = TablePhoto::find($id);
         $data->validate(
             [
-                'photo_man' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'photo_man' => 'image|mimes:jpeg,png,jpg,gif,svg|max:5120',
             ],
             [
                 'photo_man.mimes' => 'Ảnh phải là những định dạng jpeg, png, jpg, gif, svg',
