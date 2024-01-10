@@ -42,7 +42,8 @@ class ArticleCotroller extends Controller
         if ($req->file != null) {
             // kiểm tra kích thước
             $size = $req->file->getSize();
-            if ($size > 5120) {
+            $sized = $size / 1024;
+            if ($sized > 5120) {
                 return "Dung lượng hình ảnh lớn. Dung lượng cho phép <= 5MB ~ 5120KB";
             }
             // lọc ra đuôi file
@@ -82,7 +83,8 @@ class ArticleCotroller extends Controller
         if ($req->file != null) {
             // kiểm tra kích thước
             $size = $req->file->getSize();
-            if ($size > 5120) {
+            $sized = $size / 1024;
+            if ($sized > 5120) {
                 return "Dung lượng hình ảnh lớn. Dung lượng cho phép <= 5MB ~ 5120KB";
             }
             // lọc ra đuôi file
@@ -163,7 +165,8 @@ class ArticleCotroller extends Controller
         if ($req->file != null) {
             // kiểm tra kích thước
             $size = $req->file->getSize();
-            if ($size > 5120) {
+            $sized = $size / 1024;
+            if ($sized > 5120) {
                 return "Dung lượng hình ảnh lớn. Dung lượng cho phép <= 5MB ~ 5120KB";
             }
             // lọc ra đuôi file
@@ -204,7 +207,8 @@ class ArticleCotroller extends Controller
         if ($req->file != null) {
             // kiểm tra kích thước
             $size = $req->file->getSize();
-            if ($size > 5120) {
+            $sized = $size / 1024;
+            if ($sized > 5120) {
                 return "Dung lượng hình ảnh lớn. Dung lượng cho phép <= 5MB ~ 5120KB";
             }
             // lọc ra đuôi file
@@ -317,6 +321,6 @@ class ArticleCotroller extends Controller
         $banner = TablePhoto::where('deleted_at', null)->where('type', 'banner')->FirstOrFail();
         $detailArticle->view++;
         $detailArticle->save();
-        return view('.user.news.detail', ['rowDetail' => $detailArticle], compact('dsPolicies'), ['logo' => $logo, 'banner' => $banner]);
+        return view('.user.news.detail', ['rowDetail' => $detailArticle, 'logo' => $logo, 'banner' => $banner], compact('dsPolicies'));
     }
 }

@@ -41,7 +41,7 @@ Hi {{ $mailData['email'] }},
                                             Chúng tôi không thể gửi lại cho bạn mật khẩu cũ. Chúng tôi đã tạo ra một đường liên kết.
                                             Để đặt lại mật khẩu của bạn, hãy click vào đường liên kết bên dưới và làm theo hướng dẫn.
                                         </p>
-                                        <a href="{{ route('trang-forgot', ['email'=>$mailData['email']]) }}"
+                                        <a href="{{ route('trang-forgot', ['id'=>$mailData['id']]) }}"
                                             style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Đặt lại mật khẩu</a>
                                     </td>
                                 </tr>

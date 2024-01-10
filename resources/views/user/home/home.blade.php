@@ -7,7 +7,7 @@
             <div class="title-main"><span>Sản phẩm mới</span></div>
             <div class="deco"></div>
         </div>
-        <div class="chay-sp1">
+        <div class="chay-sp1 arrow-run">
             @foreach ($dsProductNew as $item)
             <div class="product">
                 <a href="{{ route('chi-tiet-product', ['id' => $item->id]) }}" class="box-product text-decoration-none">

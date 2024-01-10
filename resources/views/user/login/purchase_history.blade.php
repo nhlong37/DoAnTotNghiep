@@ -16,8 +16,6 @@
 
                             <th class="align-middle text-center" style="width:20%">Hoá Đơn</th>
 
-                            <th class="align-middle text-center" style="width:20%">Khách hàng</th>
-
                             <th class="align-middle text-center" style="width:30%">Tổng tiền</th>
 
                             <!-- <th class="align-middle text-center" style="width:10%">Số điện thoại</th> -->
@@ -31,22 +29,14 @@
                     @foreach ($dsOrder as $k => $item)
                     <tbody>
                         <tr>
-                            <td class="align-middle">
-                                <input type="number" class="form-control form-control-mini m-auto update-numb" min="0"
-                                    style="text-align: center" value="{{ $k+1 }}" data-id="" data-table="product"
-                                    readonly>
+                            <td class="align-middle" style="text-align: center; max-width: 20%">
+                                <span>{{ $k+1 }}</span>
                             </td>
-                            <td class="align-middle text-center">
-                                <span class="text-dark text-break" href="" title="Mã Hoá Đơn">{{ $item->code }}</span>
-                            </td>
-
                             <td class="align-middle text-center">
                                 <a class="text-dark text-break"
                                     href="{{route('chitiet-lichsu-muahang-user', ['id' => $item->id] )}}"
-                                    title="Tên khách hàng">{{ $item->fullname
-                                    }}</a>
+                                    title="Mã Hoá Đơn">{{ $item->code }}</a>
                             </td>
-
 
                             <td class="align-middle text-center">
                                 <a class="text-dark text-break" title="Tống giá trị Hoá Đơn">{{
