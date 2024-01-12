@@ -511,9 +511,9 @@ class ProductController extends Controller
     public function filterOrder(Request $req)
     {
         $limit = 10;
-        
+
         $dsOrder = TableOrder::where('status', $req->select_status_order)->whereDate('created_at', $req->order_date)->latest()->paginate($limit);
-        
+
         // lấy trang hiện tại
         $current = $dsOrder->currentPage();
         // lấy số thứ tự đầu tiên nhưng theo dạng mảng (là số 0)
@@ -529,9 +529,9 @@ class ProductController extends Controller
         $dsOrderDetail = TableOrderDetail::where('id_order', $infoOrder->id)->latest()->paginate($limit);
 
         $data_id_orderdetail_color = TableOrderDetail::get('id_color');
-        $dsIDC =TableColor::whereIn('id',$data_id_orderdetail_color)->find($data_id_orderdetail_color);
+        $dsIDC = TableColor::whereIn('id', $data_id_orderdetail_color)->find($data_id_orderdetail_color);
         $data_id_orderdetail_size = TableOrderDetail::get('id_size');
-        $dsIDS =TableSize::whereIn('id',$data_id_orderdetail_size)->find($data_id_orderdetail_size);
+        $dsIDS = TableSize::whereIn('id', $data_id_orderdetail_size)->find($data_id_orderdetail_size);
 
         // lấy trang hiện tại
         $current = $dsOrderDetail->currentPage();
@@ -558,11 +558,10 @@ class ProductController extends Controller
 
         $itemorder->save();
 
-        // Xoá đi để thêm lại cái mới
         return redirect()->route('don-hang');
     }
 
-    
+
     public function loadComment(Request $req)
     {
         $limit = 10;
@@ -572,6 +571,9 @@ class ProductController extends Controller
         // $id = TableComment::whereIn('id_user', $id_user)->find($id_user);
         $data_id_comment = TableComment::get('id_user');
         $data_id_user = TableUser::whereIn('id', $data_id_comment)->find($data_id_comment);
+
+        $data_id_comment_product = TableComment::get('id_product');
+        $data_id_product = TableProduct::whereIn('id', $data_id_comment_product)->find($data_id_comment_product);
         //dd($id);
         //latest() = orderBy('created_at','desc')
         $dsComment = TableComment::latest()->paginate($limit);
@@ -581,7 +583,7 @@ class ProductController extends Controller
         // lấy số thứ tự đầu tiên nhưng theo dạng mảng (là số 0)
         $perSerial = $limit * ($current - 1);
         $serial = $perSerial + 1;
-        return view('.admin.comment.list', compact('dsComment', 'serial', 'comment_rep', 'data_id_user'));
+        return view('.admin.comment.list', compact('dsComment', 'serial', 'comment_rep', 'data_id_user','data_id_product'));
     }
 
     public function deletecomment(Request $req)
@@ -664,7 +666,6 @@ class ProductController extends Controller
         if ($req->keyword != null) {
             $limit = 12;
             $dsProduct = TableProduct::where('deleted_at', null)->where('name', 'like', '%' . $req->keyword . '%')->latest()->paginate($limit);
-            
         }
         return view('.user.product.product', compact('dsProduct', 'dsPolicies'), ['logo' => $logo, 'banner' => $banner]);
     }
@@ -683,8 +684,9 @@ class ProductController extends Controller
         //$id_product = TableOrderDetail::where('id_product', $id)->where('id_user', Auth::guard('user')->user()->id)->get('id_product');
         // $id_pro = TableProduct::whereIn('id',$id_product)->get('id');
         //dd($id_product);
+        $id_order_product = TableOrderDetail::where('id_product', $id)->get();
         $detailProduct = TableProduct::where('deleted_at', null)->where('id', $id)->first();
-        
+
         $dsGallery = TableAlbum::where('id_product', $id)->get();
         $listSelectedColor = TableVariantsPCS::where('id_product', $id)->get();
         $listSelectedSize = TableVariantsPCS::where('id_product', $id)->get();
@@ -717,7 +719,7 @@ class ProductController extends Controller
         } else {
             $detailProduct->view++;
             $detailProduct->save();
-            return view('.user.product.detail', ['rowDetail' => $detailProduct, 'logo' => $logo, 'banner' => $banner], compact('rowColor', 'rowSize', 'dsGallery', 'rating', 'dsPolicies'));
+            return view('.user.product.detail', ['rowDetail' => $detailProduct, 'logo' => $logo, 'banner' => $banner], compact('rowColor', 'rowSize', 'dsGallery', 'rating', 'dsPolicies','id_order_product'));
         }
     }
 
@@ -729,7 +731,7 @@ class ProductController extends Controller
         $banner = TablePhoto::where('deleted_at', null)->where('type', 'banner')->FirstOrFail();
         $dsPolicies = TableArticle::where('deleted_at', null)->where('type', 'chinh-sach')->get();
 
-        return view('.user.order.order', compact('colors', 'sizes', 'dsPolicies') , ['logo' => $logo, 'banner' => $banner]);
+        return view('.user.order.order', compact('colors', 'sizes', 'dsPolicies'), ['logo' => $logo, 'banner' => $banner]);
     }
 
     private function productExists($code_order = '', $q = 1)
@@ -842,11 +844,35 @@ class ProductController extends Controller
 
         return response()->json(array('regularPrice' => $regular_price, 'salePrice' => $sale_price, 'totalText' => $totalText));
     }
+    public function CheckStock()
+    {
+        $cart = session()->get('cart');
+        $arr_error = [];
+        if (!empty($cart)) {
+            foreach ($cart as $k => $v) {
+                $quantity_ss = $v['quantity'];
+                $stock_db = TableVariantsPCS::where('id_product', '=', $v['id_product'])->where('id_size', '=', $v['id_size'])->where('id_color', '=', $v['id_color'])->first();
+                if ($quantity_ss > $stock_db->quantity) {
+                    array_push($arr_error, $v);
+                }
+            }
+        }
+        return $arr_error;
+    }
 
     public function OrderProduct(Request $req)
     {
         if (!empty(Auth::guard('user')->user()->id)) {
-
+            $arr_check = $this->CheckStock();
+            if (!empty($arr_check)) {
+                $colors = TableColor::all();
+                $sizes = TableSize::all();
+                $logo = TablePhoto::where('deleted_at', null)->where('type', 'logo')->FirstOrFail();
+                $banner = TablePhoto::where('deleted_at', null)->where('type', 'banner')->FirstOrFail();
+                $dsPolicies = TableArticle::where('deleted_at', null)->where('type', 'chinh-sach')->get();
+                
+                return view('.user.order.order', compact('colors', 'sizes', 'dsPolicies', 'arr_check'), ['logo' => $logo, 'banner' => $banner]);
+            }
             $mahd = $req->code;
             $infoOrder = new TableOrder();
             $infoOrder->code = $mahd;
@@ -866,7 +892,7 @@ class ProductController extends Controller
                 $detailOrder->id_product = $value['id_product'];
                 $detailOrder->id_color = $value['id_color'];
                 $detailOrder->id_size = $value['id_size'];
-                $detailOrder->id_user=$infoOrder->id_user;
+                $detailOrder->id_user = $infoOrder->id_user;
                 $detailOrder->name_product = $value['name'];
                 $detailOrder->photo_product = $value['image'];
                 if ($value['price_sale'] > 0)
@@ -900,7 +926,7 @@ class ProductController extends Controller
         $id_product = TableOrderDetail::where('id_product', $req->id_product)->where('id_user', Auth::guard('user')->user()->id)->get();
         $id_u = TableOrderDetail::where('id_product', $req->id_product)->where('id_user', Auth::guard('user')->user()->id)->get('id_user');
         // $id_pro = TableProduct::whereIn('id',$id_product)->get('id');
-        $user=Auth::guard('user')->user()->id;
+        $user = Auth::guard('user')->user()->id;
         if (Auth::guard('user')->check()) {
 
             $id_user = $req->id_user;
@@ -930,7 +956,7 @@ class ProductController extends Controller
         $data_id_user = TableUser::whereIn('id', $data_id_comment)->find($data_id_comment);
         // $data_avatar_comment = TableComment::get('avatar');
         // $data_id_user = TableUser::whereIn('avatar', $data_avatar_comment)->find($data_avatar_comment);
-       // $id_user = $req->id_user;
+        // $id_user = $req->id_user;
         //dd($data_id_user);
         $product_id = $req->id_product;
         $id_user = $req->id_user;
@@ -952,7 +978,7 @@ class ProductController extends Controller
                     $output .=
                         '<div class="d-flex mb-3" id="style_comment">
             <div class="col-sm-1" id="img-avatar">
-                <img width="100%" src="' . url('/upload/avatar/'.$comment->avatar) . '"
+                <img width="100%" src="' . url('/upload/avatar/' . $comment->avatar) . '"
                     class="img-avatar" />
             </div>
             <div class="col-sm-11" id="content">
@@ -973,7 +999,7 @@ class ProductController extends Controller
                 if ($reply_comment->content_parent_comment == $comment->id) {
                     $output .= '<div class="row " id="style_comment" style="margin: 5px 40px; background-color:#FFCC99">
             <div class="col-sm-1" id="img-avatar">
-                <img width="60%" src="'.$reply_comment->avatar.'"
+                <img width="60%" src="' . url('/upload/avatar/' . $reply_comment->avatar) . '"
                     class="img-avatar" />
             </div>
             <div class="col-sm-11" id="content">
@@ -1026,7 +1052,7 @@ class ProductController extends Controller
                     echo 'Đánh giá thành công';
                 }
             }
-        } 
+        }
     }
 
     // ---------------- USER ---------------- //    

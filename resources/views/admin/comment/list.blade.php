@@ -58,9 +58,11 @@
 
                                 <th class="align-middle text-center" width="10%">Tên người bình luận</th>
 
-                                <th class="align-middle text-center" width="30%">Trả lời</th>
+                                <th class="align-middle text-center" width="20%">Sản phẩm</th>
 
-                                <th class="align-middle text-center">Ngày gửi</th>
+                                <th class="align-middle text-center" width="20%">Trả lời</th>
+
+                                <th class="align-middle text-center" ưidth="10%">Ngày gửi</th>
 
                                 <th class="align-middle text-center">Chức năng</th>
 
@@ -89,10 +91,20 @@
                                     {{ $user->name }}
                                     @endif
                                 @endforeach
-                                <p></p>
+                                <p>
                                 {{ $item->comment_name }}
+                                </p>
                                 </td>
-                              
+                                <td class="align-middle text-center">
+                                @foreach($data_id_product as $product)
+                                @if($item->id_product == $product->id)
+                                    <!-- <a class="text-dark text-break"
+                                        href="{{ route('sua-doi-san-pham-admin', ['id' => $item->id]) }}"
+                                        title="{{ $item->name }}"></a> -->
+                                    {{ $product->name }}
+                                    @endif
+                                @endforeach
+                                </td>
 
                                 <td class="align-middle text-center"  width="20%">
                                     <!-- <a class="text-dark text-break"
@@ -101,7 +113,6 @@
                                     {{ $item->content }}
                                     <p>Trả lời:</p>
                                     <ol class="list_rep">
-                                        
                                         @foreach($comment_rep as $k => $comment_reply)
                                         @if($comment_reply->content_parent_comment==$item->id)
                                         <li style="color:blue">{{$comment_reply->content}}</li>
@@ -111,7 +122,7 @@
                                     <textarea class="form-control reply_comment_{{$item->id}}"></textarea>
                                     <p></p>
                                     <p><button class="btn btn-default btn-xs btn-reply-comment" type="button"
-                                            data-id_user="Auth::guard('admin')->user()->id" data-avatar="Auth::guard('admin')->user()->avatar"
+                                            data-id_user="Auth::guard('admin')->user()->id" data-avatar="{{Auth::guard('admin')->user()->avatar}}"
                                             data-comment_id="{{$item->id}}" data-id="{{$item->id_product}}">Trả lời bình
                                             luận</button></p>
                                 </td>

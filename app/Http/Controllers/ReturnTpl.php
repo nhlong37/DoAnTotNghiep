@@ -146,7 +146,7 @@ class ReturnTpl extends Controller
         $dsProductOutsanding = TableProduct::where('deleted_at', null)->where('view', '>=', 50)->get();
         $dsProductDiscount = TableProduct::where('deleted_at', null)->where('sale_price', '>', 0)->get();
 
-        $dsNewsOutsanding = TableArticle::where('deleted_at', null)->where('view', '>=', 20)->where('type', 'tin-tuc')->get();
+        $dsNewsOutsanding = TableArticle::where('deleted_at', null)->whereBetween('created_at', [$startDate, $endDate])->where('type', 'tin-tuc')->get();
         $slide = TablePhoto::where('deleted_at', null)->where('type', 'slide')->get();
         $dsPolicies = TableArticle::where('deleted_at', null)->where('type', 'chinh-sach')->get();
         $logo = TablePhoto::where('deleted_at', null)->where('type', 'logo')->FirstOrFail();

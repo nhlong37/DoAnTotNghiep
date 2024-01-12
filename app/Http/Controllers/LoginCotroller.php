@@ -207,7 +207,8 @@ class LoginCotroller extends Controller
                 //Sai thì load lại trang login
                 return redirect()->route('dang-nhap-user');
             }
-        } else {
+        }
+        else{
             //Sai thì load lại trang login
             return redirect()->route('dang-nhap-user');
         }

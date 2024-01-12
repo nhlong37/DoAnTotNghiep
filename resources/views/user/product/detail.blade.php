@@ -205,6 +205,9 @@
                                     </div>
                                 </div> -->
                         </form>
+                        @if(Auth::guard('user')->check())
+                        @foreach($id_order_product as $k => $id_user)
+                        @if(Auth::guard('user')->user()->id==$id_user->id_user)
                         <form action="#">
                             @csrf
                             <p><b>Viết đánh giá của bạn</b></p>
@@ -260,6 +263,9 @@
                                 <button type="button" class="btn btn-warning send-comment">Gửi bình luận</button>
                             </div>
                         </form>
+                        @endif
+                        @endforeach
+                        @endif
                     </div>
                     <!-- <div style="width:500px; resize: none;" class="col-md-4">
                                         <textarea name="content"class="content" placeholder="Noi dung binh luan"></textarea>

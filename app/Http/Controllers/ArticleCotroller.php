@@ -257,55 +257,54 @@ class ArticleCotroller extends Controller
     }
     // Chính sách //
 
-    public function return_tpladm_addabout()
-    {
-        return view('.admin.article.about.add');
-    }
+    // public function return_tpladm_addabout()
+    // {
+    //     return view('.admin.article.about.add');
+    // }
 
-    public function addabout(xlAddRequestNew $req)
-    {
+    // public function addabout(xlAddRequestNew $req)
+    // {
 
-        $random = Str::random(5);
+    //     $random = Str::random(5);
 
-        // tạo 1 item mới
-        $itemnew = new TableArticle();
-        // lưu các mục vào csdl
-        $itemnew->name = $req->tenbaiviet;
-        $itemnew->content = htmlspecialchars($req->noidung);
-        $itemnew->type = 'gioi-thieu';
+    //     // tạo 1 item mới
+    //     $itemnew = new TableArticle();
+    //     // lưu các mục vào csdl
+    //     $itemnew->name = $req->tenbaiviet;
+    //     $itemnew->content = htmlspecialchars($req->noidung);
+    //     $itemnew->type = 'gioi-thieu';
        
-        $itemnew->save();
-        return redirect()->route('add-gioi-thieu-admin');
-    }
+    //     $itemnew->save();
+    //     return redirect()->route('add-gioi-thieu-admin');
+    // }
 
-    public function return_tpladm_modifyabout($id)
-    {
-        $new = TableArticle::where('id',$id)->where('type','gioi-thieu')->FirstOrFail();
-        return view('.admin.article.about.add', ['detailNew'  => $new]);
-    }
+    // public function return_tpladm_modifyabout($id)
+    // {
+    //     $new = TableArticle::where('id',$id)->where('type','gioi-thieu')->FirstOrFail();
+    //     return view('.admin.article.about.add', ['detailNew'  => $new]);
+    // }
 
-    public function modifyabout(xlAddRequestNew $req, $id)
-    {
-        // tạo 1 chuỗi ngẫu nhiên 
-        $random = Str::random(5);
+    // public function modifyabout(xlAddRequestNew $req, $id)
+    // {
+    //     // tạo 1 chuỗi ngẫu nhiên 
+    //     $random = Str::random(5);
 
-        $itemnew = TableArticle::find($id);
-        if ($itemnew == null) {
-            return "không tìm thấy bài viết nào có ID = {$id} này";
-        }
-        $itemnew->name = $req->tenbaiviet;
-        $itemnew->content = htmlspecialchars($req->noidung);
+    //     $itemnew = TableArticle::find($id);
+    //     if ($itemnew == null) {
+    //         return "không tìm thấy bài viết nào có ID = {$id} này";
+    //     }
+    //     $itemnew->name = $req->tenbaiviet;
+    //     $itemnew->content = htmlspecialchars($req->noidung);
 
-        $itemnew->save();
+    //     $itemnew->save();
 
-        return redirect()->route('modify-gioi-thieu-admin', $id);
-    }
+    //     return redirect()->route('modify-gioi-thieu-admin', $id);
+    // }
 
     // User //
     public function GetNewsPage(Request $req)
     {
         $limit = 8;
-
         $dsNews = TableArticle::where('deleted_at', null)->where('type', 'tin-tuc')->latest()->paginate($limit);
         $dsPolicies = TableArticle::where('deleted_at', null)->where('type', 'chinh-sach')->get();
         $logo = TablePhoto::where('deleted_at', null)->where('type', 'logo')->FirstOrFail();
@@ -322,5 +321,15 @@ class ArticleCotroller extends Controller
         $detailArticle->view++;
         $detailArticle->save();
         return view('.user.news.detail', ['rowDetail' => $detailArticle, 'logo' => $logo, 'banner' => $banner], compact('dsPolicies'));
+    }
+    public function GetPolicyDetail($id)
+    {
+        $detailArticle = TableArticle::where('deleted_at', null)->where('id', $id)->first();
+        $dsPolicies = TableArticle::where('deleted_at', null)->where('type', 'chinh-sach')->get();
+        $logo = TablePhoto::where('deleted_at', null)->where('type', 'logo')->FirstOrFail();
+        $banner = TablePhoto::where('deleted_at', null)->where('type', 'banner')->FirstOrFail();
+        // $detailArticle->view++;
+        // $detailArticle->save();
+        return view('.user.article.article', ['rowDetail' => $detailArticle, 'logo' => $logo, 'banner' => $banner], compact('dsPolicies'));
     }
 }
