@@ -41,7 +41,7 @@ class CheckAuth
                 return redirect('/login-user');
             }
         } else {
-            return redirect('/login-user');
+            return redirect('/login');
         }
     }
 }
