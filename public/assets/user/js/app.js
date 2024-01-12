@@ -404,6 +404,24 @@ NN_FRAMEWORK.Cart = function () {
             .find(".size-pro-detail input:checked")
             .val();
         size = size ? size : 0;
+        if(size <= 0 ){
+            Swal.fire({
+                icon: "warning",
+                title: "Oops...",
+                text: "Bạn vui lòng chọn size!!!",
+            });
+            return false;
+        }
+        if(color <= 0)
+        {
+            Swal.fire({
+                icon: "warning",
+                title: "Oops...",
+                text: "Bạn vui lòng chọn màu!!!",
+            });
+            return false;
+        }
+       
         if (id) {
             $.ajax({
                 type: "GET",
@@ -749,31 +767,6 @@ NN_FRAMEWORK.Choose = function () {
     });
 };
 
-// Kiểm tra còn hàng không
-NN_FRAMEWORK.Disable = function () {
-    $(".cart-pro-detail .add-cart").click(function (e) {
-        if (
-            $(".color-pro-detail").hasClass("active") &&
-            $(".size-pro-detail").hasClass("active")
-        ) {
-            // var available = parseInt($(".quantity-available").text());
-            // alert(available);
-            // if (available <= 0) {
-            //     $(".cart-pro-detail .add-cart").addClass("disable");
-            // } else {
-            //     $(".cart-pro-detail .add-cart").removeClass("disable");
-            // }
-            
-        }
-        else{
-            alert("Bạn vui lòng chọn màu sắc và size");
-        }
-        // else{
-        //     $(".cart-pro-detail .add-cart").addClass("disable");
-        // }
-    });
-    
-};
 
 NN_FRAMEWORK.ChangeAction = function(){
     $('.payment-method').change(function() {
@@ -807,6 +800,5 @@ $(document).ready(function () {
     NN_FRAMEWORK.ShowPassword();
     NN_FRAMEWORK.Filter();
     NN_FRAMEWORK.Choose();
-    //NN_FRAMEWORK.Disable();
     NN_FRAMEWORK.ChangeAction();
 });

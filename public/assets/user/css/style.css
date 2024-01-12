@@ -2000,6 +2000,8 @@ div.box-tintuc-video {
     font-family: nunitosan-r;
 }
 
+.box-tintuc-video .newshome-intro .news .info-news .desc-news.text-split{-webkit-line-clamp: 3; max-height: 66px;}
+
 .box-tintuc-video .newshome-intro .news .info-news .xemchitiet {
     padding: 8px 0;
     border-top: 1px solid var(--yellow-color);

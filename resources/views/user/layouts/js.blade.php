@@ -12,7 +12,8 @@
 <script src="{{ asset('assets/user/select2/select2.full.js') }}"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script async src="https://static.addtoany.com/menu/page.js"></script>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v18.0" nonce="8q1l5DaM"></script>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v18.0"
+    nonce="8q1l5DaM"></script>
 <script>
     $(document).ready(function() {
         $('.chay-sp1,.chay-sp2,.chay-sp3').slick({
@@ -149,7 +150,7 @@
         function load_comment() {
             var id_product = $('.id_product').val();
             var id_user = $('.id_user').val();
-            var avatar= $('.avatar').val();
+            var avatar = $('.avatar').val();
             var status = $('.status').val();
             var _token = $('input[name="_token"]').val();
             $.ajax({
@@ -159,7 +160,7 @@
                     status: status,
                     id_product: id_product,
                     id_user: id_user,
-                    avatar:avatar,
+                    avatar: avatar,
                     _token: _token
                 },
                 success: function(data) {
@@ -170,7 +171,7 @@
         $('.send-comment').click(function() {
             var id_user = $('.id_user').val();
             var id_product = $('.id_product').val();
-            var avatar=$('.avatar').val();
+            var avatar = $('.avatar').val();
             var content = $('.content').val();
             var _token = $('input[name="_token"]').val();
             $.ajax({
@@ -178,7 +179,7 @@
                 method: "POST",
                 data: {
                     id_user: id_user,
-                    avatar:avatar,
+                    avatar: avatar,
                     id_product: id_product,
                     content: content,
                     _token: _token,
@@ -250,7 +251,7 @@
                 method: "POST",
                 data: {
                     index: index,
-                    id_user:id_user,
+                    id_user: id_user,
                     product_id: product_id,
                     _token: _token
                 },
@@ -261,7 +262,7 @@
                             title: "Thông Báo",
                             text: "Bạn đã đánh giá " + index + " trên 5 sao",
                         });
-                    } 
+                    }
                 }
             })
         });

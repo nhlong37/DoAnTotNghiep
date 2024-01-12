@@ -3,6 +3,14 @@
     <div class="wap_1200 layout-cart">
         <div class="wrap-cart">
         @if (session('cart'))
+            @if (!empty($arr_check))
+                @foreach ($arr_check as $item)
+                    @php 
+                        $stock_db = \App\Models\TableVariantsPCS::where('id_product', '=', $item['id_product'])->where('id_size', '=', $item['id_size'])->where('id_color', '=', $item['id_color'])->first();
+                    @endphp
+                    <p>{{$item['name']}} : {{$stock_db->quantity}}</p>
+                @endforeach
+            @endif
             <form class="form-cart validation-cart" action="{{ route('dat-hang') }}" method="POST" id="form-cart"
                 enctype="multipart/form-data">
                 @csrf
@@ -77,9 +85,9 @@
                                                     <span class="quantity-plus-pro-detail increase"><i
                                                             class="fa-solid fa-plus"></i></span>
                                                 </div>
-                                                <div class="show-available mt-2">Còn <span
+                                                {{-- <div class="show-available mt-2">Còn <span
                                                         class="quantity-available">{{ $details['available'] }}</span> sản
-                                                    phẩm</div>
+                                                    phẩm</div> --}}
                                             </div>
                                             <div class="price-procart col-3 col-md-3">
                                                 <div class="price-procart price-procart-rp">
@@ -107,23 +115,6 @@
                             <div class="section-cart">
                                 <p class="title-cart">Hình thức thanh toán:</p>
                                 <div class="information-cart">
-
-                                    {{-- <div class="payments-cart custom-control custom-radio">
-                                        <input type="radio" class="custom-control-input payment-method" name="payments"
-                                            value="1"  />
-                                        <label class="payments-label custom-control-label" for="payments">Thanh toán khi
-                                            nhận hàng</label>
-
-                                        
-                                    </div>
-
-                                    <div class="payments-cart custom-control custom-radio">
-                                        <input type="radio" class="custom-control-input payment-method" name="payments"
-                                            value="1" />
-                                        <label class="payments-label custom-control-label" for="payments">Thanh toán qua VNPay</label>
-
-                                        
-                                    </div> --}}
 
                                     <label>
                                         <input type="radio" name="paymentmethod" class="payment-method" value="cod" checked> <span>Thanh toán khi nhận hàng</span>
@@ -169,11 +160,6 @@
                         </div>
                     </div>
             </form>
-            {{-- <form action="{{ url('/payment_vnpay') }}" method="POST">
-                @csrf
-                <button type="submit" class="btn btn-dark btn-payment w-100" name="thanhtoanvnpay">Thanh toán bằng
-                    VNPay</button>
-            </form> --}}
         @else
             <div class="wrap-empty">
                 <a href="{{ route('trang-chu-user') }}" class="empty-cart text-decoration-none w-100">

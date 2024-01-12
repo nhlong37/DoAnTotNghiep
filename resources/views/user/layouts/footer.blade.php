@@ -1,31 +1,38 @@
 <div class="footer">
     <div class="footer-article">
         <div class="wrap-content wap_footer">
-           
-                <div class="footer-news" id="main_footer">
-                    <p class="footer-title">Liên hệ thông tin</p>
-                    <div class="footer-info">
-                        <ul class="footer-ul">
-                            <li>Địa chỉ: Đường số 1, Phường Trường Thọ, TP Thủ Đức</li>   
-                            <li>Email: hlshoestore@gmail.com</li>
-                            <li>Hotline: 0362.243.977</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="footer-news">
-                    <p class="footer-title">Chính sách</p>
+
+            <div class="footer-news" id="main_footer">
+                <p class="footer-title">Liên hệ thông tin</p>
+                <div class="footer-info">
                     <ul class="footer-ul">
-                        @foreach ($dsPolicies as $item)
-                            <li><a href="{{ route('chi-tiet-policy', ['id'=>$item->id]) }}" title="{{ $item->name }}">{{ $item->name }}</a></li>   
-                        @endforeach
+                        <li>Địa chỉ: Đường số 1, Phường Trường Thọ, TP Thủ Đức</li>
+                        <li>Email: hlshoestore@gmail.com</li>
+                        <li>Hotline: 0362.243.977</li>
                     </ul>
                 </div>
-                <div class="footer-news">
-                    <div class="fb-page" data-href="https://www.facebook.com/profile.php?id=61555313947383" data-tabs="timeline" data-width="500" data-height="200" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/profile.php?id=61555313947383" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/profile.php?id=61555313947383">HL Shoe Store</a></blockquote></div>
+            </div>
+            <div class="footer-news">
+                <p class="footer-title">Chính sách</p>
+                <ul class="footer-ul">
+                    @foreach ($dsPolicies as $item)
+                        <li><a href="{{ route('chi-tiet-policy', ['id' => $item->id]) }}"
+                                title="{{ $item->name }}">{{ $item->name }}</a></li>
+                    @endforeach
+                </ul>
+            </div>
+            <div class="footer-news">
+                <div class="fb-page" data-href="https://www.facebook.com/profile.php?id=61555313947383"
+                    data-tabs="timeline" data-width="500" data-height="200" data-small-header="false"
+                    data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
+                    <blockquote cite="https://www.facebook.com/profile.php?id=61555313947383"
+                        class="fb-xfbml-parse-ignore"><a
+                            href="https://www.facebook.com/profile.php?id=61555313947383">HL Shoe Store</a></blockquote>
                 </div>
+            </div>
         </div>
     </div>
-    
+
     <div class="footer-powered">
         <div class="wrap-content">
             <div class="wap_copy">
@@ -52,8 +59,13 @@
 
 </a> --}}
 
+
+
+
 <div class="progress-wrap cursor-pointer">
     <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
         <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
     </svg>
 </div>
+
+

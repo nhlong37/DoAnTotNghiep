@@ -13,7 +13,7 @@
                                         src="{{ asset('upload/article/' . $item->photo) }}" alt="Alt Photo" style=""
                                         alt="{{ $item->name }}" /></p>
                                 <div class="info-news">
-                                    <h3 class="name-news">{{ $item->name }}</h3>
+                                    <h3 class="name-news text-split">{{ $item->name }}</h3>
                                     <div class="desc-news text-split">{!! htmlspecialchars_decode($item->content) !!}</div>
                                     <div class="xemchitiet"><a href="{{ route('chi-tiet-news', ['id'=>$item->id]) }}" title="{{ $item->name }}"><span>Xem chi tiết
                                                 <i class="fas fa-arrow-right"></i></span></a></div>
