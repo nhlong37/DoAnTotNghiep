@@ -192,7 +192,7 @@
                             text: "Gửi bình luận thành công, vui lòng chờ xét duyệt !",
                         });
                         load_comment();
-                        $(".notify_comment").fadeOut(4000);
+                        //$(".notify_comment").fadeOut(4000);
                         //$('.comment_name').val('');
                         $('.content').val('');
                     } else {
