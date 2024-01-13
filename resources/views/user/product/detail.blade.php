@@ -249,11 +249,6 @@
                                 </div>
                             </div>
                             <div class="col-md-12 comment_style">
-                                <!-- <span>
-                                        <input type="hidden" class="form-control id_user" data-id_user="id_user"
-                                            placeholder="ID bình luận" />
-                                    </span> -->
-                                <!-- <p></p> -->
                                 <span>
                                     <textarea name="content" class="form-control content" placeholder="Nội dung bình luận" rows="5"></textarea>
                                 </span>
@@ -263,13 +258,11 @@
                                 <button type="button" class="btn btn-warning send-comment">Gửi bình luận</button>
                             </div>
                         </form>
+                        @break
                         @endif
                         @endforeach
                         @endif
                     </div>
-                    <!-- <div style="width:500px; resize: none;" class="col-md-4">
-                                        <textarea name="content"class="content" placeholder="Noi dung binh luan"></textarea>
-                                    </div> -->
                 </div>
             </div>
 

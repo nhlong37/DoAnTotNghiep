@@ -13,6 +13,7 @@ use App\Models\TableUser;
 use App\Models\TableOrder;
 use App\Models\TableOrderDetail;
 use App\Models\TableSize;
+use App\Models\TableProduct;
 use App\Models\TablePhoto;
 use App\Models\TableArticle;
 use Illuminate\Support\Facades\Hash;
@@ -142,6 +143,7 @@ class LoginCotroller extends Controller
     }
     public function GetPurchaseHistory(Request $req)
     {
+        //dd($id);
         $limit = 5;
         $id = (int)$req->id;
         $iduser = TableOrder::where('id_user', $req->id)->select('id_user')->firstOrFail();
@@ -152,11 +154,26 @@ class LoginCotroller extends Controller
         $logo = TablePhoto::where('deleted_at', null)->where('type', 'logo')->FirstOrFail();
         $banner = TablePhoto::where('deleted_at', null)->where('type', 'banner')->FirstOrFail();
         $dsPolicies = TableArticle::where('deleted_at', null)->where('type', 'chinh-sach')->get();
+
         $current = $dsOrder->currentPage();
         // lấy số thứ tự đầu tiên nhưng theo dạng mảng (là số 0)
+
+
+
         $perSerial = $limit * ($current - 1);
         $serial = $perSerial + 1;
-        return view('.user.login.purchase_history',compact('dsOrder','dsPolicies'), ['logo' => $logo, 'banner' => $banner]);
+        //
+        $order = TableOrder::get('id');
+        $order_detail = TableOrderDetail::whereIn('id_order', $order)->where('id_user',Auth::guard('user')->user()->id)->get();
+        //
+        $data_id_orderdetail_color= TableOrderDetail::get('id_color');
+        $data_id_color=TableColor::whereIn('id',$data_id_orderdetail_color)->find($data_id_orderdetail_color);
+
+        $data_id_orderdetail_size= TableOrderDetail::get('id_size');
+        $data_id_size=TableSize::whereIn('id',$data_id_orderdetail_size)->find($data_id_orderdetail_size);
+        //
+        //dd($order_detail);
+        return view('.user.login.purchase_history',compact('dsOrder','dsPolicies','order_detail','data_id_color','data_id_size'), ['logo' => $logo, 'banner' => $banner]);
     }
     public function GetPurchaseHistoryDetail(Request $req,$id)
     {
