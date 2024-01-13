@@ -18,7 +18,7 @@
 
                             <th class="align-middle text-center" style="width:20%">Khách hàng</th>
 
-                            <th class="align-middle text-center" style="width:20%">Số điện thoại</th>
+                            <th class="align-middle text-center" style="width:20%">Điện thoại</th>
 
                             <th class="align-middle text-center" style="width:20%">Địa chỉ</th>
 

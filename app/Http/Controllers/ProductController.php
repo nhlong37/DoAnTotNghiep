@@ -583,7 +583,7 @@ class ProductController extends Controller
         // lấy số thứ tự đầu tiên nhưng theo dạng mảng (là số 0)
         $perSerial = $limit * ($current - 1);
         $serial = $perSerial + 1;
-        return view('.admin.comment.list', compact('dsComment', 'serial', 'comment_rep', 'data_id_user','data_id_product'));
+        return view('.admin.comment.list', compact('dsComment', 'serial', 'comment_rep', 'data_id_user', 'data_id_product'));
     }
 
     public function deletecomment(Request $req)
@@ -684,7 +684,8 @@ class ProductController extends Controller
         //$id_product = TableOrderDetail::where('id_product', $id)->where('id_user', Auth::guard('user')->user()->id)->get('id_product');
         // $id_pro = TableProduct::whereIn('id',$id_product)->get('id');
         //dd($id_product);
-        $id_order_product = TableOrderDetail::where('id_product', $id)->get();
+        $id_order_product = TableOrderDetail::where('id_product', $id)->where('id_user', Auth::guard('user')->user()->id)->get();
+        //dd($id_order_product);
         $detailProduct = TableProduct::where('deleted_at', null)->where('id', $id)->first();
 
         $dsGallery = TableAlbum::where('id_product', $id)->get();
@@ -719,7 +720,7 @@ class ProductController extends Controller
         } else {
             $detailProduct->view++;
             $detailProduct->save();
-            return view('.user.product.detail', ['rowDetail' => $detailProduct, 'logo' => $logo, 'banner' => $banner], compact('rowColor', 'rowSize', 'dsGallery', 'rating', 'dsPolicies','id_order_product'));
+            return view('.user.product.detail', ['rowDetail' => $detailProduct, 'logo' => $logo, 'banner' => $banner], compact('rowColor', 'rowSize', 'dsGallery', 'rating', 'dsPolicies', 'id_order_product'));
         }
     }
 
@@ -870,7 +871,7 @@ class ProductController extends Controller
                 $logo = TablePhoto::where('deleted_at', null)->where('type', 'logo')->FirstOrFail();
                 $banner = TablePhoto::where('deleted_at', null)->where('type', 'banner')->FirstOrFail();
                 $dsPolicies = TableArticle::where('deleted_at', null)->where('type', 'chinh-sach')->get();
-                
+
                 return view('.user.order.order', compact('colors', 'sizes', 'dsPolicies', 'arr_check'), ['logo' => $logo, 'banner' => $banner]);
             }
             $mahd = $req->code;
@@ -923,7 +924,7 @@ class ProductController extends Controller
         // $data_id_product = TableProduct::whereIn('id', $data_id_order_product)->find($data_id_order_product);
         //$data_order = TableOrderDetail::whereIn('id_product', $data_id_product->id)->whereIn('id_user', $data_id_user->id)->find();
         //$status = TableOrder::get('status');
-        $id_product = TableOrderDetail::where('id_product', $req->id_product)->where('id_user', Auth::guard('user')->user()->id)->get();
+        $id_product = TableOrderDetail::where('id_product', $req->id_product)->where('id_user', Auth::guard('user')->user()->id)->first();
         $id_u = TableOrderDetail::where('id_product', $req->id_product)->where('id_user', Auth::guard('user')->user()->id)->get('id_user');
         // $id_pro = TableProduct::whereIn('id',$id_product)->get('id');
         $user = Auth::guard('user')->user()->id;
@@ -933,18 +934,17 @@ class ProductController extends Controller
             $product_id = $req->id_product;
             $content = $req->content;
             $avatar = $req->avatar;
-            foreach ($id_product as $k => $product_user) {
-                if (($id_user == $product_user->id_user)) {
-                    $comment = new TableComment();
-                    $comment->id_user = Auth::guard('user')->user()->id;
-                    $comment->id_product = $product_id;
-                    $comment->content = $content;
-                    $comment->avatar = $avatar;
-                    $comment->content_parent_comment = 0;
-                    $comment->save();
-                    echo 'Bình luận thành công';
-                }
+            if (($id_user == $id_product->id_user)) {
+                $comment = new TableComment();
+                $comment->id_user = Auth::guard('user')->user()->id;
+                $comment->id_product = $product_id;
+                $comment->content = $content;
+                $comment->avatar = $avatar;
+                $comment->content_parent_comment = 0;
+                $comment->save();
+                echo 'Bình luận thành công';
             }
+
         } else {
             echo 'Vui lòng đăng nhập hoặc mua hàng để gửi bình luận !';
         }
