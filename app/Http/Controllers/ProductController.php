@@ -684,7 +684,7 @@ class ProductController extends Controller
         //$id_product = TableOrderDetail::where('id_product', $id)->where('id_user', Auth::guard('user')->user()->id)->get('id_product');
         // $id_pro = TableProduct::whereIn('id',$id_product)->get('id');
         //dd($id_product);
-        $id_order_product = TableOrderDetail::where('id_product', $id)->where('id_user', Auth::guard('user')->user()->id)->get();
+        $id_order_product = TableOrderDetail::where('id_product', $id)->get();
         //dd($id_order_product);
         $detailProduct = TableProduct::where('deleted_at', null)->where('id', $id)->first();
 
