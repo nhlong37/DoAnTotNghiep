@@ -924,8 +924,6 @@ class ProductController extends Controller
         }
     }
 
-    
-
     public function send_comment(Request $req)
     {
         //$id_order_detail=TableOrderDetail::get('id_order');

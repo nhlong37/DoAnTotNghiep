@@ -59,7 +59,7 @@
                                             <span class="text-dark text-break" title="Tống giá trị Hoá Đơn"
                                                 style="max-width: 10%">{{ formatMoney($item->total_price) }}<span>
                                         </td>
-
+                                            
                                         <td class="align-middle text-center">
                                             <span class="text-dark text-break"
                                                 title="Trạng thái">
@@ -163,11 +163,13 @@
         </div>
         @endforeach
         @else
-        <tbody>
-            <tr>
-                <td colspan="100" class="text-center">Không có dữ liệu</td>
-            </tr>
-        </tbody>
+        <div class="wrap-empty">
+                <a href="{{ route('trang-chu-user') }}" class="empty-cart text-decoration-none w-100">
+                    <img src="{{ asset('assets/user/images/empty.png') }}">
+                    <p>Không tồn tại đơn hàng nào!!!</p>
+                    <span class="btn btn-dark btn-sm">Về trang chủ</span>
+                </a>
+            </div>
         @endif
         <div class="col-12">
             @if (count($dsOrder))
