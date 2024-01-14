@@ -48,12 +48,12 @@
     <div class="header-bottom">
         <div class="wrap-content">
             <a class="logo-header" href="#">
-                <img class="rounded" onerror="src='{{ asset('assets/admin/images/noimage.png') }}'"
+                <img class="rounded" onerror="src='{{ asset('assets/user/images/noimage.png') }}'"
                             src="{{ asset('upload/photo/' . $logo->photo) }}" alt="Alt Photo" style=""
                             alt="{{ $logo->name }}" />
             </a>
             <a class="banner-header" href="#">
-                <img src="{{ asset('assets/user/images/banner.jpg') }}"alt="">
+                <img onerror="src='{{ asset('assets/user/images/noimage.png') }}'" src="{{ asset('assets/user/images/banner.jpg') }}" alt="{{ $logo->name }}">
             </a>
             <a class="hotline-header">
                 <div>0362.243.977</div>

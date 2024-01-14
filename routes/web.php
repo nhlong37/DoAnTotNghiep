@@ -156,9 +156,6 @@ Route::post('/send-comment', [ProductController::class, 'send_comment'])->name('
 
 Route::group(['middleware' => ['checkauth:user']], function () {
 
-    // Route::get('/get-password', [LoginCotroller::class, 'GetForgotPassword'])->name('trang-getpassword');
-    // Route::post('/get-password', [LoginCotroller::class, 'xl_GetPassword'])->name('xl-trang-get-password');
-
     Route::get('/change-password/user/{id}', [LoginCotroller::class, 'index_change_password_user'])->name('doi-matkhau-user');
     Route::post('/change-password/user/{id}', [LoginCotroller::class, 'xl_change_password_user'])->name('xl-doi-matkhau-user');
 
@@ -166,13 +163,16 @@ Route::group(['middleware' => ['checkauth:user']], function () {
     Route::post('/update-info/user/{id}', [LoginCotroller::class, 'xl_update_info_user'])->name('xl-suadoi-thongtin-user');
 
     Route::post('/order', [ProductController::class, 'OrderProduct'])->name('dat-hang');
+    Route::get('/order2', [ProductController::class, 'CheckSubmit'])->name('dat-hang2');
     Route::post('/payment-vnpay', [PaymentController::class, 'VNPay_Payment'])->name('thanh-toan-vnpay');
     Route::get('/return-vnpay/{fullname}/{phone}/{email}/{address}/{requirements}/{paymentmethod}/{id_user}', [PaymentController::class, 'returnVNPay'])->name('luu-thanh-toan-vnpay');
 
     Route::get('/purchase-history/user', [LoginCotroller::class, 'GetPurchaseHistory'])->name('lichsu-muahang-user');
     Route::get('/purchase-history-detail/{id}', [LoginCotroller::class, 'GetPurchaseHistoryDetail'])->name('chitiet-lichsu-muahang-user');
 
-    Route::get('/notify/{id}', [ReturnTpl::class, 'index_invoice'])->name('thong-bao');
+    Route::get('/cancel-order', [LoginCotroller::class, 'CancleOrderProduct'])->name('huy-donhang-user');
+
+    //Route::get('/notify/{id}', [ReturnTpl::class, 'index_invoice'])->name('thong-bao');
 });
 Route::get('/mail', [LoginCotroller::class, 'SendMail'])->name('trang-gui-mail');
 Route::post('/mail', [LoginCotroller::class, 'xl_SendMail'])->name('xl-gui-mail');

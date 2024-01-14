@@ -59,7 +59,12 @@
 
 </a> --}}
 
+<a class="btn-messenger btn-frame text-decoration-none" href="https://www.messenger.com/t/61555313947383/" target="_blank">
+    {{-- <div class="animated infinite zoomIn kenit-alo-circle"></div>
+    <div class="animated infinite pulse kenit-alo-circle-fill"></div> --}}
+    <i><img src="{{ asset('assets/user/images/ms.png') }}" alt="Messenger"></i>
 
+</a>
 
 
 <div class="progress-wrap cursor-pointer">

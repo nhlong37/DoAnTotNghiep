@@ -3,7 +3,7 @@
     <div class="wap_1200">
         <div class="form-change-password">
             <form class="validation-form" novalidate method="post"
-                action="{{ route('xl-doi-matkhau-admin', ['id' => Auth::guard('admin')->user()->id]) }}"
+                action="{{ route('xl-doi-matkhau-user', ['id' => Auth::guard('user')->user()->id]) }}"
                 enctype="multipart/form-data">
                 @csrf
                 <div class="card card-primary card-outline text-sm">

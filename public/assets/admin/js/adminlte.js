@@ -4140,7 +4140,6 @@ if ($("#photo-zone2").length) {
     photoZone("#photo-zone2", "#file-zone2", "#photoUpload-preview2 img");
 }
 
-
 /* Sumoselect */
 if ($(".multiselect").length) {
     $(".multiselect").SumoSelect({
@@ -4261,7 +4260,6 @@ $(document).ready(function () {
     });
 });
 
-
 $(document).ready(function () {
     $(".delete-item").on("click", function () {
         var href = $(this).data("href");
@@ -4279,12 +4277,12 @@ $(document).ready(function () {
             if (result.isConfirmed) {
                 $.ajax({
                     type: "GET",
-                    url: "/admin/"+href+"/delete",
+                    url: "/admin/" + href + "/delete",
                     data: {
                         id: id,
                     },
                     success: function (response) {
-                        window.location.href = "/admin/"+href;
+                        window.location.href = "/admin/" + href;
                     },
                 });
             }
@@ -4309,18 +4307,60 @@ $(document).ready(function () {
             if (result.isConfirmed) {
                 $.ajax({
                     type: "GET",
-                    url: "/admin/article/"+href+"/delete",
+                    url: "/admin/article/" + href + "/delete",
                     data: {
                         id: id,
                     },
                     success: function (response) {
-                        window.location.href = "/admin/article/"+href;
+                        window.location.href = "/admin/article/" + href;
                     },
                 });
             }
         });
     });
 });
+
+$(document).ready(function () {
+    $(".detele-photo").on("click", function () {
+        var href = $(this).data("href");
+        var id = $(this).data("id");
+        var cate = $(this).data("cate");
+        Swal.fire({
+            title: "Thông báo",
+            text: "Bạn muốn xóa mục này?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Đồng ý",
+            cancelButtonText: "Huỷ",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "GET",
+                    url: "/admin/photo/delete/" + id + "/" + href + "/" + cate,
+                    data: {
+                        id: id,
+                    },
+                    success: function (response) {
+                        window.location.href =
+                            "/admin/photo/" + href + "/" + cate;
+                    },
+                });
+            }
+        });
+    });
+});
+
+// $(document).ready(function () {
+//     $(".nav-link-photo").on("click", function () {
+//         var type = $(this).data("type");
+//         var cate = $(this).data("cate");
+//         if (type == "banner" && cate == "static") {
+//             $(".nav-link-photo").addClass("active");
+//         }
+//     });
+// });
 
 /* Search */
 $("body").on("click", ".btn-search", function () {
