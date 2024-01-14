@@ -23,6 +23,8 @@ use App\Models\TableVariantsPCS;
 use App\Models\TableOrderDetail;
 use App\Models\TablePhoto;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+
 
 class ProductController extends Controller
 {
@@ -548,16 +550,19 @@ class ProductController extends Controller
         if ($itemorder == null) {
             return "không tìm thấy sản phẩm nào có ID = {$id} này";
         }
-        $itemorder->code = $req->code;
-        $itemorder->fullname = $req->fullname;
-        $itemorder->email = $req->email;
-        $itemorder->address = $req->address;
-        $itemorder->phone = $req->phone;
-        $itemorder->content = $req->content;
         $itemorder->status = ($req->status != NULL) ? $req->status : 'moidat';
 
         $itemorder->save();
-
+        if ($itemorder->status == 'daxacnhan') {
+            $detailOrder = TableOrderDetail::where('id_order', $id)->first();
+            $miniusQuantity = TableVariantsPCS::where([
+                ['id_product', '=', $detailOrder->id_product],
+                ['id_size', '=', $detailOrder->id_size],
+                ['id_color', '=', $detailOrder->id_color],
+            ])->firstOrFail();
+            $miniusQuantity->quantity = $miniusQuantity->quantity - $detailOrder->quantity;
+            $miniusQuantity->save();
+        }
         return redirect()->route('don-hang');
     }
 
@@ -845,6 +850,7 @@ class ProductController extends Controller
 
         return response()->json(array('regularPrice' => $regular_price, 'salePrice' => $sale_price, 'totalText' => $totalText));
     }
+
     public function CheckStock()
     {
         $cart = session()->get('cart');
@@ -854,6 +860,11 @@ class ProductController extends Controller
                 $quantity_ss = $v['quantity'];
                 $stock_db = TableVariantsPCS::where('id_product', '=', $v['id_product'])->where('id_size', '=', $v['id_size'])->where('id_color', '=', $v['id_color'])->first();
                 if ($quantity_ss > $stock_db->quantity) {
+                    $color = TableColor::where('id', $v['id_color'])->First();
+                    $size = TableSize::where('id', $v['id_size'])->First();
+                    $v['name_color'] = $color->name;
+                    $v['name_size'] = $size->name;
+                    $v['stock'] = $stock_db->quantity;
                     array_push($arr_error, $v);
                 }
             }
@@ -861,19 +872,17 @@ class ProductController extends Controller
         return $arr_error;
     }
 
+    public function CheckSubmit()
+    {
+        $arr_check = $this->CheckStock();
+        if (!empty($arr_check)) {
+            return response()->json(array('arr_error' => $arr_check));
+        }
+    }
+
     public function OrderProduct(Request $req)
     {
         if (!empty(Auth::guard('user')->user()->id)) {
-            $arr_check = $this->CheckStock();
-            if (!empty($arr_check)) {
-                $colors = TableColor::all();
-                $sizes = TableSize::all();
-                $logo = TablePhoto::where('deleted_at', null)->where('type', 'logo')->FirstOrFail();
-                $banner = TablePhoto::where('deleted_at', null)->where('type', 'banner')->FirstOrFail();
-                $dsPolicies = TableArticle::where('deleted_at', null)->where('type', 'chinh-sach')->get();
-
-                return view('.user.order.order', compact('colors', 'sizes', 'dsPolicies', 'arr_check'), ['logo' => $logo, 'banner' => $banner]);
-            }
             $mahd = $req->code;
             $infoOrder = new TableOrder();
             $infoOrder->code = $mahd;
@@ -885,6 +894,7 @@ class ProductController extends Controller
             $infoOrder->payment = $req->paymentmethod;
             $infoOrder->status = 'moidat';
             $infoOrder->total_price = getOrderTotal();
+            $infoOrder->created_at = Carbon::now('Asia/Ho_Chi_Minh');
             $infoOrder->save();
             $cart = session()->get('cart');
             foreach ($cart as $key => $value) {
@@ -906,10 +916,11 @@ class ProductController extends Controller
             if (session()->has('cart')) {
                 session()->forget('cart');
             }
-
             return redirect()->route('trang-chu-user');
         }
     }
+
+    
 
     public function send_comment(Request $req)
     {
@@ -944,7 +955,6 @@ class ProductController extends Controller
                 $comment->save();
                 echo 'Bình luận thành công';
             }
-
         } else {
             echo 'Vui lòng đăng nhập hoặc mua hàng để gửi bình luận !';
         }

@@ -23,7 +23,7 @@ class ReturnTpl extends Controller
         $thang1 = TableOrder::whereBetween('created_at', [$nam_ht . '-01-01', $nam_ht . '-01-31'])->where(
             'status',
             'like',
-            '%dathanhtoan%'
+            '%dagiao%'
         )->get();
         $sum1 = 0;
         foreach ($thang1 as $k => $v) {
@@ -33,7 +33,7 @@ class ReturnTpl extends Controller
         $thang2 = TableOrder::whereBetween('created_at', [$nam_ht . '-02-01', $nam_ht . '-02-28'])->where(
             'status',
             'like',
-            '%dathanhtoan%'
+            '%dagiao%'
         )->get();
         $sum2 = 0;
         foreach ($thang2 as $k => $v) {
@@ -43,7 +43,7 @@ class ReturnTpl extends Controller
         $thang3 = TableOrder::whereBetween('created_at', [$nam_ht . '-03-01', $nam_ht . '-03-31'])->where(
             'status',
             'like',
-            '%dathanhtoan%'
+            '%dagiao%'
         )->get();
         $sum3 = 0;
         foreach ($thang3 as $k => $v) {
@@ -53,7 +53,7 @@ class ReturnTpl extends Controller
         $thang4 = TableOrder::whereBetween('created_at', [$nam_ht . '-04-01', $nam_ht . '-04-30'])->where(
             'status',
             'like',
-            '%dathanhtoan%'
+            '%dagiao%'
         )->get();
         $sum4 = 0;
         foreach ($thang4 as $k => $v) {
@@ -62,7 +62,7 @@ class ReturnTpl extends Controller
         $thang5 = TableOrder::whereBetween('created_at', [$nam_ht . '-05-01', $nam_ht . '-05-31'])->where(
             'status',
             'like',
-            '%dathanhtoan%'
+            '%dagiao%'
         )->get();
         $sum5 = 0;
         foreach ($thang5 as $k => $v) {
@@ -71,7 +71,7 @@ class ReturnTpl extends Controller
         $thang6 = TableOrder::whereBetween('created_at', [$nam_ht . '-06-01', $nam_ht . '-06-30'])->where(
             'status',
             'like',
-            '%dathanhtoan%'
+            '%dagiao%'
         )->get();
         $sum6 = 0;
         foreach ($thang6 as $k => $v) {
@@ -80,7 +80,7 @@ class ReturnTpl extends Controller
         $thang7 = TableOrder::whereBetween('created_at', [$nam_ht . '-07-01', $nam_ht . '-07-31'])->where(
             'status',
             'like',
-            '%dathanhtoan%'
+            '%dagiao%'
         )->get();
         $sum7 = 0;
         foreach ($thang7 as $k => $v) {
@@ -89,7 +89,7 @@ class ReturnTpl extends Controller
         $thang8 = TableOrder::whereBetween('created_at', [$nam_ht . '-08-01', $nam_ht . '-08-31'])->where(
             'status',
             'like',
-            '%dathanhtoan%'
+            '%dagiao%'
         )->get();
         $sum8 = 0;
         foreach ($thang8 as $k => $v) {
@@ -98,7 +98,7 @@ class ReturnTpl extends Controller
         $thang9 = TableOrder::whereBetween('created_at', [$nam_ht . '-09-01', $nam_ht . '-09-30'])->where(
             'status',
             'like',
-            '%dathanhtoan%'
+            '%dagiao%'
         )->get();
         $sum9 = 0;
         foreach ($thang9 as $k => $v) {
@@ -107,7 +107,7 @@ class ReturnTpl extends Controller
         $thang10 = TableOrder::whereBetween('created_at', [$nam_ht . '-10-01', $nam_ht . '-10-31'])->where(
             'status',
             'like',
-            '%dathanhtoan%'
+            '%dagiao%'
         )->get();
         $sum10 = 0;
         foreach ($thang10 as $k => $v) {
@@ -116,7 +116,7 @@ class ReturnTpl extends Controller
         $thang11 = TableOrder::whereBetween('created_at', [$nam_ht . '-11-01', $nam_ht . '-11-30'])->where(
             'status',
             'like',
-            '%dathanhtoan%'
+            '%dagiao%'
         )->get();
         $sum11 = 0;
         foreach ($thang11 as $k => $v) {
@@ -125,7 +125,7 @@ class ReturnTpl extends Controller
         $thang12 = TableOrder::whereBetween('created_at', [$nam_ht . '-12-01', $nam_ht . '-12-31'])->where(
             'status',
             'like',
-            '%dathanhtoan%'
+            '%dagiao%'
         )->get();
         $sum12 = 0;
         foreach ($thang12 as $k => $v) {
@@ -154,14 +154,14 @@ class ReturnTpl extends Controller
         return view('.user.home.home', compact('dsProductNew', 'dsProductOutsanding', 'dsNewsOutsanding', 'slide', 'dsProductDiscount','dsPolicies'), ['logo' => $logo, 'banner' => $banner]);
     }
 
-    public function index_invoice(Request $req)
-    {
-        $invoice = TableOrder::where('id', $req->id)->firstOrFail();
+    // public function index_invoice(Request $req)
+    // {
+    //     $invoice = TableOrder::where('id', $req->id)->firstOrFail();
 
-        $invoice_detail = TableOrderDetail::where('id_order', $invoice->id)->get();
+    //     $invoice_detail = TableOrderDetail::where('id_order', $invoice->id)->get();
 
-        $info_product = TableProduct::whereIn('id', $invoice_detail->id_product);
-        dd($info_product);
-        return view('.user.order.notify_order', compact('invoice', 'invoice_detail', 'info_product'));
-    }
+    //     $info_product = TableProduct::whereIn('id', $invoice_detail->id_product);
+    //     dd($info_product);
+    //     return view('.user.order.notify_order', compact('invoice', 'invoice_detail', 'info_product'));
+    // }
 }

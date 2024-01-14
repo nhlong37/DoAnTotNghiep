@@ -3,16 +3,19 @@
     <div class="wap_1200 layout-cart">
         <div class="wrap-cart">
         @if (session('cart'))
-            @if (!empty($arr_check))
+            {{-- @if (!empty($arr_check))
                 @foreach ($arr_check as $item)
                     @php 
                         $stock_db = \App\Models\TableVariantsPCS::where('id_product', '=', $item['id_product'])->where('id_size', '=', $item['id_size'])->where('id_color', '=', $item['id_color'])->first();
                     @endphp
                     <p>{{$item['name']}} : {{$stock_db->quantity}}</p>
                 @endforeach
-            @endif
-            <form class="form-cart validation-cart" action="{{ route('dat-hang') }}" method="POST" id="form-cart"
+            @endif --}}
+            <div class="alert-status"></div>
+
+            <form class="form-cart validation-cart" action="" method="POST" id="form-cart"
                 enctype="multipart/form-data">
+                {{-- {{ route('dat-hang') }} --}}
                 @csrf
                     <div class="row">
                         <div class="top-cart col-12 col-lg-7">
@@ -81,13 +84,13 @@
                                                             class="fa-solid fa-minus"></i></span>
                                                     <input type="number" class="quantity-procart" min="1"
                                                         value="{{ $quantity }}" data-pid="{{ $pid }}"
-                                                        data-code="{{ $code }}" readonly />
+                                                        data-code="{{ $code }}" readonly name="quantity-cart"/>
                                                     <span class="quantity-plus-pro-detail increase"><i
                                                             class="fa-solid fa-plus"></i></span>
                                                 </div>
-                                                {{-- <div class="show-available mt-2">Còn <span
+                                                <div class="show-available mt-2">Còn <span
                                                         class="quantity-available">{{ $details['available'] }}</span> sản
-                                                    phẩm</div> --}}
+                                                    phẩm</div>
                                             </div>
                                             <div class="price-procart col-3 col-md-3">
                                                 <div class="price-procart price-procart-rp">
@@ -154,8 +157,9 @@
                                         <textarea class="form-control text-sm" id="requirements" name="requirements" placeholder="Ghi chú"></textarea>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-dark btn-order w-100" name="dathang">Đặt
+                                <button type="submit" class="btn btn-dark btn-order w-100" name="">Đặt
                                     hàng</button>
+                                {{-- dathang --}}
                             </div>
                         </div>
                     </div>

@@ -130,7 +130,7 @@
                                                     href="{{ route('loadupdatphoto-admin', ['id' => $item['id'], 'type' => $type_man, 'cate' => 'man']) }}"
                                                     title="Chỉnh sửa"><i class="fas fa-edit"></i></a>
     
-                                                    <a class="text-danger delete-item" data-href="slide"
+                                                    <a class="text-danger delete-item detele-photo" data-href="slide" data-cate="man"
                                                     data-id="{{ $item->id }}" title="Xóa"><i
                                                         class="fas fa-trash-alt"></i></a>
                                             </td>
