@@ -1011,7 +1011,7 @@ class ProductController extends Controller
                 if ($reply_comment->content_parent_comment == $comment->id) {
                     $output .= '<div class="row " id="style_comment" style="margin: 5px 40px; background-color:#FFCC99">
             <div class="col-sm-1" id="img-avatar">
-                <img width="60%" src="' . url('/upload/avatar/' . $reply_comment->avatar) . '"
+                <img width="60%" src="' . url('/upload/avatar/' . Auth::guard('admin')->user()->avatar) . '"
                     class="img-avatar" />
             </div>
             <div class="col-sm-11" id="content">
