@@ -1270,17 +1270,19 @@ img:not([src]) {
 /* Button Frame */
 .btn-frame {
     display: block;
-    width: 50px;
-    height: 50px;
+    width: 56px;
+    height: 56px;
     position: fixed;
-    right: 20px;
+    right: 17px;
     z-index: 102;
     cursor: pointer;
+    border-radius: 100%;
+    box-shadow: 0px 0px 5px 1px rgb(0 0 0 / 40%);
 }
 
 .btn-frame i {
-    width: 50px;
-    height: 50px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     background: var(--yellow-color);
     position: relative;
@@ -1298,7 +1300,7 @@ img:not([src]) {
 
 .btn-frame i img {
     vertical-align: middle;
-    width: 70%;
+    width: 60%;
 }
 
 .btn-frame .animated.infinite {
@@ -1357,6 +1359,10 @@ img:not([src]) {
 /* Phone */
 .btn-phone {
     bottom: 160px;
+}
+
+.btn-messenger{
+    bottom: 80px;
 }
 
 /* Toolbar */
@@ -2074,14 +2080,14 @@ div.arrow-run .slick-next {
 /* Scroll to top */
 .progress-wrap {
     position: fixed;
-    bottom: 25px;
+    bottom: 10px;
     right: 17px;
     height: 56px;
     background-color: var(--yellow-color);
     width: 56px;
     cursor: pointer;
     display: block;
-    border-radius: 50px;
+    border-radius: 100%;
     z-index: 1001010;
     opacity: 0;
     visibility: hidden;
@@ -2104,21 +2110,25 @@ div.arrow-run .slick-next {
 
 .progress-wrap::after {
     position: absolute;
-    content: "";
-    background: url(../images/up-arrow-angle.png) no-repeat;
+    content: "\f106";
     font-weight: 900;
+    font-family: 'FontAwesome';
     color: #fff;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    height: 32px;
-    width: 32px;
+    height: 100%;
+    width: 100%;
     cursor: pointer;
-    display: block;
     z-index: 1;
     -webkit-transition: all 400ms linear;
     -o-transition: all 400ms linear;
     transition: all 400ms linear;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    border-radius: 100%;
 }
 
 .progress-wrap svg path {
@@ -2264,7 +2274,8 @@ div.arrow-run .slick-next {
     width: 13px;
     height: 13px;
     background-repeat: no-repeat;
-    background-image: url(../images/check-cart.png)
+    background-image: url(../images/check-cart.png);
+    background-size: cover;
 }
 
 .color-pro-detail.active:after {
@@ -2275,7 +2286,8 @@ div.arrow-run .slick-next {
     width: 13px;
     height: 13px;
     background-repeat: no-repeat;
-    background-image: url(../images/check-cart.png)
+    background-image: url(../images/check-cart.png);
+    background-size: cover;
 }
 
 .color-pro-detail input[type="radio"] {
@@ -2609,3 +2621,13 @@ input[type=radio] {
 .box-tintuc-video .newshome-intro .news .info-news .desc-news img {
     display: none;
 }
+
+.alert-status .bg-alert-status{
+    background-color: #e44141;
+    margin-bottom:20px;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #f00;
+}
+
+.alert-status .item-notify{color: white;margin-bottom: 5px;}

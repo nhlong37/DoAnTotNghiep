@@ -281,21 +281,21 @@
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{ route('photo-admin',['type' => 'slide','cate' => 'man']) }}"
-                                class="nav-link">
+                                class="nav-link nav-link-photo" data-type="slide" data-cate="man">
                                 <i class="nav-icon-small fas fa-circle fa-2xs"></i>
                                 <p>Danh sách slideshow</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('photo-admin',['type' => 'logo','cate' => 'static']) }}"
-                                class="nav-link">
+                                class="nav-link nav-link-photo" data-type="logo" data-cate="static">
                                 <i class="nav-icon-small fas fa-circle fa-2xs"></i>
                                 <p>Logo</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('photo-admin',['type' => 'banner','cate' => 'static']) }}"
-                                class="nav-link">
+                                class="nav-link nav-link-photo" data-type="banner" data-cate="static">
                                 <i class="nav-icon-small fas fa-circle fa-2xs"></i>
                                 <p>Banner</p>
                             </a>

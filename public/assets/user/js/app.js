@@ -404,7 +404,7 @@ NN_FRAMEWORK.Cart = function () {
             .find(".size-pro-detail input:checked")
             .val();
         size = size ? size : 0;
-        if(size <= 0 ){
+        if (size <= 0) {
             Swal.fire({
                 icon: "warning",
                 title: "Oops...",
@@ -412,8 +412,7 @@ NN_FRAMEWORK.Cart = function () {
             });
             return false;
         }
-        if(color <= 0)
-        {
+        if (color <= 0) {
             Swal.fire({
                 icon: "warning",
                 title: "Oops...",
@@ -421,7 +420,7 @@ NN_FRAMEWORK.Cart = function () {
             });
             return false;
         }
-       
+
         if (id) {
             $.ajax({
                 type: "GET",
@@ -537,6 +536,7 @@ NN_FRAMEWORK.Cart = function () {
             var oldValue = parseInt($(this).parent().find(".qty-pro").val());
             var available = parseInt($(".quantity-available").text());
             if ($(this).hasClass("increase") && oldValue < available) {
+                //&& oldValue < available
                 oldValue = parseInt(oldValue) + 1;
             } else if ($(this).hasClass("decrease")) {
                 if (oldValue > 1) oldValue = parseInt(oldValue) - 1;
@@ -569,7 +569,7 @@ NN_FRAMEWORK.RenderPicture = function () {
             if (inputFile[0].files[0].name.match(/.(jpg|jpeg|png)$/i)) {
                 var size = parseInt(inputFile[0].files[0].size) / 1024;
 
-                if (size <= 4096) {
+                if (size <= 5120) {
                     var reader = new FileReader();
                     reader.onload = function (e) {
                         $(elementPhoto).attr("src", e.target.result);
@@ -577,7 +577,7 @@ NN_FRAMEWORK.RenderPicture = function () {
                     reader.readAsDataURL(inputFile[0].files[0]);
                 } else {
                     notifyDialog(
-                        "Dung lượng hình ảnh lớn. Dung lượng cho phép <= 100MB ~ 4096KB"
+                        "Dung lượng hình ảnh lớn. Dung lượng cho phép <= 5MB ~ 5120KB"
                     );
                     return false;
                 }
@@ -639,46 +639,83 @@ NN_FRAMEWORK.RenderPicture = function () {
     }
 };
 
-// NN_FRAMEWORK.CheckSubmit = function () {
-//     $("body").on("click", ".btn-payment", function () {
-//         var name = $(".field-name").val();
-//         var phone = $(".field-phone").val();
-//         var email = $(".field-email").val();
-//         var address = $(".field-address").val();
+NN_FRAMEWORK.CheckSubmit = function () {
+    $("body").on("submit", "#form-cart", function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: "GET",
+            url: "/order2/",
+            data: {},
 
-//         if (name == "") {
-//             Swal.fire({
-//                 icon: "error",
-//                 title: "Oops...",
-//                 text: "Bạn chưa nhập họ tên!!!",
-//             });
-//         }
-//         elseif(phone == "");
-//         {
-//             Swal.fire({
-//                 icon: "error",
-//                 title: "Oops...",
-//                 text: "Bạn chưa nhập số điện thoại!!!",
-//             });
-//         }
-//         elseif(email == "");
-//         {
-//             Swal.fire({
-//                 icon: "error",
-//                 title: "Oops...",
-//                 text: "Bạn chưa nhập email!!!",
-//             });
-//         }
-//         elseif(address == "");
-//         {
-//             Swal.fire({
-//                 icon: "error",
-//                 title: "Oops...",
-//                 text: "Bạn chưa nhập địa chỉ!!!",
-//             });
-//         }
-//     });
-// };
+            success: function (response) {
+                var res = response["arr_error"];
+                // alert(res);
+                if (typeof res !== "undefined") {
+                    $(".alert-status").html("");
+                    $(".alert-status").append("<div class='bg-alert-status'>");
+                    $.each(res, function (index) {
+                        // alert(res[index]);
+                        $(".bg-alert-status").append(
+                            "<div class='item-notify'>Rất tiếc, Sản phẩm <span>" +
+                                res[index]["name"] +
+                                "</span> - <span>" +
+                                res[index]["name_color"] +
+                                "</span> - <span>" +
+                                res[index]["name_size"] +
+                                "</span> không còn đủ hàng (hiện tại chỉ còn " +
+                                res[index]["stock"] +
+                                " sản phẩm trong kho). Chúng tôi xin lỗi vì sự bất tiện này. </div>"
+                        );
+                    });
+                    $(".alert-status").append("</div>");
+                    return false;
+                } else {
+                    var selectedPaymentMethod = $(
+                        ".payment-method:checked"
+                    ).val();
+                    if (selectedPaymentMethod === "cod") {
+                        $.ajax({
+                            type: "POST",
+                            url: "/order/",
+                            data: $("#form-cart").serialize(),
+                            dataType: "json",
+                            success: function () {
+                                // Swal.fire({
+                                //     icon: "success",
+                                //     title: "Thông báo",
+                                //     text: "Bạn đặt hàng thành công!!!",
+                                // });
+                                // setTimeout(() => {
+                                //     location.reload();
+                                // }, 3000);
+                                location.reload();
+                                return false;
+                                
+                            },
+                        });
+                       
+                        // $('.btn-order').attr('name','dathang');
+                        //$('.btn-order').text('Đặt hàng');
+                    } else if (selectedPaymentMethod === "vnpay") {
+                        $.ajax({
+                            type: "POST",
+                            url: "/payment-vnpay/",
+                            data: $("#form-cart").serialize(),
+                            dataType: "json",
+                            success: function (response) {
+                                window.location.href = response["data"];
+                                return false;
+                            },
+                        });
+                       
+                        // $('.btn-order').attr('name','redirect');
+                        // $('.btn-order').text('Thanh toán');
+                    }
+                }
+            },
+        });
+    });
+};
 
 NN_FRAMEWORK.ShowPassword = function () {
     /* Show old password */
@@ -767,25 +804,22 @@ NN_FRAMEWORK.Choose = function () {
     });
 };
 
+// NN_FRAMEWORK.ChangeAction = function(){
+//     $('.payment-method').change(function() {
+//        var selectedPaymentMethod = $(this).val();
 
-NN_FRAMEWORK.ChangeAction = function(){
-    $('.payment-method').change(function() {
-       var selectedPaymentMethod = $(this).val();
+//        if (selectedPaymentMethod === 'cod') {
+//            $('#form-cart').attr('action', window.location.protocol + '//' + window.location.host + '/order');
+//            $('.btn-order').attr('name','dathang');
+//         //    $('.btn-order').text('Đặt hàng');
 
-       if (selectedPaymentMethod === 'cod') {
-           $('#form-cart').attr('action', window.location.protocol + '//' + window.location.host + '/order');
-           $('.btn-order').attr('name','dathang');
-           $('.btn-order').text('Đặt hàng');
-
-       } else if (selectedPaymentMethod === 'vnpay') {
-           $('#form-cart').attr('action', window.location.protocol + '//' + window.location.host + '/payment-vnpay');
-           $('.btn-order').attr('name','redirect');
-           $('.btn-order').text('Thanh toán');
-       }
-   });
-}
-
-
+//        } else if (selectedPaymentMethod === 'vnpay') {
+           
+//            $('.btn-order').attr('name','redirect');
+//         //    $('.btn-order').text('Thanh toán');
+//        }
+//    });
+// }
 
 /* Ready */
 $(document).ready(function () {
@@ -796,9 +830,9 @@ $(document).ready(function () {
     NN_FRAMEWORK.Cart();
     NN_FRAMEWORK.Search();
     NN_FRAMEWORK.RenderPicture();
-    //NN_FRAMEWORK.CheckSubmit();
+    NN_FRAMEWORK.CheckSubmit();
     NN_FRAMEWORK.ShowPassword();
     NN_FRAMEWORK.Filter();
     NN_FRAMEWORK.Choose();
-    NN_FRAMEWORK.ChangeAction();
+    //NN_FRAMEWORK.ChangeAction();
 });

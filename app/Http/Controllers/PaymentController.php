@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\TableOrder;
 use App\Models\TableOrderDetail;
-use App\Models\TableVariantsPCS;
-use App\Models\TableProduct;
+// use App\Models\TableVariantsPCS;
+// use App\Models\TableProduct;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class PaymentController extends Controller
 {
@@ -19,7 +20,7 @@ class PaymentController extends Controller
         $email = $req->email;
         $phone = $req->phone;
         $address = $req->address;
-        $requirements = (!empty($req->requirements)) ? $req->requirements : "Đã thanh toán";
+        $requirements = (!empty($req->requirements)) ? $req->requirements : "Chuyển khoản qua VNPay";
         $method = $req->paymentmethod;
         $id_user = Auth::guard('user')->user()->id;
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
@@ -107,8 +108,9 @@ class PaymentController extends Controller
             $infoOrder->email = $req->email;
             $infoOrder->content = $req->requirements;
             $infoOrder->payment = $req->paymentmethod;
-            $infoOrder->status = 'dathanhtoan';
+            $infoOrder->status = 'moidat';
             $infoOrder->total_price = $req->vnp_Amount / 100;
+            $infoOrder->created_at = Carbon::now('Asia/Ho_Chi_Minh');
             $infoOrder->save();
             $cart = session()->get('cart');
             foreach ($cart as $key => $value) {
@@ -125,13 +127,13 @@ class PaymentController extends Controller
                 $detailOrder->quantity = $value['quantity'];
                 $detailOrder->save();
 
-                $miniusQuantity = TableVariantsPCS::where([
-                    ['id_product', '=', $detailOrder->id_product],
-                    ['id_size', '=', $detailOrder->id_size],
-                    ['id_color', '=', $detailOrder->id_color],
-                ])->firstOrFail();
-                $miniusQuantity->quantity = $miniusQuantity->quantity - $value['quantity'];
-                $miniusQuantity->save();
+                // $miniusQuantity = TableVariantsPCS::where([
+                //     ['id_product', '=', $detailOrder->id_product],
+                //     ['id_size', '=', $detailOrder->id_size],
+                //     ['id_color', '=', $detailOrder->id_color],
+                // ])->firstOrFail();
+                // $miniusQuantity->quantity = $miniusQuantity->quantity - $value['quantity'];
+                // $miniusQuantity->save();
             }
             if (session()->has('cart')) {
                 session()->forget('cart');

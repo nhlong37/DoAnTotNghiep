@@ -28,7 +28,9 @@
                                     <option value="chondanhmuc">Chọn danh mục</option>
                                     <option value="moidat">Mới Đặt</option>
                                     <option value="daxacnhan">Đã Xác Nhận</option>
-                                    <option value="dathanhtoan">Đã thanh toán</option>
+                                    <option value="danggiao">Đang giao</option>
+                                    <option value="dagiao">Đã giao</option>
+                                    <option value="dahuy">Đã huỷ</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-3 col-sm-3">
@@ -42,13 +44,13 @@
                                 </div>
                             </div>
                             <div class="form-group text-center mt-2 mb-0 col-12">
-                                <button type="submit" class="btn btn-sm bg-gradient-success text-white btn-search-order" title="Tìm kiếm"><i
-                                        class="fas fa-search mr-1"></i>Tìm kiếm</button>
-                                <a class="btn btn-sm bg-gradient-danger text-white ml-1" title="Hủy lọc" href="{{ route('don-hang') }}"><i
-                                        class="fas fa-times mr-1"></i>Hủy lọc</a>
+                                <button type="submit" class="btn btn-sm bg-gradient-success text-white btn-search-order"
+                                    title="Tìm kiếm"><i class="fas fa-search mr-1"></i>Tìm kiếm</button>
+                                <a class="btn btn-sm bg-gradient-danger text-white ml-1" title="Hủy lọc"
+                                    href="{{ route('don-hang') }}"><i class="fas fa-times mr-1"></i>Hủy lọc</a>
                             </div>
                         </form>
-                       
+
                     </div>
                 </div>
 
@@ -112,8 +114,10 @@
                                                         Mới đặt
                                                     @elseif($item->status == 'daxacnhan')
                                                         Đã Xác Nhận
-                                                    @elseif($item->status == 'dathanhtoan')
-                                                        Đã thanh toán
+                                                    @elseif($item->status == 'danggiao')
+                                                        Đang giao
+                                                    @elseif($item->status == 'dagiao')
+                                                        Đã giao
                                                     @else
                                                         Đã Huỷ
                                                     @endif
@@ -130,9 +134,9 @@
                                                     href="{{ route('chi-tiet-don-hang', ['id' => $item->id]) }}"
                                                     title="Chỉnh sửa"><i class="fas fa-edit"></i></a>
 
-                                                <a class="text-danger delete-item" data-href="order"
+                                                {{-- <a class="text-danger delete-item" data-href="order"
                                                     data-id="{{ $item->id }}" title="Xóa"><i
-                                                        class="fas fa-trash-alt"></i></a>
+                                                        class="fas fa-trash-alt"></i></a> --}}
                                             </td>
                                         </tr>
                                     </tbody>

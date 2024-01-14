@@ -44,16 +44,6 @@
                     <input type="submit" name="filter_price" value="Lọc giá" class="btn btn-warning">
                 </form>
             </div>
-            <!-- <div id="" class="col-md-4">
-            <label for="amount" style="font-weight:bold">Lọc Giá:</label>
-                <select style="width:100%" name="Loc" id="">
-                <datalist id="price">
-                    <option>abc</option>
-                    <option>xyz</option>
-                    </datalist>
-                </select>
-            </div> -->
-
         </div>
         <div class="content-main w-clear">
             @if (count($dsProduct))

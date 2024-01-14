@@ -150,7 +150,7 @@ class LoginCotroller extends Controller
         //dd($iduser);
         //dd(Auth::guard('user')->user()->id);
         $limit = 10;
-        $dsOrder = TableOrder::where('id_user', $req->id)->orderBy('created_at','DESC')->latest()->paginate($limit);
+        $dsOrder = TableOrder::where('id_user', $req->id)->orderBy('created_at', 'DESC')->latest()->paginate($limit);
         $logo = TablePhoto::where('deleted_at', null)->where('type', 'logo')->FirstOrFail();
         $banner = TablePhoto::where('deleted_at', null)->where('type', 'banner')->FirstOrFail();
         $dsPolicies = TableArticle::where('deleted_at', null)->where('type', 'chinh-sach')->get();
@@ -162,18 +162,18 @@ class LoginCotroller extends Controller
         $serial = $perSerial + 1;
         //
         $order = TableOrder::get('id');
-        $order_detail = TableOrderDetail::whereIn('id_order', $order)->where('id_user',Auth::guard('user')->user()->id)->get();
+        $order_detail = TableOrderDetail::whereIn('id_order', $order)->where('id_user', Auth::guard('user')->user()->id)->get();
         //
-        $data_id_orderdetail_color= TableOrderDetail::get('id_color');
-        $data_id_color=TableColor::whereIn('id',$data_id_orderdetail_color)->find($data_id_orderdetail_color);
+        $data_id_orderdetail_color = TableOrderDetail::get('id_color');
+        $data_id_color = TableColor::whereIn('id', $data_id_orderdetail_color)->find($data_id_orderdetail_color);
 
-        $data_id_orderdetail_size= TableOrderDetail::get('id_size');
-        $data_id_size=TableSize::whereIn('id',$data_id_orderdetail_size)->find($data_id_orderdetail_size);
+        $data_id_orderdetail_size = TableOrderDetail::get('id_size');
+        $data_id_size = TableSize::whereIn('id', $data_id_orderdetail_size)->find($data_id_orderdetail_size);
         //
         //dd($order_detail);
-        return view('.user.login.purchase_history',compact('dsOrder','dsPolicies','order_detail','data_id_color','data_id_size'), ['logo' => $logo, 'banner' => $banner]);
+        return view('.user.login.purchase_history', compact('dsOrder', 'dsPolicies', 'order_detail', 'data_id_color', 'data_id_size'), ['logo' => $logo, 'banner' => $banner]);
     }
-    public function GetPurchaseHistoryDetail(Request $req,$id)
+    public function GetPurchaseHistoryDetail(Request $req, $id)
     {
         $limit = 10;
         //$id_order = (int)$req->id;
@@ -181,20 +181,20 @@ class LoginCotroller extends Controller
         //dd($infoOrder);
         $detail_order = TableOrderDetail::find($id);
 
-        $data_id_orderdetail_color= TableOrderDetail::get('id_color');
-        $data_id_color=TableColor::whereIn('id',$data_id_orderdetail_color)->find($data_id_orderdetail_color);
+        $data_id_orderdetail_color = TableOrderDetail::get('id_color');
+        $data_id_color = TableColor::whereIn('id', $data_id_orderdetail_color)->find($data_id_orderdetail_color);
 
-        $data_id_orderdetail_size= TableOrderDetail::get('id_size');
-        $data_id_size=TableSize::whereIn('id',$data_id_orderdetail_size)->find($data_id_orderdetail_size);
+        $data_id_orderdetail_size = TableOrderDetail::get('id_size');
+        $data_id_size = TableSize::whereIn('id', $data_id_orderdetail_size)->find($data_id_orderdetail_size);
         //dd($idcolor);
         //dd($namecolor_orderdetail);
-        $id_size_orderdetail = TableSize::join('table_order_detail','table_size.id','=','table_order_detail.id_size')->select('name')->get();
-       
+        $id_size_orderdetail = TableSize::join('table_order_detail', 'table_size.id', '=', 'table_order_detail.id_size')->select('name')->get();
+
 
         //$id_color = TableColor::join('table_order_detail','table_color.id','=','table_order_detail.id_color')->select('id_color')->first();
         //$id_size = TableSize::join('table_order_detail','table_size.id','=','table_order_detail.id_size')->select('id_size')->first();
         $dsOrderDetail = TableOrderDetail::where('id_order', $infoOrder->id)->latest()->paginate($limit);
-        $dsOrder = TableOrder::where('id',$infoOrder->id)->latest()->paginate($limit);
+        $dsOrder = TableOrder::where('id', $infoOrder->id)->latest()->paginate($limit);
         //dd($dsOrder);
         //$id_order = TableOrder::where('id', $detail_order->id)->select('code','fullname','phone','address','created_at')->get();
         $logo = TablePhoto::where('deleted_at', null)->where('type', 'logo')->FirstOrFail();
@@ -206,7 +206,7 @@ class LoginCotroller extends Controller
         $perSerial = $limit * ($current - 1);
         $serial = $perSerial + 1;
 
-        return view('.user.login.purchase_history_detail', ['orderDetail' => $infoOrder, 'logo' => $logo, 'banner' => $banner], compact('dsOrderDetail','data_id_color','data_id_size','dsOrder','dsPolicies'));
+        return view('.user.login.purchase_history_detail', ['orderDetail' => $infoOrder, 'logo' => $logo, 'banner' => $banner], compact('dsOrderDetail', 'data_id_color', 'data_id_size', 'dsOrder', 'dsPolicies'));
     }
 
     function xlLoginUser(Request $req)
@@ -222,8 +222,7 @@ class LoginCotroller extends Controller
                 //Sai thì load lại trang login
                 return redirect()->route('dang-nhap-user');
             }
-        }
-        else{
+        } else {
             //Sai thì load lại trang login
             return redirect()->route('dang-nhap-user');
         }
@@ -242,7 +241,10 @@ class LoginCotroller extends Controller
 
     function index_change_password_user()
     {
-        return view('.user.login.change_password');
+        $logo = TablePhoto::where('deleted_at', null)->where('type', 'logo')->FirstOrFail();
+        $banner = TablePhoto::where('deleted_at', null)->where('type', 'banner')->FirstOrFail();
+        $dsPolicies = TableArticle::where('deleted_at', null)->where('type', 'chinh-sach')->get();
+        return view('.user.login.change_password', ['logo' => $logo, 'banner' => $banner], compact('dsPolicies'));
     }
     function xl_change_password_user(Request $req, $id)
     {
@@ -277,7 +279,7 @@ class LoginCotroller extends Controller
         $logo = TablePhoto::where('deleted_at', null)->where('type', 'logo')->FirstOrFail();
         $banner = TablePhoto::where('deleted_at', null)->where('type', 'banner')->FirstOrFail();
         $dsPolicies = TableArticle::where('deleted_at', null)->where('type', 'chinh-sach')->get();
-        return view('.user.login.update_info_user', ['logo' => $logo, 'banner' => $banner] , compact('dsPolicies'));
+        return view('.user.login.update_info_user', ['logo' => $logo, 'banner' => $banner], compact('dsPolicies'));
     }
     function xl_update_info_user(Request $req, $id)
     {
@@ -337,11 +339,11 @@ class LoginCotroller extends Controller
             'email.required' => 'Vui lòng nhập địa chỉ Email hợp lệ!'
         ]);
         $infoUser = TableUser::where('email', $req->email)->FirstOrFail();
-        
+
         $mailData = [
             'title' => 'Xin chào ' . $infoUser->name,
             'body' => 'Xin chào, vui lòng nhấn đường dẫn bên dưới đê tiến hành xác nhận tài khoản của bạn .',
-            'email' => $infoUser->email, 
+            'email' => $infoUser->email,
             'id' => $infoUser->id
         ];
         Mail::to($infoUser->email)->send(new SendMail($mailData));
@@ -402,7 +404,7 @@ class LoginCotroller extends Controller
             $size = $req->file->getSize();
             $sized = $size / 1024;
             if ($sized > 5120) {
-                return "Dung lượng hình ảnh lớn. Dung lượng cho phép <= 100MB ~ 102400KB";
+                return "Dung lượng hình ảnh lớn. Dung lượng cho phép <= 5MB ~ 5120KB";
             }
             // lọc ra đuôi file
             $extension = $req->file->getClientOriginalExtension();
@@ -422,6 +424,36 @@ class LoginCotroller extends Controller
         if (Auth::guard('user')->attempt($req->only(['username', 'password']))) {
             //Đúng thì vào trang trong
             return redirect()->route('trang-chu-user');
+        }
+    }
+
+    public function CancleOrderProduct(Request $req)
+    {
+        if (!empty(Auth::guard('user')->user()->id)) {
+            $limit = 5;
+            $infoOrder = TableOrder::where('id_user', Auth::guard('user')->user()->id)->where('id', $req->id_order)->first();
+            $infoOrder->status = "dahuy";
+            $logo = TablePhoto::where('deleted_at', null)->where('type', 'logo')->FirstOrFail();
+            $banner = TablePhoto::where('deleted_at', null)->where('type', 'banner')->FirstOrFail();
+            $dsPolicies = TableArticle::where('deleted_at', null)->where('type', 'chinh-sach')->get();
+            // $dsOrder = TableOrder::where('id_user', $req->id)->orderBy('created_at', 'DESC')->latest()->paginate($limit);
+
+
+            // $current = $dsOrder->currentPage();
+            // // lấy số thứ tự đầu tiên nhưng theo dạng mảng (là số 0)
+            // $perSerial = $limit * ($current - 1);
+            // $serial = $perSerial + 1;
+            
+            // $order = TableOrder::get('id');
+            // $order_detail = TableOrderDetail::whereIn('id_order', $order)->where('id_user', Auth::guard('user')->user()->id)->get();
+            
+            // $data_id_orderdetail_color = TableOrderDetail::get('id_color');
+            // $data_id_color = TableColor::whereIn('id', $data_id_orderdetail_color)->find($data_id_orderdetail_color);
+    
+            // $data_id_orderdetail_size = TableOrderDetail::get('id_size');
+            // $data_id_size = TableSize::whereIn('id', $data_id_orderdetail_size)->find($data_id_orderdetail_size);
+            // return view('.user.login.purchase_history', compact('dsOrder', 'dsPolicies', 'order_detail', 'data_id_color', 'data_id_size'), ['logo' => $logo, 'banner' => $banner]);
+            return redirect()->route('lichsu-muahang-user');
         }
     }
 
