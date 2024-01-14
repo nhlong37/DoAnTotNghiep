@@ -429,13 +429,17 @@ class LoginCotroller extends Controller
 
     public function CancleOrderProduct(Request $req)
     {
-        if (!empty(Auth::guard('user')->user()->id)) {
-            $limit = 5;
-            $infoOrder = TableOrder::where('id_user', Auth::guard('user')->user()->id)->where('id', $req->id_order)->first();
-            $infoOrder->status = "dahuy";
-            $logo = TablePhoto::where('deleted_at', null)->where('type', 'logo')->FirstOrFail();
-            $banner = TablePhoto::where('deleted_at', null)->where('type', 'banner')->FirstOrFail();
-            $dsPolicies = TableArticle::where('deleted_at', null)->where('type', 'chinh-sach')->get();
+        // if (!empty(Auth::guard('user')->user()->id)) {
+        //     $limit = 5;
+        //     $infoOrder = TableOrder::where('id_user', Auth::guard('user')->user()->id)->where('id', $req->id_order)->get();
+        //     //dd($infoOrder);
+
+        //     $infoOrder->status = "dahuy";
+            
+        //     $logo = TablePhoto::where('deleted_at', null)->where('type', 'logo')->FirstOrFail();
+        //     $banner = TablePhoto::where('deleted_at', null)->where('type', 'banner')->FirstOrFail();
+        //     $dsPolicies = TableArticle::where('deleted_at', null)->where('type', 'chinh-sach')->get();
+
             // $dsOrder = TableOrder::where('id_user', $req->id)->orderBy('created_at', 'DESC')->latest()->paginate($limit);
 
 
@@ -453,8 +457,13 @@ class LoginCotroller extends Controller
             // $data_id_orderdetail_size = TableOrderDetail::get('id_size');
             // $data_id_size = TableSize::whereIn('id', $data_id_orderdetail_size)->find($data_id_orderdetail_size);
             // return view('.user.login.purchase_history', compact('dsOrder', 'dsPolicies', 'order_detail', 'data_id_color', 'data_id_size'), ['logo' => $logo, 'banner' => $banner]);
-            return redirect()->route('lichsu-muahang-user');
-        }
+           
+        // }
+        // return redirect()->route('lichsu-muahang-user');
+        $data = $req->all();
+        $order = TableOrder::where('code', $data['code'])->first();
+        $order->status = "dahuy";
+        $order->save();
     }
 
     // ---------------- USER ---------------- //
