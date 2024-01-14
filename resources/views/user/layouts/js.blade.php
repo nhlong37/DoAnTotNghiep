@@ -269,3 +269,27 @@
         })
     });
 </script>
+<script>
+    function huydonhang(id) {
+        var code = id;
+        var status = "dahuy";
+        var _token = $('input[name="_token"]').val();
+        $.ajax({
+            url: "{{ url('/cancel-order') }}",
+            method: "POST",
+            data: {
+                code: code,
+                status: status,
+                _token: _token
+            },
+            success: function (data) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Thông Báo",
+                    text: "Hủy đơn hàng thành công",
+                });
+                location.reload();
+            }
+        })
+    }
+</script>
