@@ -59,7 +59,7 @@
                                             <span class="text-dark text-break" title="Tống giá trị Hoá Đơn"
                                                 style="max-width: 10%">{{ formatMoney($item->total_price) }}<span>
                                         </td>
-
+                                            
                                         <td class="align-middle text-center">
                                             <span class="text-dark text-break"
                                                 title="Trạng thái">
@@ -82,17 +82,17 @@
                                                 title="Ngày đặt">{{ $item->created_at->format('h:m d/m/Y') }}</span>
                                         </td>
 
-                                        <!-- <td class="align-middle text-center text-md text-nowrap">
-                                    <a class="text-primary mr-2 modify-item"
-                                        href="{{ route('chitiet-lichsu-muahang-user', ['id' => $item->id]) }}"
-                                        title="Xem chi tiết">Xem Chi Tiết</a>
-                                </td> -->
-                                    </tr>
-                                </tbody>
-
-                                <thead>
-                                    <tr>
-                                        <th class="align-middle text-center" style="width:10%">Hình ảnh</th>
+                            <!-- <td class="align-middle text-center text-md text-nowrap">
+                                <a class="text-primary mr-2 modify-item"
+                                    href="{{ route('chitiet-lichsu-muahang-user', ['id'=>$item->id]) }}"
+                                    title="Xem chi tiết">Xem Chi Tiết</a>
+                            </td> -->
+                        </tr>
+                    </tbody>
+                    
+                    <thead>
+                        <tr>
+                            <th class="align-middle text-center" width="10%">Hình ảnh</th>
 
                                         <th class="align-middle text-center" style="width:30%">Sản phẩm</th>
 
@@ -149,33 +149,35 @@
                                                         title="">{{ $order->quantity }}</span>
                                                 </td>
 
-                                                <!-- <td class="align-middle text-center text-md text-nowrap">
-                                    <a class="text-primary mr-2 modify-item"
-                                        href="{{ route('chitiet-lichsu-muahang-user', ['id' => $item->id]) }}"
-                                        title="Xem chi tiết">Xem Chi Tiết</a>
-                                </td> -->
-                                            </tr>
-                                        </tbody>
-                                    @endif
-                                @endforeach
-                            </table>
-                        </div>
-                    </div>
-                @endforeach
-            @else
-                <tbody>
-                    <tr>
-                        <td colspan="100" class="text-center">Không có dữ liệu</td>
-                    </tr>
-                </tbody>
-            @endif
-            <div class="col-12">
-                @if (count($dsOrder))
-                    <div class="card-pagination">
-                        {!! $dsOrder->links() !!}
-                    </div>
-                @endif
+                            <!-- <td class="align-middle text-center text-md text-nowrap">
+                                <a class="text-primary mr-2 modify-item"
+                                    href="{{ route('chitiet-lichsu-muahang-user', ['id'=>$item->id]) }}"
+                                    title="Xem chi tiết">Xem Chi Tiết</a>
+                            </td> -->
+                        </tr>
+                    </tbody>
+                    @endif
+                    @endforeach
+                </table>
             </div>
         </div>
+        @endforeach
+        @else
+        <div class="wrap-empty">
+                <a href="{{ route('trang-chu-user') }}" class="empty-cart text-decoration-none w-100">
+                    <img src="{{ asset('assets/user/images/empty.png') }}">
+                    <p>Không tồn tại đơn hàng nào!!!</p>
+                    <span class="btn btn-dark btn-sm">Về trang chủ</span>
+                </a>
+            </div>
+        @endif
+        <div class="col-12">
+            @if (count($dsOrder))
+            <div class="card-pagination">
+                {!! $dsOrder->links() !!}
+            </div>
+            @endif
+        </div>
     </div>
+</div>
 @endsection

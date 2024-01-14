@@ -158,8 +158,6 @@ class LoginCotroller extends Controller
         $current = $dsOrder->currentPage();
         // lấy số thứ tự đầu tiên nhưng theo dạng mảng (là số 0)
 
-
-
         $perSerial = $limit * ($current - 1);
         $serial = $perSerial + 1;
         //
