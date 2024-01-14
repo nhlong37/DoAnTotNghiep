@@ -684,7 +684,11 @@ class ProductController extends Controller
         //$id_product = TableOrderDetail::where('id_product', $id)->where('id_user', Auth::guard('user')->user()->id)->get('id_product');
         // $id_pro = TableProduct::whereIn('id',$id_product)->get('id');
         //dd($id_product);
+        //$dsRating = TableRating::get();
+        //$id_order = TableOrderDetail::where('id_product', $id)->where('id_user', Auth::guard('user')->user()->id)->first();
+        //dd($id_order);
         $id_order_product = TableOrderDetail::where('id_product', $id)->get();
+        $id_rating_product = TableRating::where('id_product', $id)->get();
         //dd($id_order_product);
         $detailProduct = TableProduct::where('deleted_at', null)->where('id', $id)->first();
 
@@ -720,7 +724,7 @@ class ProductController extends Controller
         } else {
             $detailProduct->view++;
             $detailProduct->save();
-            return view('.user.product.detail', ['rowDetail' => $detailProduct, 'logo' => $logo, 'banner' => $banner], compact('rowColor', 'rowSize', 'dsGallery', 'rating', 'dsPolicies', 'id_order_product'));
+            return view('.user.product.detail', ['rowDetail' => $detailProduct, 'logo' => $logo, 'banner' => $banner], compact('rowColor', 'rowSize', 'dsGallery', 'rating', 'dsPolicies', 'id_order_product', 'id_rating_product'));
         }
     }
 
@@ -1040,19 +1044,18 @@ class ProductController extends Controller
     public function insert_rating(Request $req)
     {
         $id_product = TableOrderDetail::where('id_product', $req->product_id)->where('id_user', Auth::guard('user')->user()->id)->get();
-        if (Auth::guard('user')->check()) {
-            foreach ($id_product as $k => $product_user) {
-                if (($req->id_user == $product_user->id_user) || ($req->id_product == $product_user->id_product)) {
-                    $data = $req->all();
-                    $rating = new TableRating();
-                    $rating->id_user = $data['id_user'];
-                    $rating->id_product = $data['product_id'];
-                    $rating->rating = $data['index'];
-                    $rating->save();
-                    echo 'Đánh giá thành công';
-                }
-            }
+
+        foreach ($id_product as $k => $product_user) {
+            $data = $req->all();
+            $rating = new TableRating();
+            $rating->id_user = $data['id_user'];
+            $rating->id_product = $data['product_id'];
+            $rating->rating = $data['index'];
+            $rating->save();
+            echo 'Đánh giá thành công';
+            break;
         }
+
     }
 
     // ---------------- USER ---------------- //    

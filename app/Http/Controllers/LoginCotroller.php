@@ -146,7 +146,7 @@ class LoginCotroller extends Controller
         //dd($id);
         $limit = 5;
         $id = (int)$req->id;
-        $iduser = TableOrder::where('id_user', $req->id)->select('id_user')->firstOrFail();
+        //$iduser = TableOrder::where('id_user', $req->id)->select('id_user')->firstOrFail();
         //dd($iduser);
         //dd(Auth::guard('user')->user()->id);
         $limit = 10;
@@ -157,8 +157,6 @@ class LoginCotroller extends Controller
 
         $current = $dsOrder->currentPage();
         // lấy số thứ tự đầu tiên nhưng theo dạng mảng (là số 0)
-
-
 
         $perSerial = $limit * ($current - 1);
         $serial = $perSerial + 1;
