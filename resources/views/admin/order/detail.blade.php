@@ -79,7 +79,7 @@
                                             readonly>
                                     </div>
 
-                                    <div class="form-group title col-md-12 col-sm-12">
+                                    {{-- <div class="form-group title col-md-12 col-sm-12">
                                         <label for="name-product">Trạng thái đơn hàng</label>
                                         <select id="select-status" name="status" class="form-control select2"
                                             {{ $orderDetail->status == 'dathanhtoan' ? 'disabled' : '' }}>
@@ -91,6 +91,16 @@
                                             <option
                                                 value="dathanhtoan"{{ $orderDetail->status == 'dathanhtoan' ? 'selected' : '' }}>
                                                 Đã Thanh toán</option>
+                                        </select>
+                                    </div> --}}
+
+                                    <div class="form-group title col-md-12 col-sm-12">
+                                        <label for="name-product">Trạng thái đơn hàng</label>
+                                        <select id="select-status" name="status" class="form-control select2" {{ $orderDetail->status == 'dagiao' ? 'disabled' : '' }}>
+                                            <option value="moidat" {{ ($orderDetail->status=='moidat')? "selected" : "" }}>Mới Đặt</option>
+                                            <option value="daxacnhan"{{ ($orderDetail->status=='daxacnhan')? "selected" : "" }}>Đã Xác Nhận</option>
+                                            <option value="danggiao"{{ ($orderDetail->status=='danggiao')? "selected" : "" }}>Đang giao</option>
+                                            <option value="dagiao"{{ ($orderDetail->status=='dagiao')? "selected" : "" }}>Đã Giao</option>
                                         </select>
                                     </div>
                                 </div>
