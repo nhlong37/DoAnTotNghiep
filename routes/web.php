@@ -170,7 +170,7 @@ Route::group(['middleware' => ['checkauth:user']], function () {
     Route::get('/purchase-history/user', [LoginCotroller::class, 'GetPurchaseHistory'])->name('lichsu-muahang-user');
     Route::get('/purchase-history-detail/{id}', [LoginCotroller::class, 'GetPurchaseHistoryDetail'])->name('chitiet-lichsu-muahang-user');
 
-    Route::get('/cancel-order', [LoginCotroller::class, 'CancleOrderProduct'])->name('huy-donhang-user');
+    Route::post('/cancel-order', [LoginCotroller::class, 'CancleOrderProduct'])->name('huy-donhang-user');
 
     //Route::get('/notify/{id}', [ReturnTpl::class, 'index_invoice'])->name('thong-bao');
 });
