@@ -646,7 +646,6 @@ NN_FRAMEWORK.CheckSubmit = function () {
             type: "GET",
             url: "/order2/",
             data: {},
-
             success: function (response) {
                 var res = response["arr_error"];
                 // alert(res);
@@ -673,6 +672,7 @@ NN_FRAMEWORK.CheckSubmit = function () {
                     var selectedPaymentMethod = $(
                         ".payment-method:checked"
                     ).val();
+                 
                     if (selectedPaymentMethod === "cod") {
                         $.ajax({
                             type: "POST",
@@ -691,7 +691,6 @@ NN_FRAMEWORK.CheckSubmit = function () {
                                 // location.reload();
                                 window.location.href = "/";
                                 return false;
-                                
                             },
                         });
                        
@@ -815,7 +814,7 @@ NN_FRAMEWORK.Choose = function () {
 //         //    $('.btn-order').text('Đặt hàng');
 
 //        } else if (selectedPaymentMethod === 'vnpay') {
-           
+//            $('#form-cart').attr('action', window.location.protocol + '//' + window.location.host + '/payment-vnpay');
 //            $('.btn-order').attr('name','redirect');
 //         //    $('.btn-order').text('Thanh toán');
 //        }

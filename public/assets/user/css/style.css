@@ -2631,3 +2631,16 @@ input[type=radio] {
 }
 
 .alert-status .item-notify{color: white;margin-bottom: 5px;}
+.check-user{position: relative;}
+.box-thanhtoan-khoa{
+    min-height: 100%;
+    background: #fffc;
+    position: absolute; 
+    z-index: 10;
+    width: 100%;
+  } 
+  .slogan-warning-login {
+    margin: 15px 0;
+    font-size: 20px;
+  }  
+  .pagination{justify-content: center;}
