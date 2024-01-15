@@ -44,25 +44,25 @@
                                         <label for="name-product">Tên khách hàng</label>
                                         <input type="text" class="form-control check-valid text-sm" name="fullname"
                                             id="fullname" placeholder="Tên khách hàng" value="{{ $orderDetail->fullname }}"
-                                            required>
+                                            readonly>
                                     </div>
 
                                     <div class="form-group title col-md-4 col-sm-6">
                                         <label for="name-product">Số điện thoại</label>
                                         <input type="number" class="form-control check-valid text-sm" name="phone"
                                             id="phone" placeholder="Số điện thoại" value="{{ $orderDetail->phone }}"
-                                            required>
+                                            readonly>
                                     </div>
                                     <div class="form-group title col-md-4 col-sm-6">
                                         <label for="name-product">Địa chỉ</label>
                                         <input type="text" class="form-control check-valid text-sm" name="address"
                                             id="address" placeholder="Địa chỉ" value="{{ $orderDetail->address }}"
-                                            required>
+                                             readonly>
                                     </div>
                                     <div class="form-group title col-md-4 col-sm-6">
                                         <label for="name-product">Email</label>
                                         <input type="email" class="form-control check-valid text-sm" name="email"
-                                            id="email" placeholder="Email" value="{{ $orderDetail->email }}" required>
+                                            id="email" placeholder="Email" value="{{ $orderDetail->email }}"  readonly>
                                     </div>
                                     <div class="form-group title col-md-4 col-sm-6">
                                         <label for="name-product">Ngày đặt</label>
@@ -77,6 +77,11 @@
                                             id="payment"
                                             value="{{ $orderDetail->payment == 'vnpay' ? 'Thanh toán qua VNPay' : 'Thanh toán khi nhận hàng' }}"
                                             readonly>
+                                    </div>
+
+                                    <div class="form-group title col-md-12 col-sm-12">
+                                        <label for="name-product">Ghi chú</label>
+                                        <textarea name="content" id="content" rows="5" class="form-control check-valid text-sm" readonly>{{ $orderDetail->content }}</textarea>
                                     </div>
 
                                     {{-- <div class="form-group title col-md-12 col-sm-12">

@@ -14,13 +14,11 @@ class PaymentController extends Controller
 {
     public function VNPay_Payment(Request $req)
     {
-
-        
         $name = $req->fullname;
         $email = $req->email;
         $phone = $req->phone;
         $address = $req->address;
-        $requirements = (!empty($req->requirements)) ? $req->requirements : "Chuyển khoản qua VNPay";
+        $requirements = (!empty($req->requirements)) ? $req->requirements : "Đã chuyển khoản qua VNPay";
         $method = $req->paymentmethod;
         $id_user = Auth::guard('user')->user()->id;
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";

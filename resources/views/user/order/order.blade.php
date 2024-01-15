@@ -2,8 +2,8 @@
 @section('body')
     <div class="wap_1200 layout-cart">
         <div class="wrap-cart">
-        @if (session('cart'))
-            {{-- @if (!empty($arr_check))
+            @if (session('cart'))
+                {{-- @if (!empty($arr_check))
                 @foreach ($arr_check as $item)
                     @php 
                         $stock_db = \App\Models\TableVariantsPCS::where('id_product', '=', $item['id_product'])->where('id_size', '=', $item['id_size'])->where('id_color', '=', $item['id_color'])->first();
@@ -11,168 +11,188 @@
                     <p>{{$item['name']}} : {{$stock_db->quantity}}</p>
                 @endforeach
             @endif --}}
-            <div class="alert-status"></div>
-
-            <form class="form-cart validation-cart" action="" method="POST" id="form-cart"
-                enctype="multipart/form-data">
-                {{-- {{ route('dat-hang') }} --}}
-                @csrf
-                    <div class="row">
-                        <div class="top-cart col-12 col-lg-7">
-                            <p class="title-cart">Giỏ hàng của bạn:</p>
-                            <div class="list-procart">
-                                <div class="procart procart-label">
-                                    <div class="form-row">
-                                        <div class="pic-procart label-pro col-3 col-md-2">Hình ảnh</div>
-                                        <div class="info-procart label-pro col-6 col-md-5">Thông tin sản phẩm</div>
-                                        <div class="quantity-procart label-pro col-3 col-md-2"> Số lượng </div>
-                                        <div class="price-procart label-pro col-3 col-md-3">Đơn giá</div>
-                                    </div>
-                                </div>
-
-                                @foreach (session('cart') as $i => $details)
-                                    @php
-                                        $pid = $details['id_product'];
-                                        $quantity = $details['quantity'];
-                                        $color = $details['id_color'] ? $details['id_color'] : 0;
-                                        $size = $details['id_size'] ? $details['id_size'] : 0;
-                                        $code = $details['code'] ? $details['code'] : '';
-
-                                        $proinfo = getProductInfo($pid);
-                                        $pro_price = $proinfo['price_regular']; //Giá 1 sp
-                                        $pro_price_new = $proinfo['sale_price']; //Giá mới 1 sp
-
-                                        $pro_price_qty = $pro_price * $quantity; //Giá sau khi nhân số lượng
-                                        $pro_price_new_qty = $pro_price_new * $quantity; //Giá mới sau khi nhân số lượng
-
-                                        $nameColor = $colors->where('id', '=', $color)->first();
-                                        $nameSize = $sizes->where('id', '=', $size)->first();
-                                    @endphp
-                                    <div class="procart">
-                                        <div class="form-row">
-                                            <div class="pic-procart col-3 col-md-2">
-                                                <a class="text-decoration-none" href="" target="_blank"
-                                                    title="">
-                                                    <img class=""
-                                                        onerror="src='{{ asset('assets/admin/images/noimage.png') }}'"
-                                                        src="{{ asset('upload/product/' . $details['image']) }}"
-                                                        style="" alt="" />
-                                                </a>
-                                                <a class="del-procart text-decoration-none" data-code="{{ $code }}">
-                                                    <i class="fa fa-times-circle"></i>
-                                                    <span>xoá</span>
-                                                </a>
-                                            </div>
-                                            <div class="info-procart col-6 col-md-5">
-                                                <h3 class="name-procart"><a class="text-decoration-none" href=""
-                                                        target="_blank" title="">{{ $details['name'] }}</a></h3>
-                                                <div class="properties-procart">
-
-                                                    <p>Màu: <strong>
-                                                            {{ isset($nameColor) ? $nameColor['name'] : 'Chưa chọn màu' }}
-                                                        </strong></p>
-
-                                                    <p>Size: <strong>
-                                                            {{ isset($nameSize) ? $nameSize['name'] : 'Chưa chọn size' }}
-                                                        </strong></p>
-
-                                                </div>
-                                            </div>
-                                            <div class="quantity-procart col-3 col-md-2">
-                                                <div class="quantity-counter-procart">
-                                                    <span class="quantity-minus-pro-detail decrease"><i
-                                                            class="fa-solid fa-minus"></i></span>
-                                                    <input type="number" class="quantity-procart" min="1"
-                                                        value="{{ $quantity }}" data-pid="{{ $pid }}"
-                                                        data-code="{{ $code }}" readonly name="quantity-cart"/>
-                                                    <span class="quantity-plus-pro-detail increase"><i
-                                                            class="fa-solid fa-plus"></i></span>
-                                                </div>
-                                                <div class="show-available mt-2">Còn <span
-                                                        class="quantity-available">{{ $details['available'] }}</span> sản
-                                                    phẩm</div>
-                                            </div>
-                                            <div class="price-procart col-3 col-md-3">
-                                                <div class="price-procart price-procart-rp">
-                                                    @if ($pro_price_new_qty > 0)
-                                                        <p class="price-new-cart load-price-new-{{ $code }}">
-                                                            {{ formatMoney($pro_price_new_qty) }}</p>
-                                                        <p class="price-old-cart load-price-{{ $code }}">
-                                                            {{ formatMoney($pro_price_qty) }}</p>
-                                                    @else
-                                                        <p class="price-new-cart load-price-{{ $code }}">
-                                                            {{ formatMoney($pro_price_qty) }}</p>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                                <div class="total-procart">
-                                    <p class="label-pro">Tổng giá trị đơn hàng:</p>
-                                    <p class="total-price load-price-total">{{ formatMoney(getOrderTotal()) }}</p>
-                                </div>
-                            </div>
+                <div class="alert-status"></div>
+                <div class="check-user">
+                    <div class="box-thanhtoan-khoa {{!empty(Auth::guard('user')->user()->id) ? 'd-none' : 'd-flex'}} align-items-center justify-content-center flex-column h-100 ">
+                        <div class="slogan-warning-login">
+                            <i class="fa-solid fa-lock"></i> Vui lòng đăng nhập để thực hiện đặt hàng.
                         </div>
-                        <div class="bottom-cart col-12 col-lg-5">
-                            <div class="section-cart">
-                                <p class="title-cart">Hình thức thanh toán:</p>
-                                <div class="information-cart">
-
-                                    <label>
-                                        <input type="radio" name="paymentmethod" class="payment-method" value="cod" checked> <span>Thanh toán khi nhận hàng</span>
-                                    </label>
-                            
-                                    <label>
-                                        <input type="radio" name="paymentmethod" class="payment-method" value="vnpay"> <span>Thanh toán qua VNPay</span>
-                                    </label>
-
-                                </div>
-                                <p class="title-cart">Thông tin giao hàng:</p>
-                                <div class="information-cart">
-                                    <input type="hidden" id="code" name="code" value="{{ 'HD' . Str::random(3) }}">
-                                    <div class="form-row">
-                                        <div class="input-cart col-md-6">
-                                            <input type="text" class="form-control text-sm field-name" id="fullname"
-                                                name="fullname" placeholder="Họ tên"
-                                                value="{{ !empty(Auth::guard('user')->user()->id) ? Auth::guard('user')->user()->username : '' }}"  readonly />
-                                        </div>
-                                        <div class="input-cart col-md-6">
-                                            <input type="number" class="form-control text-sm field-phone" id="phone"
-                                                name="phone" placeholder="Số điện thoại"
-                                                value="{{ !empty(Auth::guard('user')->user()->id) ? Auth::guard('user')->user()->phone : '' }}" readonly />
-                                        </div>
-                                    </div>
-                                    <div class="input-cart">
-                                        <input type="email" class="form-control text-sm field-email" id="email"
-                                            name="email" placeholder="Email"
-                                            value="{{ !empty(Auth::guard('user')->user()->id) ? Auth::guard('user')->user()->email : '' }}" readonly />
-                                    </div>
-                                    <div class="input-cart">
-                                        <input type="text" class="form-control text-sm field-address" id="address"
-                                            name="address" placeholder="Địa chỉ"
-                                            value="{{ !empty(Auth::guard('user')->user()->id) ? Auth::guard('user')->user()->address : '' }}" />
-                                    </div>
-                                    <div class="input-cart">
-                                        <textarea class="form-control text-sm" id="requirements" name="requirements" placeholder="Ghi chú"></textarea>
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-dark btn-order w-100" name="">Đặt
-                                    hàng</button>
-                                {{-- dathang --}}
-                            </div>
+                        <div class="tool-login-thanhtoan">
+                            <a href="{{route('dang-nhap-user')}}" class="btn btn-danger btn-login-thanhtoan">
+                                Đăng nhập <i class="fa-solid fa-arrow-right-to-bracket ml-1"></i>
+                            </a>
                         </div>
                     </div>
-            </form>
-        @else
-            <div class="wrap-empty">
-                <a href="{{ route('trang-chu-user') }}" class="empty-cart text-decoration-none w-100">
-                    <img src="{{ asset('assets/user/images/empty.png') }}">
-                    <p>Không tồn tại sản phẩm nào trong giỏ hàng!!!</p>
-                    <span class="btn btn-dark btn-sm">Về trang chủ</span>
-                </a>
-            </div>
-        @endif
+                    <form class="form-cart validation-cart" action="{{ route('dat-hang') }}" method="POST" id="form-cart"
+                        enctype="multipart/form-data">
+                        {{-- {{ route('dat-hang') }} --}}
+                        @csrf
+                        <div class="row">
+                            <div class="top-cart col-12 col-lg-7">
+                                <p class="title-cart">Giỏ hàng của bạn:</p>
+                                <div class="list-procart">
+                                    <div class="procart procart-label">
+                                        <div class="form-row">
+                                            <div class="pic-procart label-pro col-3 col-md-2">Hình ảnh</div>
+                                            <div class="info-procart label-pro col-6 col-md-5">Thông tin sản phẩm</div>
+                                            <div class="quantity-procart label-pro col-3 col-md-2"> Số lượng </div>
+                                            <div class="price-procart label-pro col-3 col-md-3">Đơn giá</div>
+                                        </div>
+                                    </div>
+
+                                    @foreach (session('cart') as $i => $details)
+                                        @php
+                                            $pid = $details['id_product'];
+                                            $quantity = $details['quantity'];
+                                            $color = $details['id_color'] ? $details['id_color'] : 0;
+                                            $size = $details['id_size'] ? $details['id_size'] : 0;
+                                            $code = $details['code'] ? $details['code'] : '';
+
+                                            $proinfo = getProductInfo($pid);
+                                            $pro_price = $proinfo['price_regular']; //Giá 1 sp
+                                            $pro_price_new = $proinfo['sale_price']; //Giá mới 1 sp
+
+                                            $pro_price_qty = $pro_price * $quantity; //Giá sau khi nhân số lượng
+                                            $pro_price_new_qty = $pro_price_new * $quantity; //Giá mới sau khi nhân số lượng
+
+                                            $nameColor = $colors->where('id', '=', $color)->first();
+                                            $nameSize = $sizes->where('id', '=', $size)->first();
+                                        @endphp
+                                        <div class="procart">
+                                            <div class="form-row">
+                                                <div class="pic-procart col-3 col-md-2">
+                                                    <a class="text-decoration-none" href="" target="_blank"
+                                                        title="">
+                                                        <img class=""
+                                                            onerror="src='{{ asset('assets/admin/images/noimage.png') }}'"
+                                                            src="{{ asset('upload/product/' . $details['image']) }}"
+                                                            style="" alt="" />
+                                                    </a>
+                                                    <a class="del-procart text-decoration-none"
+                                                        data-code="{{ $code }}">
+                                                        <i class="fa fa-times-circle"></i>
+                                                        <span>xoá</span>
+                                                    </a>
+                                                </div>
+                                                <div class="info-procart col-6 col-md-5">
+                                                    <h3 class="name-procart"><a class="text-decoration-none"
+                                                            href="{{ route('chi-tiet-product', ['id' => $pid]) }}"
+                                                            target="_blank" title="">{{ $details['name'] }}</a></h3>
+                                                    <div class="properties-procart">
+
+                                                        <p>Màu: <strong>
+                                                                {{ isset($nameColor) ? $nameColor['name'] : 'Chưa chọn màu' }}
+                                                            </strong></p>
+
+                                                        <p>Size: <strong>
+                                                                {{ isset($nameSize) ? $nameSize['name'] : 'Chưa chọn size' }}
+                                                            </strong></p>
+
+                                                    </div>
+                                                </div>
+                                                <div class="quantity-procart col-3 col-md-2">
+                                                    <div class="quantity-counter-procart">
+                                                        <span class="quantity-minus-pro-detail decrease"><i
+                                                                class="fa-solid fa-minus"></i></span>
+                                                        <input type="number" class="quantity-procart" min="1"
+                                                            value="{{ $quantity }}" data-pid="{{ $pid }}"
+                                                            data-code="{{ $code }}" readonly
+                                                            name="quantity-cart" />
+                                                        <span class="quantity-plus-pro-detail increase"><i
+                                                                class="fa-solid fa-plus"></i></span>
+                                                    </div>
+                                                    <div class="show-available mt-2">Còn <span
+                                                            class="quantity-available">{{ $details['available'] }}</span>
+                                                        sản
+                                                        phẩm</div>
+                                                </div>
+                                                <div class="price-procart col-3 col-md-3">
+                                                    <div class="price-procart price-procart-rp">
+                                                        @if ($pro_price_new_qty > 0)
+                                                            <p class="price-new-cart load-price-new-{{ $code }}">
+                                                                {{ formatMoney($pro_price_new_qty) }}</p>
+                                                            <p class="price-old-cart load-price-{{ $code }}">
+                                                                {{ formatMoney($pro_price_qty) }}</p>
+                                                        @else
+                                                            <p class="price-new-cart load-price-{{ $code }}">
+                                                                {{ formatMoney($pro_price_qty) }}</p>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                    <div class="total-procart">
+                                        <p class="label-pro">Tổng giá trị đơn hàng:</p>
+                                        <p class="total-price load-price-total">{{ formatMoney(getOrderTotal()) }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bottom-cart col-12 col-lg-5">
+                                <div class="section-cart">
+                                    <p class="title-cart">Hình thức thanh toán:</p>
+                                    <div class="information-cart">
+                                        <label>
+                                            <input type="radio" name="paymentmethod" class="payment-method" value="cod"
+                                                checked> <span>Thanh toán khi nhận hàng</span>
+                                        </label>
+
+                                        <label>
+                                            <input type="radio" name="paymentmethod" class="payment-method"
+                                                value="vnpay"> <span>Thanh toán qua VNPay</span>
+                                        </label>
+
+                                    </div>
+                                    <p class="title-cart">Thông tin giao hàng:</p>
+                                    <div class="information-cart">
+                                        <input type="hidden" id="code" name="code"
+                                            value="{{ 'HD' . Str::random(3) }}">
+                                        <div class="form-row">
+                                            <div class="input-cart col-md-6">
+                                                <input type="text" class="form-control text-sm field-name" id="fullname"
+                                                    name="fullname" placeholder="Họ tên"
+                                                    value="{{ !empty(Auth::guard('user')->user()->id) ? Auth::guard('user')->user()->username : '' }}"
+                                                    readonly />
+                                            </div>
+                                            <div class="input-cart col-md-6">
+                                                <input type="number" class="form-control text-sm field-phone"
+                                                    id="phone" name="phone" placeholder="Số điện thoại"
+                                                    value="{{ !empty(Auth::guard('user')->user()->id) ? Auth::guard('user')->user()->phone : '' }}"
+                                                    readonly />
+                                            </div>
+                                        </div>
+                                        <div class="input-cart">
+                                            <input type="email" class="form-control text-sm field-email" id="email"
+                                                name="email" placeholder="Email"
+                                                value="{{ !empty(Auth::guard('user')->user()->id) ? Auth::guard('user')->user()->email : '' }}"
+                                                readonly />
+                                        </div>
+                                        <div class="input-cart">
+                                            <input type="text" class="form-control text-sm field-address"
+                                                id="address" name="address" placeholder="Địa chỉ"
+                                                value="{{ !empty(Auth::guard('user')->user()->id) ? Auth::guard('user')->user()->address : '' }}" />
+                                        </div>
+                                        <div class="input-cart">
+                                            <textarea class="form-control text-sm" id="requirements" name="requirements" placeholder="Ghi chú"></textarea>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-dark btn-order w-100" name="dathang">Đặt
+                                        hàng</button>
+                                    {{-- dathang --}}
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            @else
+                <div class="wrap-empty">
+                    <a href="{{ route('trang-chu-user') }}" class="empty-cart text-decoration-none w-100">
+                        <img src="{{ asset('assets/user/images/empty.png') }}">
+                        <p>Không tồn tại sản phẩm nào trong giỏ hàng!!!</p>
+                        <span class="btn btn-dark btn-sm">Về trang chủ</span>
+                    </a>
+                </div>
+            @endif
         </div>
     </div>
 @endsection
