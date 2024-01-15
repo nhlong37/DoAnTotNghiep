@@ -920,7 +920,8 @@ class ProductController extends Controller
             if (session()->has('cart')) {
                 session()->forget('cart');
             }
-            return redirect()->route('trang-chu-user');
+            // return redirect()->route('trang-chu-user');
+            return response()->json();
         }
     }
 

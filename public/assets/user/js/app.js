@@ -688,7 +688,8 @@ NN_FRAMEWORK.CheckSubmit = function () {
                                 // setTimeout(() => {
                                 //     location.reload();
                                 // }, 3000);
-                                location.reload();
+                                // location.reload();
+                                window.location.href = "/";
                                 return false;
                                 
                             },
