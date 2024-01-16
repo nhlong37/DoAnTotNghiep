@@ -1616,3 +1616,18 @@ span.name_user {
 .item_statistical p{font-size: 20px;margin-bottom: 0;}
 .img_statistical {width: 4%;text-align: center;line-height: 12px;}
 .img_statistical ion-icon {font-size: 70px;color: #ffffff;}
+.text-hover{position: relative;}
+.text-hover::before{
+    content: "";
+    position: absolute;
+    width: 100%;
+    left: 0;
+    background-color: #343a40!important;
+    height: 2px;
+    bottom: 0;
+    transform-origin: 100% 50%;
+    transform: scaleX(0);
+    transition: transform .3s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.text-hover:hover::before{transform-origin: 0% 50%;
+    transform: scaleX(1);}

@@ -204,18 +204,6 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-
-        // tạo bảng thiết lập
-        Schema::create('table_setting', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('address');
-            $table->string('hotline');
-            $table->string('email');
-            $table->string('fanpage');
-            $table->timestamps();
-            $table->softDeletes();
-        });
     }
 
     /**

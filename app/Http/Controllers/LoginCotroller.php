@@ -234,8 +234,12 @@ class LoginCotroller extends Controller
         {
             Auth::guard('user')->logout();
             $req->session()->regenerateToken();
+            // if (session()->has('cart')) {
+            //     session()->forget('cart');
+            // }
             return redirect()->route('trang-chu-user');
         }
+
         return redirect()->route('trang-chu-user');
     }
 

@@ -141,7 +141,7 @@
                                     @if($item->status==1)
                                     <input type="button" data-comment_status="0" data-comment_id="{{$item->id}}"
                                         id="{{$item->id_product}}" class="btn btn-primary btn-xs comment_duyet_btn"
-                                        value="Duyệt" />
+                                        value="Đã Duyệt" />
                                     @else
                                     <input type="button" data-comment_status="1" data-comment_id="{{$item->id}}"
                                         id="{{$item->id_product}}" class="btn btn-warning btn-xs comment_duyet_btn"
