@@ -54,7 +54,7 @@
             <div class="title-main"><span>Sản phẩm nổi bật</span></div>
             <div class="deco"></div>
         </div>
-        <div class="chay-sp2">
+        <div class="chay-sp2 arrow-run">
             @foreach ($dsProductOutsanding as $item)
             <div class="product">
                 <a href="{{ route('chi-tiet-product', ['id' => $item->id]) }}" class="box-product text-decoration-none">
@@ -101,7 +101,7 @@
             <div class="title-main"><span>Sản phẩm khuyến mãi</span></div>
             <div class="deco"></div>
         </div>
-        <div class="chay-sp3">
+        <div class="chay-sp3 arrow-run">
             @foreach ($dsProductDiscount as $item)
             <div class="product">
                 <a href="{{ route('chi-tiet-product', ['id' => $item->id]) }}" class="box-product text-decoration-none">

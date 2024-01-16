@@ -89,13 +89,13 @@
                                             </td>
 
                                             <td class="align-middle">
-                                                <a class="text-dark text-break"
+                                                <a class="text-dark text-break text-hover"
                                                     href="{{ route('chi-tiet-don-hang', ['id' => $item->id]) }}"
                                                     title="Mã Hoá Đơn">{{ $item->code }}</a>
                                             </td>
 
                                             <td class="align-middle">
-                                                <a class="text-dark text-break"
+                                                <a class="text-hover text-dark text-break "
                                                     href="{{ route('chi-tiet-don-hang', ['id' => $item->id]) }}"
                                                     title="Tên khách hàng">{{ $item->fullname }}</a>
                                             </td>
